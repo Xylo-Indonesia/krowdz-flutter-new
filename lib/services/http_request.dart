@@ -13,7 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const baseUrl = 'https://www.festrec.com/api';
-const baseUrlPortal='https://x-event-portal.xylo.co.id/api';
+const baseUrlPortal='https://tenant.krowdz-staging.xylo.co.id/api';
+// const baseUrlPortal='https://x-event-portal.xylo.co.id/api';
 //const client_url='https://x-event-client.xylo.co.id';
 
 class API {
@@ -26,7 +27,7 @@ class API {
   }
 
   Future getVersion() async {
-    var url=baseUrlPortal+"/versions";
+    var url=baseUrlPortal+"/version";
     final response = await http.get(url);
     if (response.statusCode == 200) {
       //Version version=jsonDecode(response.body);
