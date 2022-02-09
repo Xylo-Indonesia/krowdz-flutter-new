@@ -23,8 +23,8 @@ abstract class _VerifyStore with Store {
   @observable
   ObservableFuture<Response> response;
 
-  @observable bool status=false;
-
+  @observable
+  bool status = false;
 
   //parameter
   @observable
@@ -34,40 +34,32 @@ abstract class _VerifyStore with Store {
   bool get canSubmit => !error.hasErrors;
 
   @action
-  Future doVerify(BuildContext context) => response = ObservableFuture(httpClient
-      .doVerify(this.code)
-      .then(
-          (response) async {
-            print(this.code+" "+response);
-            Response myResponse = Response.fromJson(json.decode(response));
+  Future doVerify(BuildContext context) => response = ObservableFuture(
+          httpClient.doVerify(this.code).then((response) async {
+        print(this.code + " " + response);
+        Response myResponse = Response.fromJson(json.decode(response));
 
-            if ("true" == myResponse.status) {
-              Client client= Client.fromJson(myResponse.data);
-                var box=Hive.box<Client>('client');
+        if ("true" == myResponse.status) {
+          Client client = Client.fromJson(myResponse.data);
+          var box = Hive.box<Client>('client');
 
-                box.clear().then((value) => {
-                  box.put(0,client)
-                });
-                //await box.put(0,client);
-                print("Box not empty:"+box.isNotEmpty.toString());
-                SharedPreferences.getInstance().then((prefs){
-                  prefs.setString(pref_url_logo, client.logo);
-                  prefs.setString(pref_api_url,client.apiUrl);
-                });
+          box.clear().then((value) => {box.put(0, client)});
+          //await box.put(0,client);
+          print("Box not empty:" + box.isNotEmpty.toString());
+          SharedPreferences.getInstance().then((prefs) {
+            prefs.setString(pref_url_logo, client.logo);
+            prefs.setString(pref_api_url, client.apiUrl);
+          });
 
-
-                Navigator.pushReplacementNamed(context, loginPageRoute);
-
-            }else{
-              Map<String, dynamic> msg=myResponse.message;
-              error.code= msg['code'].toString().replaceAll("[", "").replaceAll("]", "");
-            }
-            return myResponse;
-      }
-    ).catchError((e){
-    print(e);
-    })
-  );
+          Navigator.pushReplacementNamed(context, loginPageRoute);
+        } else {
+          String msg = myResponse.message;
+          error.code = msg.toString().replaceAll("[", "").replaceAll("]", "");
+        }
+        return myResponse;
+      }).catchError((e) {
+        print(e);
+      }));
   @action
   // ignore: avoid_void_async
   Future validateCode(String value) async {
@@ -75,16 +67,16 @@ abstract class _VerifyStore with Store {
       error.code = 'Cannot be blank';
       return;
     }
-    error.code=null;
+    error.code = null;
   }
 
   List<ReactionDisposer> _disposers;
   void setupValidations() {
     _disposers = [
       reaction((_) => code, validateCode),
-
     ];
   }
+
   void dispose() {
     for (final d in _disposers) {
       d();
@@ -93,8 +85,8 @@ abstract class _VerifyStore with Store {
 
   void validateAll(BuildContext context) {
     validateCode(code);
-    if(canSubmit){
-      error.code="Checking Code";
+    if (canSubmit) {
+      error.code = "Checking Code";
       doVerify(context);
     }
   }
@@ -106,7 +98,6 @@ abstract class _FormVerifyErrorState with Store {
   @observable
   String code;
 
-
   @computed
-  bool get hasErrors => code != null ;
+  bool get hasErrors => code != null;
 }

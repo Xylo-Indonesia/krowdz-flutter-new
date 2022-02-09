@@ -1,6 +1,6 @@
 class Version {
   String latestVersion;
-  bool update;
+  dynamic update;
 
   Version({this.latestVersion, this.update});
 
