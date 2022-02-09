@@ -27,16 +27,16 @@ class Data {
   Data({this.totalVisitor, this.online, this.offline});
 
   Data.fromJson(Map<String, dynamic> json) {
-    totalVisitor = json['total_visitor'];
+    totalVisitor = json['total'];
     online =
-    json['online'] != null ? new Online.fromJson(json['online']) : null;
+        json['online'] != null ? new Online.fromJson(json['online']) : null;
     offline =
-    json['offline'] != null ? new Online.fromJson(json['offline']) : null;
+        json['offline'] != null ? new Online.fromJson(json['offline']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_visitor'] = this.totalVisitor;
+    data['total'] = this.totalVisitor;
     if (this.online != null) {
       data['online'] = this.online.toJson();
     }
@@ -50,7 +50,7 @@ class Data {
 class Online {
   bool enable;
   int total;
-  String percentage;
+  int percentage;
 
   Online({this.enable, this.total, this.percentage});
 
