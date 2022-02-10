@@ -115,8 +115,10 @@ class _HomePageState extends State<HomePage> {
                                               await showDatePicker(
                                             context: context,
                                             initialDate: currentDate,
-                                            firstDate: DateTime(2020, 11, 1),
-                                            lastDate: DateTime(2021, 11, 1),
+                                            firstDate: currentDate.subtract(
+                                                const Duration(days: 360)),
+                                            lastDate: currentDate
+                                                .add(const Duration(days: 360)),
                                           );
 
                                           if (picked == null ||

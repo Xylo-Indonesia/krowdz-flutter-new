@@ -8,6 +8,7 @@ import 'package:event/services/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -337,12 +338,18 @@ class API {
     return response.body;
   }
 
-  static Future<String> DashboardSummary() async {
+  static Future<String> DashboardSummary({DateTime date}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
 
-    var url = client_url + '/dashboard/summary';
+    var created_at = date != null
+        ? '?created_at=' + DateFormat('yyyy-MM-dd').format(date)
+        : '';
+
+    var url = client_url + '/dashboard/summary' + created_at;
+
+    print(url);
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",

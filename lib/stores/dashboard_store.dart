@@ -17,79 +17,93 @@ class DashboardStore = _DashboardStore with _$DashboardStore;
 
 abstract class _DashboardStore with Store {
   /* rest of the class*/
-  @observable var selected_date;
-
-  @observable Client client;
-  @observable bool isClientReady=false;
-  @observable User user;
-  @observable bool isUserReady=false;
+  @observable
+  var selected_date;
 
   @observable
-  DashboardSummary dashboardSummary=null;
-  @observable bool isDashboardSummaryReady=false;
-  @observable int visitor1=0;
-  @observable int visitor2=0;
+  Client client;
+  @observable
+  bool isClientReady = false;
+  @observable
+  User user;
+  @observable
+  bool isUserReady = false;
 
-  @observable DashboardActivity dashboardActivity=null;
-  @observable bool isDashboardActivityReady=false;
-  @observable DashboardPrize dashboardPrize=null;
-  @observable bool isDashboardPrizeReady=false;
+  @observable
+  DashboardSummary dashboardSummary = null;
+  @observable
+  bool isDashboardSummaryReady = false;
+  @observable
+  int visitor1 = 0;
+  @observable
+  int visitor2 = 0;
 
-  void getDate(){
+  @observable
+  DashboardActivity dashboardActivity = null;
+  @observable
+  bool isDashboardActivityReady = false;
+  @observable
+  DashboardPrize dashboardPrize = null;
+  @observable
+  bool isDashboardPrizeReady = false;
+
+  void getDate() {
     final now = new DateTime.now();
     String formatter = DateFormat('d MMM yyyy').format(now);
-    selected_date=formatter;
-  }
-  void setDate(var now){
-    String formatter = DateFormat('d MMM yyyy').format(now);
-    selected_date=formatter;
+    selected_date = formatter;
   }
 
-  void getDashboardSummary() async{
+  void setDate(var date) {
+    String formatter = DateFormat('d MMM yyyy').format(date);
+    selected_date = formatter;
+
+    getDashboardSummary(date: date);
+  }
+
+  void getDashboardSummary({DateTime date}) async {
     print("get dashboard summary");
-    var response= await API.DashboardSummary();
+    var response = await API.DashboardSummary(date: date);
     print(response);
-    dashboardSummary=DashboardSummary.fromJson(json.decode(response));
-    if(true==dashboardSummary.status) {
+    dashboardSummary = DashboardSummary.fromJson(json.decode(response));
+    if (true == dashboardSummary.status) {
       visitor1 = dashboardSummary.data.online.total;
       visitor2 = dashboardSummary.data.offline.total;
-      isDashboardSummaryReady=true;
+      isDashboardSummaryReady = true;
     }
   }
 
-  void getDashboardActivity() async{
+  void getDashboardActivity() async {
     print("get dashboard activity");
-    var response= await API.DashboardActivity();
-    dashboardActivity=DashboardActivity.fromJson(json.decode(response));
+    var response = await API.DashboardActivity();
+    dashboardActivity = DashboardActivity.fromJson(json.decode(response));
     print(response);
-    if(true==dashboardActivity.status) {
-      isDashboardActivityReady=true;
+    if (true == dashboardActivity.status) {
+      isDashboardActivityReady = true;
     }
   }
 
-  void getDashboardPrize() async{
+  void getDashboardPrize() async {
     print("get dashboard prize");
-    var response= await API.DashboardPrize();
+    var response = await API.DashboardPrize();
     print(response);
-    dashboardPrize=DashboardPrize.fromJson(json.decode(response));
-    if(true==dashboardPrize.status) {
-      isDashboardPrizeReady=true;
+    dashboardPrize = DashboardPrize.fromJson(json.decode(response));
+    if (true == dashboardPrize.status) {
+      isDashboardPrizeReady = true;
     }
-
   }
 
-  void getClient() async{
+  void getClient() async {
     print(Hive.isBoxOpen('client').toString());
-    Box<Client> box=  Hive.box<Client>('client');
+    Box<Client> box = Hive.box<Client>('client');
 
-    print(box.isEmpty.toString()+box.isOpen.toString());
-    client=box.get(0);
-    if(client!=null)isClientReady=true;
+    print(box.isEmpty.toString() + box.isOpen.toString());
+    client = box.get(0);
+    if (client != null) isClientReady = true;
   }
 
-  void getUser() async{
-    Box<User> box= Hive.box<User>('user');
-    user=box.get(0);
-    if(user!=null)isUserReady=true;
+  void getUser() async {
+    Box<User> box = Hive.box<User>('user');
+    user = box.get(0);
+    if (user != null) isUserReady = true;
   }
 }
