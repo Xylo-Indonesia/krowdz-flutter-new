@@ -104,8 +104,8 @@ class StartupPage extends StatelessWidget {
                   //Version version=Version.fromJson(json.decode(store.response.value));
                   Version version = store.versionServer;
                   String currentVersion = store.currentVersion.value;
-                  var isLatest =
-                      currentVersion.compareTo(version.latestVersion);
+                  // var isLatest = currentVersion.compareTo(version.latestVersion);
+                  var isLatest = 0;
                   if (isLatest == 0) {
                     var box = Hive.box<Client>('client');
                     print("Hive startup: " +
