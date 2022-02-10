@@ -5,7 +5,7 @@ part 'client.g.dart';
 @HiveType(typeId: 0)
 class Client extends HiveObject {
   @HiveField(0)
-  dynamic code;
+  String code;
   @HiveField(1)
   String name;
   @HiveField(2)
