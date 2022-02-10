@@ -27,9 +27,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     enable = json['enable'];
-    if (json['activity'] != null) {
+    if (json['activities'] != null) {
       activity = new List<Activity>();
-      json['activity'].forEach((v) {
+      json['activities'].forEach((v) {
         activity.add(new Activity.fromJson(v));
       });
     }
@@ -39,7 +39,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['enable'] = this.enable;
     if (this.activity != null) {
-      data['activity'] = this.activity.map((v) => v.toJson()).toList();
+      data['activities'] = this.activity.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -51,6 +51,7 @@ class Activity {
   int total;
   String icon;
   String achievement;
+  bool isPic;
 
   Activity({this.id, this.name, this.total, this.icon, this.achievement});
 
@@ -58,8 +59,9 @@ class Activity {
     id = json['id'];
     name = json['name'];
     total = json['total'];
-    icon = json['icon'];
+    icon = json['icon_path'];
     achievement = json['achievement'];
+    isPic = json['is_pic'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,8 +69,9 @@ class Activity {
     data['id'] = this.id;
     data['name'] = this.name;
     data['total'] = this.total;
-    data['icon'] = this.icon;
+    data['icon_path'] = this.icon;
     data['achievement'] = this.achievement;
+    data['is_pic'] = this.isPic;
     return data;
   }
 }

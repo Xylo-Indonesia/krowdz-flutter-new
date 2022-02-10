@@ -58,10 +58,16 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Observer(builder: (_) {
                         return Profile(
-                            client: widget.store.isClientReady ? widget.store.client.name : '',
-                            name: widget.store.isUserReady ? widget.store.user.data.name : '',
+                            client: widget.store.isClientReady
+                                ? widget.store.client.name
+                                : '',
+                            name: widget.store.isUserReady
+                                ? widget.store.user.data.name
+                                : '',
                             isLoading: !widget.store.isClientReady,
-                            image: widget.store.isClientReady ? widget.store.client.logo : '');
+                            image: widget.store.isClientReady
+                                ? widget.store.client.logo
+                                : '');
                       }),
                       Badge(
                           showBadge: true,
@@ -70,7 +76,9 @@ class _HomePageState extends State<HomePage> {
                           badgeColor: redColor,
                           badgeContent: Text(
                             '50',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                           child: CircleButton(
                             child: Image(
@@ -78,7 +86,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onTap: () {
                               print("notifications");
-                              Navigator.of(context).pushNamed(notificationsPageRoute);
+                              Navigator.of(context)
+                                  .pushNamed(notificationsPageRoute);
                             },
                           ))
                     ],
@@ -96,18 +105,22 @@ class _HomePageState extends State<HomePage> {
                               child: Column(
                                 children: [
                                   Observer(builder: (_) {
-                                    if (widget.store.isClientReady && "admin" == widget.store.user.data.role) {
+                                    if (widget.store.isClientReady &&
+                                        "admin" ==
+                                            widget.store.user.data.role) {
                                       return AdminCalendar(
                                         date: widget.store.selected_date,
                                         onTap: () async {
-                                          final DateTime picked = await showDatePicker(
+                                          final DateTime picked =
+                                              await showDatePicker(
                                             context: context,
                                             initialDate: currentDate,
                                             firstDate: DateTime(2020, 11, 1),
                                             lastDate: DateTime(2021, 11, 1),
                                           );
 
-                                          if (picked == null || picked == DateTime.now()) {
+                                          if (picked == null ||
+                                              picked == DateTime.now()) {
                                             print('cancelled');
                                           } else {
                                             print('confirm $picked');
@@ -125,8 +138,12 @@ class _HomePageState extends State<HomePage> {
                                         visitor1: widget.store.visitor1,
                                         visitor2: widget.store.visitor2,
                                         date: widget.store.selected_date,
-                                        isLoading: !widget.store.isDashboardSummaryReady,
-                                        isAdmin: "admin" == widget.store.user.data.role ? true : false,
+                                        isLoading: !widget
+                                            .store.isDashboardSummaryReady,
+                                        isAdmin: "admin" ==
+                                                widget.store.user.data.role
+                                            ? true
+                                            : false,
                                       ),
                                     ),
                                   ),
@@ -143,11 +160,15 @@ class _HomePageState extends State<HomePage> {
                                             visitor1: widget.store.visitor1,
                                             visitor2: widget.store.visitor2,
                                             color: redColor,
-                                            isLoading: !widget.store.isDashboardSummaryReady,
+                                            isLoading: !widget
+                                                .store.isDashboardSummaryReady,
                                             onTap: () {
                                               print('online');
-                                              Navigator.pushNamed(context, visitorPageRoute,
-                                                  arguments: ArgumentVisitor(keyword_by: 'type', keyword: 'online'));
+                                              Navigator.pushNamed(
+                                                  context, visitorPageRoute,
+                                                  arguments: ArgumentVisitor(
+                                                      keyword_by: 'type',
+                                                      keyword: 'online'));
                                             },
                                           ),
                                         ),
@@ -161,11 +182,15 @@ class _HomePageState extends State<HomePage> {
                                             visitor1: widget.store.visitor2,
                                             visitor2: widget.store.visitor1,
                                             color: primaryColor,
-                                            isLoading: !widget.store.isDashboardSummaryReady,
+                                            isLoading: !widget
+                                                .store.isDashboardSummaryReady,
                                             onTap: () {
                                               print('offline');
-                                              Navigator.pushNamed(context, visitorPageRoute,
-                                                  arguments: ArgumentVisitor(keyword_by: 'type', keyword: 'offline'));
+                                              Navigator.pushNamed(
+                                                  context, visitorPageRoute,
+                                                  arguments: ArgumentVisitor(
+                                                      keyword_by: 'type',
+                                                      keyword: 'offline'));
                                             },
                                           ),
                                         ),
@@ -178,40 +203,68 @@ class _HomePageState extends State<HomePage> {
                                   SizedBox(
                                     width: double.infinity,
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 18, vertical: 6),
                                       child: Text(
                                         "Activity",
                                         style: TextStyle(
-                                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.sp),
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.sp),
                                       ),
                                     ),
                                   ),
                                   Observer(builder: (_) {
-                                    if (null != widget.store.dashboardActivity &&
-                                        null != widget.store.dashboardActivity.data.activity &&
-                                        true == widget.store.dashboardActivity.status) {
+                                    if (null !=
+                                            widget.store.dashboardActivity &&
+                                        null !=
+                                            widget.store.dashboardActivity.data
+                                                .activity &&
+                                        true ==
+                                            widget.store.dashboardActivity
+                                                .status) {
                                       print('cetak activity');
                                       Column col = Column(
                                         children: [],
                                       );
 
-                                      for (var ac in widget.store.dashboardActivity.data.activity) {
+                                      for (var ac in widget.store
+                                          .dashboardActivity.data.activity) {
                                         var ca = CardActivity(
                                           imageUrl: ac.icon,
                                           gamesMaxValue: ac.total,
-                                          gamesValue: (ac.total * (double.parse(ac.achievement) / 100)).ceil(),
+                                          gamesValue:
+                                              double.parse(ac.achievement)
+                                                  .ceil(),
                                           onTap: () {
                                             print("" + ac.name);
-                                            Navigator.pushNamed(context, visitorPageRoute,
-                                                arguments: ArgumentVisitor(keyword_by: 'activity', keyword: ac.name));
+                                            Navigator.pushNamed(
+                                                context, visitorPageRoute,
+                                                arguments: ArgumentVisitor(
+                                                    keyword_by: 'activity',
+                                                    keyword: ac.name));
                                           },
                                           gamesName: ac.name,
-                                          isLoading: !widget.store.isDashboardActivityReady,
+                                          isLoading: !widget
+                                              .store.isDashboardActivityReady,
                                         );
 
-                                        var index = widget.store.dashboardActivity.data.activity.indexOf(ac);
-                                        if ("crew" == widget.store.user.data.role && index == 0) col.children.add(ca);
-                                        if ("admin" == widget.store.user.data.role) col.children.add(ca);
+                                        var index = widget.store
+                                            .dashboardActivity.data.activity
+                                            .indexOf(ac);
+                                        if ("pic" ==
+                                                widget.store.user.data.role &&
+                                            ac.isPic == true)
+                                          col.children.add(ca);
+                                        if ("admin" ==
+                                            widget.store.user.data.role)
+                                          col.children.add(ca);
+                                        // if ("pic" ==
+                                        //         widget.store.user.data.role &&
+                                        //     index == 0) col.children.add(ca);
+                                        // if ("admin" ==
+                                        //     widget.store.user.data.role)
+                                        //   col.children.add(ca);
                                       }
                                       return col;
                                     }
@@ -237,25 +290,33 @@ class _HomePageState extends State<HomePage> {
                                   SizedBox(
                                     width: double.infinity,
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 18, vertical: 6),
                                       child: Text(
                                         "Prize List",
                                         style: TextStyle(
-                                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.sp),
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.sp),
                                       ),
                                     ),
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Observer(builder: (_) {
-                                        if (null != widget.store.dashboardPrize &&
-                                            true == widget.store.dashboardPrize.status) {
+                                        if (null !=
+                                                widget.store.dashboardPrize &&
+                                            true ==
+                                                widget.store.dashboardPrize
+                                                    .status) {
                                           print('cetak prize');
                                           Row row = Row(
                                             children: [],
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.max,
                                           );
                                           Expanded ex = Expanded(
@@ -263,7 +324,8 @@ class _HomePageState extends State<HomePage> {
                                           );
 
                                           int i = 0;
-                                          for (var pr in widget.store.dashboardPrize.data.prize) {
+                                          for (var pr in widget.store
+                                              .dashboardPrize.data.prize) {
                                             if (i >= 3) break;
                                             var cardPrize = CardPrize(
                                               image: pr.image,
@@ -289,13 +351,20 @@ class _HomePageState extends State<HomePage> {
                                                 GestureDetector(
                                                   onTap: () {
                                                     print('see all prizes');
-                                                    Navigator.of(context).pushNamed(prizePageRoute);
+                                                    Navigator.of(context)
+                                                        .pushNamed(
+                                                            prizePageRoute);
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
                                                       color: Colors.transparent,
-                                                      borderRadius: BorderRadius.all(Radius.circular(16)),
-                                                      border: Border.all(color: Colors.white, width: 2),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  16)),
+                                                      border: Border.all(
+                                                          color: Colors.white,
+                                                          width: 2),
                                                     ),
                                                     width: double.infinity,
                                                     child: Stack(
@@ -309,12 +378,19 @@ class _HomePageState extends State<HomePage> {
                                                             child: Text(
                                                               "See All\nPrize",
                                                               style: TextStyle(
-                                                                color: Colors.white,
-                                                                decoration: TextDecoration.underline,
-                                                                fontWeight: FontWeight.bold,
+                                                                color: Colors
+                                                                    .white,
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .underline,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
                                                                 fontSize: 12.sp,
                                                               ),
-                                                              textAlign: TextAlign.center,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
                                                             ),
                                                           ),
                                                         ),
@@ -327,7 +403,9 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 Text(
                                                   "",
-                                                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14.sp),
                                                 )
                                               ],
                                             ),
@@ -419,7 +497,8 @@ class _HomePageState extends State<HomePage> {
                                 image: 'assets/images/menu.png',
                                 onTap: () {
                                   print('visitor');
-                                  Navigator.pushNamed(context, visitorPageRoute);
+                                  Navigator.pushNamed(
+                                      context, visitorPageRoute);
                                 },
                               ),
                             ),
@@ -431,9 +510,12 @@ class _HomePageState extends State<HomePage> {
                                 image: 'assets/images/qr.png',
                                 onTap: () async {
                                   print('qr');
-                                  Map<PermissionGroup, PermissionStatus> permissions =
-                                      await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-                                  if (permissions[PermissionGroup.camera] == PermissionStatus.granted) {
+                                  Map<PermissionGroup, PermissionStatus>
+                                      permissions = await PermissionHandler()
+                                          .requestPermissions(
+                                              [PermissionGroup.camera]);
+                                  if (permissions[PermissionGroup.camera] ==
+                                      PermissionStatus.granted) {
                                     Navigator.pushNamed(context, scanPageRoute);
                                   }
                                 },

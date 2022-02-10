@@ -20,14 +20,14 @@ class CardActivityPlaceholder extends StatelessWidget {
 }
 
 class CardActivity extends StatelessWidget {
-  final int gamesValue, gamesMaxValue;
+  final dynamic gamesValue, gamesMaxValue;
   final onTap, isLoading;
   final String gamesName;
   final String imageUrl;
 
   const CardActivity(
       {Key key,
-        this.imageUrl,
+      this.imageUrl,
       this.gamesValue,
       this.gamesMaxValue,
       this.onTap,
@@ -68,21 +68,19 @@ class CardActivity extends StatelessWidget {
                                               style: BorderStyle.solid,
                                               color: Colors.white)),
                                     ),
-                                    child:
-                                    Row(
+                                    child: Row(
                                       children: [
-                                        (null!=imageUrl && imageUrl.length>0?
-                                          //Container(color: Colors.white,width: 10,height: 10,):
-                                          Image.network(imageUrl,width: 40,height: 40):
-                                          Image(
-                                            image: AssetImage(
-                                                'assets/images/games.png'),
-
-                                          )
-                                        ),
+                                        (null != imageUrl && imageUrl.length > 0
+                                            ?
+                                            //Container(color: Colors.white,width: 10,height: 10,):
+                                            Image.network(imageUrl,
+                                                width: 40, height: 40)
+                                            : Image(
+                                                image: AssetImage(
+                                                    'assets/images/games.png'),
+                                              )),
                                         SizedBox(
                                           width: 10,
-
                                         ),
                                         Expanded(
                                           child: Column(
@@ -98,7 +96,8 @@ class CardActivity extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                Util.numberFormat(gamesValue),
+                                                Util.numberFormat(
+                                                    gamesMaxValue),
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
@@ -150,8 +149,7 @@ class CardActivity extends StatelessWidget {
                                                             new AlwaysStoppedAnimation<
                                                                     Color>(
                                                                 Colors.white),
-                                                        value: (gamesValue /
-                                                            gamesMaxValue),
+                                                        value: gamesValue / 100,
                                                         strokeWidth: 3,
                                                       ),
                                                     ),
@@ -159,11 +157,7 @@ class CardActivity extends StatelessWidget {
                                                       width: 10,
                                                     ),
                                                     Text(
-                                                      (gamesValue /
-                                                              gamesMaxValue *
-                                                              100)
-                                                          .floor()
-                                                          .toString(),
+                                                      gamesValue.toString(),
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 28.sp,

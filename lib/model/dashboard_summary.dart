@@ -50,7 +50,7 @@ class Data {
 class Online {
   bool enable;
   int total;
-  int percentage;
+  dynamic percentage;
 
   Online({this.enable, this.total, this.percentage});
 
