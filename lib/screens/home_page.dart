@@ -257,13 +257,8 @@ class _HomePageState extends State<HomePage> {
                                         var index = widget.store
                                             .dashboardActivity.data.activity
                                             .indexOf(ac);
-                                        if ("pic" ==
-                                                widget.store.user.data.role &&
-                                            ac.isPic == true)
-                                          col.children.add(ca);
-                                        if ("admin" ==
-                                            widget.store.user.data.role)
-                                          col.children.add(ca);
+
+                                        col.children.add(ca);
                                         // if ("pic" ==
                                         //         widget.store.user.data.role &&
                                         //     index == 0) col.children.add(ca);

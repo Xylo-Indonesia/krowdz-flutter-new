@@ -134,8 +134,9 @@ class VisitorDetailState extends State<VisitorDetail> {
                                                         fontSize: 12.sp),
                                                   ),
                                                   Text(
-                                                    store.jsonResponse["data"][k
-                                                        .toString()], //"1241 AFK 77A",
+                                                    store.jsonResponse["data"]
+                                                            [k.toString()] ??
+                                                        "-", //"1241 AFK 77A",
                                                     style: kTextTitleRed,
                                                   )
                                                 ],

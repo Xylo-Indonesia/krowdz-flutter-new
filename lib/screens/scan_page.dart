@@ -111,7 +111,7 @@ class _ScanPageState extends State<ScanPage> {
                                           onChanged: (value) {
                                             widget.store.code = value;
                                             if (value.length == 6) {
-                                              widget.store.scanCode().then(
+                                              widget.store.inputCode().then(
                                                   (result) =>
                                                       processScan(result));
                                             }
@@ -170,7 +170,7 @@ class _ScanPageState extends State<ScanPage> {
   Future onScan(String data) {
     stopScanning();
     widget.store.code = data;
-    widget.store.inputCode().then((result) => processScan(result));
+    widget.store.scanCode().then((result) => processScan(result));
   }
 
   Future processScan(var result) {
@@ -203,7 +203,8 @@ class _ScanPageState extends State<ScanPage> {
         },
       );
     } else {
-      if ("Visitor not Found!" == result.message ||
+      if ("Resource not found" == result.message ||
+          "Visitor not Found!" == result.message ||
           "Visitor is not Verified" == result.message ||
           "Visitor is Expired" == result.message) {
         var message = "Visitor with code " +
