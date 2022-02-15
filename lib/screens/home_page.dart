@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:event/model/arguments_visitor.dart';
 import 'package:event/services/consts.dart';
+import 'package:event/services/utilities.dart';
 import 'package:event/stores/dashboard_store.dart';
 import 'package:event/widgets/admin_calendar.dart';
 import 'package:event/widgets/black_theme.dart';
@@ -233,7 +234,8 @@ class _HomePageState extends State<HomePage> {
                                       for (var ac in widget.store
                                           .dashboardActivity.data.activity) {
                                         var ca = CardActivity(
-                                          imageUrl: ac.icon,
+                                          imageUrl:
+                                              Util.getActivityIcon(ac.icon),
                                           gamesMaxValue: ac.total,
                                           gamesValue:
                                               double.parse(ac.achievement)

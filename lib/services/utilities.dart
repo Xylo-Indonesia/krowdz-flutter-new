@@ -42,19 +42,25 @@ class Util {
     var f = new NumberFormat("#,###", "id_ID");
     return f.format(number);
   }
-  static String getActivityIcon(var name){
-      switch(name){
-        case 'Games': return 'assets/images/games-dark.png';break;
-        case 'Test Drive': return 'assets/images/car-dark.png';break;
-        case 'SPK': return 'assets/images/spk-dark.png';break;
-        default: return 'assets/images/games-dark.png';break;
-      }
+  // static String getActivityIcon(var name){
+  //     switch(name){
+  //       case 'Games': return 'assets/images/games-dark.png';break;
+  //       case 'Test Drive': return 'assets/images/car-dark.png';break;
+  //       case 'SPK': return 'assets/images/spk-dark.png';break;
+  //       default: return 'assets/images/games-dark.png';break;
+  //     }
+  // }
 
+  static String getActivityIcon(var icon) {
+    return (icon != null && icon != '')
+        ? 'assets/images/' + icon + '.png'
+        : 'assets/images/games-dark.png';
   }
 
-  static String dateFormat(var date){
+  static String dateFormat(var date) {
     DateTime dateTime = DateTime.parse(date);
-    DateFormat dateFormat = DateFormat("dd/MM/yyyy | HH:mm");//("yyyy-MM-dd HH:mm:ss");
+    DateFormat dateFormat =
+        DateFormat("dd/MM/yyyy | HH:mm"); //("yyyy-MM-dd HH:mm:ss");
     return dateFormat.format(dateTime);
   }
 }

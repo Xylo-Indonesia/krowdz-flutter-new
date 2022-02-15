@@ -32,6 +32,7 @@ class Data {
   String name;
   String description;
   String category;
+  String iconPath;
   bool rewardAvailable;
   int permissionId;
   String createdAt;
@@ -40,20 +41,22 @@ class Data {
 
   Data(
       {this.id,
-        this.name,
-        this.description,
-        this.category,
-        this.rewardAvailable,
-        this.permissionId,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
+      this.name,
+      this.description,
+      this.category,
+      this.iconPath,
+      this.rewardAvailable,
+      this.permissionId,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     description = json['description'];
     category = json['category'];
+    iconPath = json['icon_path'];
     rewardAvailable = json['reward_available'];
     permissionId = json['permission_id'];
     createdAt = json['created_at'];
@@ -67,6 +70,7 @@ class Data {
     data['name'] = this.name;
     data['description'] = this.description;
     data['category'] = this.category;
+    data['icon_path'] = this.iconPath;
     data['reward_available'] = this.rewardAvailable;
     data['permission_id'] = this.permissionId;
     data['created_at'] = this.createdAt;

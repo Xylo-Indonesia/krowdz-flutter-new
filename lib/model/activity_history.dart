@@ -24,7 +24,7 @@ class ActivityHistoryData {
     id = json['id'];
     name = json['name'];
     description = json['description'];
-    category = json['activity_type'];
+    category = json['type'];
     rewardAvailable = json['reward_available'];
     permissionId = json['permission_id'];
     createdAt = json['created_at'];
@@ -37,7 +37,7 @@ class ActivityHistoryData {
     data['id'] = this.id;
     data['name'] = this.name;
     data['description'] = this.description;
-    data['activity_type'] = this.category;
+    data['type'] = this.category;
     data['reward_available'] = this.rewardAvailable;
     data['permission_id'] = this.permissionId;
     data['created_at'] = this.createdAt;

@@ -73,8 +73,11 @@ class CardActivity extends StatelessWidget {
                                         (null != imageUrl && imageUrl.length > 0
                                             ?
                                             //Container(color: Colors.white,width: 10,height: 10,):
-                                            Image.network(imageUrl,
-                                                width: 40, height: 40)
+                                            // Image.network(imageUrl,
+                                            //     width: 40, height: 40)
+                                            Image(
+                                                image: AssetImage(imageUrl),
+                                              )
                                             : Image(
                                                 image: AssetImage(
                                                     'assets/images/games.png'),

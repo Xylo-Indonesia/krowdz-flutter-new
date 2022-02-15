@@ -150,8 +150,6 @@ class VisitorDetailState extends State<VisitorDetail> {
                                             row = null;
                                           }
                                           i++;
-
-                                          print(row);
                                         });
                                         return col;
                                       } else {
@@ -204,8 +202,8 @@ class VisitorDetailState extends State<VisitorDetail> {
                                     for (var activity in store.ac.data) {
                                       var visitorDetailActivity =
                                           VisitorDetailActivity(
-                                        image:
-                                            Util.getActivityIcon(activity.name),
+                                        image: Util.getActivityIcon(
+                                            activity.iconPath),
                                         title: activity.name,
                                         onTap: () {
                                           print(
@@ -276,7 +274,7 @@ class VisitorDetailState extends State<VisitorDetail> {
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             Text(
-                                              h["activity_type"],
+                                              h["type"],
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 12.sp,
