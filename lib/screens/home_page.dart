@@ -245,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                                                 arguments: ArgumentVisitor(
                                                     keyword_by: 'activity_' +
                                                         ac.id.toString(),
-                                                    keyword: ac.name));
+                                                    keyword: ''));
                                           },
                                           gamesName: ac.name,
                                           isLoading: !widget

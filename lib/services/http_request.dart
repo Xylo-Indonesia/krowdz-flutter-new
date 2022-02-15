@@ -156,10 +156,6 @@ class API {
       order_by = 'alphanumeric_code';
     }
 
-    if (keyword_by.contains('activity')) {
-      keyword_by = 'activity';
-    }
-
     var url = client_url +
         '/visitors' +
         '?' +
