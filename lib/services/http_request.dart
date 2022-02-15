@@ -80,17 +80,44 @@ class API {
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
     //print(client_url);
-    var url = client_url + '/check/code/' + code;
+    var url = client_url + '/visitors/scan-qrcode';
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       "Authorization": 'Bearer ' + access_token,
     };
+    var body = '{ "code": "' + code + '"}';
 
     http.Response response;
 
     try {
-      response = await http.get(url, headers: headers);
+      response = await http.post(url, headers: headers, body: body);
+    } catch (e) {
+      print(e.toString());
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response.body;
+  }
+
+  static Future<String> inputCode(code) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token);
+    var client_url = await getClientUrl();
+    //print(client_url);
+    var url = client_url + '/visitors/input-code';
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+    var body = '{ "code": "' + code + '"}';
+
+    http.Response response;
+
+    try {
+      response = await http.post(url, headers: headers, body: body);
     } catch (e) {
       print(e.toString());
       return {"status": "error", "message": "Failed to connect to server"}

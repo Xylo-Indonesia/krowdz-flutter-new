@@ -74,8 +74,10 @@ class _ScanPageState extends State<ScanPage> {
                 children: <Widget>[
                   Expanded(
                     child: LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) {
-                        var scanBoxRatio = constraints.maxWidth / constraints.maxHeight;
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        var scanBoxRatio =
+                            constraints.maxWidth / constraints.maxHeight;
                         print('Scan Box:' + scanBoxRatio.toString());
                         return ScanReader(
                           key: qrKey,
@@ -88,10 +90,13 @@ class _ScanPageState extends State<ScanPage> {
                   Container(
                     decoration: BoxDecoration(
                       gradient: RadialGradient(
-                          radius: 2.5, colors: [darkerBackground, Color(0xFF101010)], center: Alignment.topCenter),
+                          radius: 2.5,
+                          colors: [darkerBackground, Color(0xFF101010)],
+                          center: Alignment.topCenter),
                     ),
                     child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 37),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 16, horizontal: 37),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -106,7 +111,9 @@ class _ScanPageState extends State<ScanPage> {
                                           onChanged: (value) {
                                             widget.store.code = value;
                                             if (value.length == 6) {
-                                              widget.store.scanCode().then((result) => processScan(result));
+                                              widget.store.scanCode().then(
+                                                  (result) =>
+                                                      processScan(result));
                                             }
                                           },
                                         ),
@@ -123,13 +130,17 @@ class _ScanPageState extends State<ScanPage> {
                                 width: double.infinity,
                                 child: FlatButton(
                                   child: Text("Add Visitor",
-                                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
                                   padding: EdgeInsets.all(18),
                                   color: redColor,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16)),
                                   onPressed: () async {
                                     stopScanning();
-                                    await Navigator.pushNamed(context, visitorNewPage);
+                                    await Navigator.pushNamed(
+                                        context, visitorNewPage);
                                     //stopScanning();
                                     startScanning();
                                   },
@@ -159,7 +170,7 @@ class _ScanPageState extends State<ScanPage> {
   Future onScan(String data) {
     stopScanning();
     widget.store.code = data;
-    widget.store.scanCode().then((result) => processScan(result));
+    widget.store.inputCode().then((result) => processScan(result));
   }
 
   Future processScan(var result) {
@@ -179,7 +190,8 @@ class _ScanPageState extends State<ScanPage> {
             function: () async {
               //print(data);
               stopScanning();
-              await Navigator.of(context).pushNamed(visitorDetailPage, arguments: widget.store.json_response['data']);
+              await Navigator.of(context).pushNamed(visitorDetailPage,
+                  arguments: widget.store.json_response['data']);
               //stopScanning();
               startScanning();
               //Timer(Duration(milliseconds: 1000), () => startScanning());
@@ -194,7 +206,10 @@ class _ScanPageState extends State<ScanPage> {
       if ("Visitor not Found!" == result.message ||
           "Visitor is not Verified" == result.message ||
           "Visitor is Expired" == result.message) {
-        var message = "Visitor with code " + widget.store.code + "" + result.message.replaceAll("Visitor", "");
+        var message = "Visitor with code " +
+            widget.store.code +
+            "" +
+            result.message.replaceAll("Visitor", "");
         showDialog(
           context: context,
           barrierColor: Colors.transparent,
