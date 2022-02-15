@@ -36,7 +36,8 @@ class JsonSchema extends StatefulWidget {
   final ValueChanged<dynamic> onChanged;
 
   @override
-  _CoreFormState createState() => new _CoreFormState(formMap ?? json.decode(form));
+  _CoreFormState createState() =>
+      new _CoreFormState(formMap ?? json.decode(form));
 }
 
 class _CoreFormState extends State<JsonSchema> {
@@ -48,7 +49,8 @@ class _CoreFormState extends State<JsonSchema> {
 
   String isRequired(item, value) {
     if (value.isEmpty) {
-      return widget.errorMessages[item['key']] ?? 'Please fill ' + item['label'];
+      return widget.errorMessages[item['key']] ??
+          'Please fill ' + item['label'];
     }
     return null;
   }
@@ -86,7 +88,8 @@ class _CoreFormState extends State<JsonSchema> {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       imageList.add(File(pickedFile.path));
-      formGeneral['fields'][index]['value']=base64Encode(File(pickedFile.path).readAsBytesSync());
+      formGeneral['fields'][index]['value'] =
+          base64Encode(File(pickedFile.path).readAsBytesSync());
     });
   }
   // Return widgets
@@ -111,11 +114,11 @@ class _CoreFormState extends State<JsonSchema> {
       Map item = formGeneral['fields'][count];
 
       if (item['type'] == "text" ||
-          item['type'] == "Input" ||
-          item['type'] == "Password" ||
-          item['type'] == "Email" ||
-          item['type'] == "TextArea" ||
-          item['type'] == "TextInput") {
+          item['type'] == "input" ||
+          item['type'] == "password" ||
+          item['type'] == "email" ||
+          item['type'] == "textarea" ||
+          item['type'] == "textinput") {
         // Widget label = SizedBox.shrink();
         // if (labelHidden(item)) {
         //   label = new Container(
@@ -130,7 +133,6 @@ class _CoreFormState extends State<JsonSchema> {
         // }
 
         listWidget.add(new Container(
-
             margin: new EdgeInsets.only(top: 5.0),
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: new CustomInput(
@@ -203,8 +205,12 @@ class _CoreFormState extends State<JsonSchema> {
               child: Row(
                 children: <Widget>[
                   new Expanded(
-                      child: new Text(formGeneral['fields'][count]['items'][i]['label'],
-                          style: new TextStyle(fontWeight: FontWeight.normal, fontSize: 16.sp, color: Colors.black))),
+                      child: new Text(
+                          formGeneral['fields'][count]['items'][i]['label'],
+                          style: new TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.sp,
+                              color: Colors.black))),
                   new Radio<String>(
                       activeColor: Colors.black,
                       value: formGeneral['fields'][count]['items'][i]['value'],
@@ -261,19 +267,24 @@ class _CoreFormState extends State<JsonSchema> {
       if (item['type'] == "Checkbox") {
         List<Widget> checkboxes = [];
         if (labelHidden(item)) {
-          checkboxes.add(new Text(item['label'], style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp)));
+          checkboxes.add(new Text(item['label'],
+              style:
+                  new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp)));
         }
         for (var i = 0; i < item['items'].length; i++) {
           checkboxes.add(
             new Row(
               children: <Widget>[
-                new Expanded(child: new Text(formGeneral['fields'][count]['items'][i]['label'])),
+                new Expanded(
+                    child: new Text(
+                        formGeneral['fields'][count]['items'][i]['label'])),
                 new Checkbox(
                   value: formGeneral['fields'][count]['items'][i]['value'],
                   onChanged: (bool value) {
                     this.setState(
                       () {
-                        formGeneral['fields'][count]['items'][i]['value'] = value;
+                        formGeneral['fields'][count]['items'][i]['value'] =
+                            value;
                         _handleChanged();
                       },
                     );
@@ -300,7 +311,10 @@ class _CoreFormState extends State<JsonSchema> {
         Widget label = SizedBox.shrink();
         if (labelHidden(item)) {
           label = new Text(item['label'],
-              style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp, color: Colors.black));
+              style: new TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                  color: Colors.black));
         }
 
         listWidget.add(new Container(
@@ -320,14 +334,17 @@ class _CoreFormState extends State<JsonSchema> {
                   child: DropdownButton<String>(
                     dropdownColor: Color(0xFFEDEDED),
                     hint: new Text("Select a " + item['label']),
-                    value: formGeneral['fields'][count]['value'] != '' ? formGeneral['fields'][count]['value'] : null,
+                    value: formGeneral['fields'][count]['value'] != ''
+                        ? formGeneral['fields'][count]['value']
+                        : null,
                     onChanged: (String newValue) {
                       setState(() {
                         formGeneral['fields'][count]['value'] = newValue;
                         _handleChanged();
                       });
                     },
-                    items: item['items'].map<DropdownMenuItem<String>>((dynamic data) {
+                    items: item['items']
+                        .map<DropdownMenuItem<String>>((dynamic data) {
                       return DropdownMenuItem<String>(
                         value: data['value'],
                         child: new Text(
@@ -342,50 +359,53 @@ class _CoreFormState extends State<JsonSchema> {
             )));
       }
 
-      if(item['type']=="file"){
-
+      if (item['type'] == "file") {
         listWidget.add(
-            new Container(
-                margin: new EdgeInsets.only(top: 5.0),
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child:CustomInput(
+          new Container(
+              margin: new EdgeInsets.only(top: 5.0),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: CustomInput(
                 darkMode: false,
                 label: "Add Photo",
                 child: Row(
                   children: [
-                    (imageList.isEmpty?
-                      FloatingActionButton(
-                        onPressed: (){pickImage(index:count);},
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: darkBackground,
-                            size: 24,
-                          ),
-                          backgroundColor: Colors.white,
-                          shape: CircleBorder(side: BorderSide(color: darkerBackground, width: 1)),
-                        ):Container()),
-
+                    (imageList.isEmpty
+                        ? FloatingActionButton(
+                            onPressed: () {
+                              pickImage(index: count);
+                            },
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: darkBackground,
+                              size: 24,
+                            ),
+                            backgroundColor: Colors.white,
+                            shape: CircleBorder(
+                                side: BorderSide(
+                                    color: darkerBackground, width: 1)),
+                          )
+                        : Container()),
                     SizedBox(width: 16),
                     Row(
                       children: imageList
                           .asMap()
                           .map((i, e) => MapEntry(
-                          i,
-                          PhotoList(
-                            image: e,
-                            onTap: () {
-                              setState(() {
-                                imageList.removeAt(i);
-                              });
-                            },
-                          )))
+                              i,
+                              PhotoList(
+                                image: e,
+                                onTap: () {
+                                  setState(() {
+                                    imageList.removeAt(i);
+                                  });
+                                },
+                              )))
                           .values
                           .toList(),
                     )
                   ],
                 ),
-              )) ,
-            );
+              )),
+        );
       }
     }
 

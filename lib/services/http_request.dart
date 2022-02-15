@@ -194,7 +194,7 @@ class API {
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
 
-    var url = client_url + '/visitor/register';
+    var url = client_url + '/visitors/register';
     var headers = {
       // "Content-Type": "application/json",
       // "Accept": "application/json",
@@ -278,7 +278,7 @@ class API {
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
 
-    var url = client_url + '/visitor/fields';
+    var url = client_url + '/visitors/fields';
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",

@@ -108,7 +108,8 @@ class NewVisitorPage extends StatelessWidget {
       prefixIcon: Icon(Icons.account_box),
       border: OutlineInputBorder(),
     ),
-    'password1': InputDecoration(prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
+    'password1': InputDecoration(
+        prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
   };
 
   NewVisitorPage() {
@@ -150,7 +151,8 @@ class NewVisitorPage extends StatelessWidget {
                               },
                               actionSave: (data) {
                                 FocusScope.of(context).unfocus();
-                                print('Submit:' + store.responseSubmit.toString());
+                                print('Submit:' +
+                                    store.responseSubmit.toString());
                                 //store.submitNewUser(data);
                                 store.submitNewUser(data).then((response) {
                                   print(response);
@@ -161,7 +163,8 @@ class NewVisitorPage extends StatelessWidget {
                                       barrierColor: Colors.transparent,
                                       builder: (BuildContext context) {
                                         return CustomDialogBox(
-                                          title: response["data"]["name"] + " successfully added to Visitor List",
+                                          title: response["data"]["name"] +
+                                              " successfully added to Visitor List",
                                           text: "View Profile",
                                           text2: "Back",
                                           buttonColor1: Colors.white,
@@ -171,8 +174,9 @@ class NewVisitorPage extends StatelessWidget {
                                           function: () {
                                             print('Bisa custom');
 
-                                            Navigator.of(context)
-                                                .pushNamed(visitorDetailPage, arguments: response["data"]);
+                                            Navigator.of(context).pushNamed(
+                                                visitorDetailPage,
+                                                arguments: response["data"]);
                                           },
                                         );
                                       });
@@ -183,30 +187,43 @@ class NewVisitorPage extends StatelessWidget {
                                   child: Container(
                                     height: 40.0,
                                     decoration: BoxDecoration(
-                                        color: Color(0xFFBA1134), borderRadius: BorderRadius.all(Radius.circular(8))),
+                                        color: Color(0xFFBA1134),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8))),
                                     child: Center(
                                       child: Observer(
                                         builder: (_) {
                                           if (!store.isSubmit) {
                                             return Text("Add Visitor",
-                                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold));
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold));
                                           } else {
                                             return Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 SizedBox(
                                                   width: 16,
                                                   height: 16,
-                                                  child: CircularProgressIndicator(
+                                                  child:
+                                                      CircularProgressIndicator(
                                                     strokeWidth: 2,
-                                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                                Color>(
+                                                            Colors.white),
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 8,
                                                 ),
                                                 Text("Please Wait",
-                                                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white))
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white))
                                               ],
                                             );
                                           }
@@ -219,13 +236,15 @@ class NewVisitorPage extends StatelessWidget {
                       if (store.responseSubmit == null) {
                         return Container();
                       } else
-                        return Text('' + store.responseSubmit.status.toString());
+                        return Text(
+                            '' + store.responseSubmit.status.toString());
                     }),
                   ]);
                 }
                 return Positioned.fill(
                     child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -295,14 +314,17 @@ class NewVisitorPage extends StatelessWidget {
                     child: Stack(
                       children: [
                         CircleButton(
-                          child: Image(image: AssetImage('assets/images/back.png')),
+                          child: Image(
+                              image: AssetImage('assets/images/back.png')),
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         Positioned.fill(
                           child: Center(
-                            child: Text("Add New Visitor", textAlign: TextAlign.center, style: kTextTitleDark),
+                            child: Text("Add New Visitor",
+                                textAlign: TextAlign.center,
+                                style: kTextTitleDark),
                           ),
                         ),
                       ],
