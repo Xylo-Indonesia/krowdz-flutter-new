@@ -142,11 +142,11 @@ class API {
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
     // print(page);
-    page = "" + page.replaceAll(client_url + '/visitor/list' + '?page=', '');
+    page = "" + page.replaceAll(client_url + '/visitors' + '?page=', '');
     // print(page);
     //var page2='1';
     var url = client_url +
-        '/visitor/list' +
+        '/visitors' +
         '?' +
         'keyword=' +
         keyword +
@@ -343,13 +343,12 @@ class API {
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
 
-    var created_at = date != null
-        ? '?created_at=' + DateFormat('yyyy-MM-dd').format(date)
+    var registered_at = date != null
+        ? '?registered_at=' + DateFormat('yyyy-MM-dd').format(date)
         : '';
 
-    var url = client_url + '/dashboard/summary' + created_at;
+    var url = client_url + '/dashboard/summary' + registered_at;
 
-    print(url);
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
