@@ -47,36 +47,40 @@ class SelectScreen extends StatelessWidget {
       darkMode: false,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-                child: CustomHeader(
-                  darkMode: false,
-                  title: 'Filter',
-                  icon: 'assets/images/close.png',
-                  onBack: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
+            backgroundColor: Colors.transparent,
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 16),
+                    child: CustomHeader(
+                      darkMode: false,
+                      title: 'Filter',
+                      icon: 'assets/images/close.png',
+                      onBack: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 12,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom:
+                              BorderSide(color: Colors.grey[400], width: 1)),
+                    ),
+                  ),
+                  Column(
+                    children: [],
+                  ),
+                  Column(
+                    children: selectList,
+                  ),
+                ],
               ),
-              Container(
-                height: 12,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey[400], width: 1)),
-                ),
-              ),
-              Column(
-                children: [],
-              ),
-              Column(
-                children: selectList,
-              )
-            ],
-          ),
-        ),
+            )),
       ),
     );
   }
