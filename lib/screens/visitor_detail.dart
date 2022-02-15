@@ -46,13 +46,12 @@ class VisitorDetailState extends State<VisitorDetail> {
     store.getActivity();
   }
 
-  refresh() async{
+  refresh() async {
     store.getVisitor(visitor["id"].toString());
   }
 
   @override
   Widget build(BuildContext context) {
-
     return BlackTheme(
       darkMode: false,
       child: Scaffold(
@@ -61,7 +60,8 @@ class VisitorDetailState extends State<VisitorDetail> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 12.0, horizontal: 16),
                   child: CustomHeader(
                     darkMode: false,
                     title: "Visitor Detail",
@@ -77,11 +77,13 @@ class VisitorDetailState extends State<VisitorDetail> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                            padding: const EdgeInsets.only(
+                                bottom: 16, left: 16, right: 16),
                             child: Column(
                               children: [
                                 ExpandablePanel(
-                                  controller: ExpandableController(initialExpanded: true),
+                                  controller: ExpandableController(
+                                      initialExpanded: true),
                                   header: Padding(
                                     padding: EdgeInsets.symmetric(vertical: 16),
                                     child: Text(
@@ -89,12 +91,16 @@ class VisitorDetailState extends State<VisitorDetail> {
                                       style: kTextTitleLargeDark,
                                     ),
                                   ),
-                                  headerAlignment: ExpandablePanelHeaderAlignment.center,
+                                  headerAlignment:
+                                      ExpandablePanelHeaderAlignment.center,
                                   expanded: Container(
                                     decoration: BoxDecoration(
                                         color: Colors.black12,
-                                        border: Border(top: BorderSide(color: Colors.grey, width: 2))),
-                                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                        border: Border(
+                                            top: BorderSide(
+                                                color: Colors.grey, width: 2))),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
                                     child: Observer(builder: (_) {
                                       if (store.isDataReady) {
                                         Column col = Column(
@@ -102,8 +108,11 @@ class VisitorDetailState extends State<VisitorDetail> {
                                         );
                                         var i = 0;
                                         Row row = null;
-                                        store.jsonResponse["meta"]["keymapper"].forEach((k, v) {
-                                          print(k.toString() + ":" + v.toString());
+                                        store.jsonResponse["meta"]["keymapper"]
+                                            .forEach((k, v) {
+                                          print(k.toString() +
+                                              ":" +
+                                              v.toString());
 
                                           if (row == null)
                                             row = Row(
@@ -112,17 +121,21 @@ class VisitorDetailState extends State<VisitorDetail> {
 
                                           Expanded e = Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     "" + v.toString(),
-                                                    style:
-                                                        TextStyle(fontSize: 12.sp),
+                                                    style: TextStyle(
+                                                        fontSize: 12.sp),
                                                   ),
                                                   Text(
-                                                    store.jsonResponse["data"][k.toString()], //"1241 AFK 77A",
+                                                    store.jsonResponse["data"][k
+                                                        .toString()], //"1241 AFK 77A",
                                                     style: kTextTitleRed,
                                                   )
                                                 ],
@@ -130,20 +143,27 @@ class VisitorDetailState extends State<VisitorDetail> {
                                             ),
                                           );
                                           row.children.add(e);
+                                          col.children.add(row);
+
                                           if (i % 2 == 1) {
-                                            col.children.add(row);
+                                            col.children.remove(row);
                                             row = null;
                                           }
                                           i++;
+
+                                          print(row);
                                         });
                                         return col;
                                       } else {
                                         return Container(
                                           width: double.infinity,
-                                          padding: EdgeInsets.symmetric(vertical: 8),
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 8),
                                           child: Center(
                                             child: CircularProgressIndicator(
-                                              valueColor: AlwaysStoppedAnimation<Color>(darkBackground),
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      darkBackground),
                                             ),
                                           ),
                                         );
@@ -153,7 +173,9 @@ class VisitorDetailState extends State<VisitorDetail> {
                                   collapsed: Container(
                                       height: 2,
                                       decoration: BoxDecoration(
-                                        border: Border(bottom: BorderSide(color: Colors.grey, width: 12)),
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.grey, width: 12)),
                                       )),
                                 ),
                                 SizedBox(
@@ -173,29 +195,31 @@ class VisitorDetailState extends State<VisitorDetail> {
                                     style: kTextTitleDark,
                                   ),
                                 ),
-                                Observer(builder:(_){
-                                  if(null!=store.ac){
+                                Observer(builder: (_) {
+                                  if (null != store.ac) {
                                     Column col = Column(
                                       children: [],
                                     );
 
-                                    for(var activity in store.ac.data){
-                                      var visitorDetailActivity=VisitorDetailActivity(
-                                          image: Util.getActivityIcon(activity.name),
-                                          title: activity.name,
-                                          onTap: () {
-                                            print("games"+activity.id.toString());
-                                            ArgumentNewActivity args=ArgumentNewActivity();
-                                            args.activity=activity;
-                                            args.visitor=visitor;
-                                            Navigator.of(context).pushNamed(newActivityPage, arguments: args)
-                                                .then((_)=>{
-                                                    refresh()
-
-                                                }
-                                            );
-                                          },
-                                        );
+                                    for (var activity in store.ac.data) {
+                                      var visitorDetailActivity =
+                                          VisitorDetailActivity(
+                                        image:
+                                            Util.getActivityIcon(activity.name),
+                                        title: activity.name,
+                                        onTap: () {
+                                          print(
+                                              "games" + activity.id.toString());
+                                          ArgumentNewActivity args =
+                                              ArgumentNewActivity();
+                                          args.activity = activity;
+                                          args.visitor = visitor;
+                                          Navigator.of(context)
+                                              .pushNamed(newActivityPage,
+                                                  arguments: args)
+                                              .then((_) => {refresh()});
+                                        },
+                                      );
                                       col.children.add(visitorDetailActivity);
                                     }
                                     return col;
@@ -203,7 +227,6 @@ class VisitorDetailState extends State<VisitorDetail> {
 
                                   return Container();
                                 }),
-
                                 SizedBox(
                                   height: 18,
                                 ),
@@ -219,31 +242,41 @@ class VisitorDetailState extends State<VisitorDetail> {
                                   isGradient: false,
                                   backgroundColor: Colors.black54,
                                   childLeft: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 16),
-                                      child: Text("Activity", style: kTextTitle)),
-                                  childRight: Text("Date and Time", style: kTextTitle),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 16),
+                                      child:
+                                          Text("Activity", style: kTextTitle)),
+                                  childRight:
+                                      Text("Date and Time", style: kTextTitle),
                                   flexLeft: 1,
                                   flexRight: 1,
                                 ),
-                                Observer(builder:(_){
-                                  if(null!=store.jsonResponse && null!=store.jsonResponse["data"]["history"]["data"]){
-                                    var col=Column(children: [],);
-                                    for(var h in store.jsonResponse["data"]["history"]["data"]){
-                                      var tableChild=TableChild(
+                                Observer(builder: (_) {
+                                  if (null != store.jsonResponse &&
+                                      null !=
+                                          store.jsonResponse["data"]["history"]
+                                              ["data"]) {
+                                    var col = Column(
+                                      children: [],
+                                    );
+                                    for (var h in store.jsonResponse["data"]
+                                        ["history"]["data"]) {
+                                      var tableChild = TableChild(
                                         backgroundColor: Colors.black12,
                                         borderColor: Colors.grey,
                                         darkMode: true,
                                         childLeft: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              h["name"],// "Games",
+                                              h["name"], // "Games",
                                               style: kTextTitleDark,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             Text(
-                                              h["product"],
+                                              h["activity_type"],
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 12.sp,
@@ -254,8 +287,10 @@ class VisitorDetailState extends State<VisitorDetail> {
                                           ],
                                         ),
                                         childRight: Text(
-                                          Util.dateFormat(h["created_at"]),//'27/09/2020 | 10:30',
-                                          style: TextStyle(color: Colors.black45),
+                                          Util.dateFormat(h[
+                                              "created_at"]), //'27/09/2020 | 10:30',
+                                          style:
+                                              TextStyle(color: Colors.black45),
                                         ),
                                         flexLeft: 1,
                                         flexRight: 1,
@@ -265,34 +300,29 @@ class VisitorDetailState extends State<VisitorDetail> {
                                           //   String name;
                                           // }
                                           print("Edit History Activity");
-                                          ArgumentNewActivity args=ArgumentNewActivity();
-                                          ActivityHistoryData activity=ActivityHistoryData();
-                                          activity.id=1;
-                                          activity.name="Test Drive";
-                                          args.activity=activity;
-                                          args.visitor=visitor;
-                                          args.isEdit=true;
-                                          args.activityHistory=h;
-                                          Navigator.of(context).pushNamed(newActivityPage, arguments: args)
-                                              .then((_)=>{
-                                            refresh()
-
-                                          }
-                                          );
+                                          ArgumentNewActivity args =
+                                              ArgumentNewActivity();
+                                          ActivityHistoryData activity =
+                                              ActivityHistoryData();
+                                          activity.id = 1;
+                                          activity.name = "Test Drive";
+                                          args.activity = activity;
+                                          args.visitor = visitor;
+                                          args.isEdit = true;
+                                          args.activityHistory = h;
+                                          Navigator.of(context)
+                                              .pushNamed(newActivityPage,
+                                                  arguments: args)
+                                              .then((_) => {refresh()});
                                         },
                                       );
                                       col.children.add(tableChild);
-
                                     }
                                     return col;
-
                                   }
 
-
                                   return Container();
-                                }
-                                ),
-
+                                }),
                               ],
                             ),
                           ),
