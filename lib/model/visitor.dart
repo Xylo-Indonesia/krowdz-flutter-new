@@ -45,15 +45,15 @@ class Data {
 
   Data(
       {this.id,
-        this.name,
-        this.gender,
-        this.email,
-        this.phoneNumber,
-        this.code,
-        this.type,
-        this.isExpired,
-        this.expiredAt,
-        this.createdAt});
+      this.name,
+      this.gender,
+      this.email,
+      this.phoneNumber,
+      this.code,
+      this.type,
+      this.isExpired,
+      this.expiredAt,
+      this.createdAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -61,7 +61,7 @@ class Data {
     gender = json['gender'];
     email = json['email'];
     phoneNumber = json['phone_number'];
-    code = json['code'];
+    code = json['alphanumeric_code'];
     type = json['type'];
     isExpired = json['is_expired'];
     expiredAt = json['expired_at'];
@@ -75,7 +75,7 @@ class Data {
     data['gender'] = this.gender;
     data['email'] = this.email;
     data['phone_number'] = this.phoneNumber;
-    data['code'] = this.code;
+    data['alphanumeric_code'] = this.code;
     data['type'] = this.type;
     data['is_expired'] = this.isExpired;
     data['expired_at'] = this.expiredAt;
@@ -121,13 +121,13 @@ class Meta {
 
   Meta(
       {this.currentPage,
-        this.from,
-        this.lastPage,
-        this.path,
-        this.perPage,
-        this.to,
-        this.total,
-        this.keymapper});
+      this.from,
+      this.lastPage,
+      this.path,
+      this.perPage,
+      this.to,
+      this.total,
+      this.keymapper});
 
   Meta.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
@@ -168,14 +168,14 @@ class Keymapper {
 
   Keymapper(
       {this.code,
-        this.gender,
-        this.type,
-        this.phoneNumber,
-        this.city,
-        this.email});
+      this.gender,
+      this.type,
+      this.phoneNumber,
+      this.city,
+      this.email});
 
   Keymapper.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
+    code = json['alphanumeric_code'];
     gender = json['gender'];
     type = json['type'];
     phoneNumber = json['phone_number'];
@@ -185,7 +185,7 @@ class Keymapper {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
+    data['alphanumeric_code'] = this.code;
     data['gender'] = this.gender;
     data['type'] = this.type;
     data['phone_number'] = this.phoneNumber;

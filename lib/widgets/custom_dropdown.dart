@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 class CustomDropdown extends StatefulWidget {
   final List<KeyMap> itemList;
   final Function onClick;
+  final KeyMap widgetSelectedType;
 
-  const CustomDropdown({Key key, this.itemList, this.onClick}) : super(key: key);
+  const CustomDropdown(
+      {Key key, this.itemList, this.onClick, this.widgetSelectedType})
+      : super(key: key);
 
   @override
   _CustomDropdownState createState() => _CustomDropdownState();
@@ -15,12 +18,17 @@ class CustomDropdown extends StatefulWidget {
 
 class _CustomDropdownState extends State<CustomDropdown> {
   KeyMap selectedType = KeyMap('value', 'Select...');
+
   @override
   Widget build(BuildContext context) {
+    if (widget.widgetSelectedType != null) {
+      selectedType = widget.widgetSelectedType;
+    }
     return GestureDetector(
       onTap: () async {
         //await the Navigator, expecting to recieve a String to be shown here
-        final selected = await Navigator.pushNamed(context, selectScreenRoute, arguments: widget.itemList);
+        final selected = await Navigator.pushNamed(context, selectScreenRoute,
+            arguments: widget.itemList);
         //refresh the screen to show the selected value
         setState(() {
           if (selected != null) {

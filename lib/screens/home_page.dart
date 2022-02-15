@@ -243,7 +243,8 @@ class _HomePageState extends State<HomePage> {
                                             Navigator.pushNamed(
                                                 context, visitorPageRoute,
                                                 arguments: ArgumentVisitor(
-                                                    keyword_by: 'activity',
+                                                    keyword_by: 'activity_' +
+                                                        ac.id.toString(),
                                                     keyword: ac.name));
                                           },
                                           gamesName: ac.name,

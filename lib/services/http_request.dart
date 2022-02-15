@@ -147,10 +147,17 @@ class API {
     // print(page);
     //var page2='1';
     var order_by = keyword_by;
+
     if (keyword_by == 'online' ||
         keyword_by == 'offline' ||
-        isNumeric(keyword_by)) {
+        keyword_by.contains('activity')) {
       order_by = '';
+    } else if (keyword_by == 'code') {
+      order_by = 'alphanumeric_code';
+    }
+
+    if (keyword_by.contains('activity')) {
+      keyword_by = 'activity';
     }
 
     var url = client_url +
