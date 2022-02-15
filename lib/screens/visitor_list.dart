@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:validators/validators.dart';
 
 class VisitorList extends StatefulWidget {
   ArgumentVisitor arguments;
@@ -37,7 +38,8 @@ class VisitorListState extends State<VisitorList> {
   VisitorListState({ArgumentVisitor arguments}) {
     args = arguments;
     if (null != args) {
-      vStore.getVisitorList(keyword: args.keyword, keyword_by: args.keyword_by, page: '1');
+      vStore.getVisitorList(
+          keyword: args.keyword, keyword_by: args.keyword_by, page: '1');
       vStore.keyword = args.keyword;
     } else
       vStore.getVisitorList(keyword: '', keyword_by: '', page: '1');
@@ -85,13 +87,22 @@ class VisitorListState extends State<VisitorList> {
                                 label: "",
                                 child: Observer(builder: (_) {
                                   if (null != vStore.selectedKey) {
-                                    if (vStore.selectedKey == null) vStore.selectedKey = vStore.items[0];
+                                    if (vStore.selectedKey == null)
+                                      vStore.selectedKey = vStore.items[0];
                                     return CustomDropdown(
                                       itemList: vStore.items,
                                       onClick: (value) {
                                         setState(() {
                                           vStore.selectedKey = value;
                                         });
+
+                                        if (value.key == 'online' ||
+                                            value.key == 'offline' ||
+                                            isNumeric(value.key)) {
+                                          vStore.getVisitorList(
+                                            keyword_by: value.key,
+                                          );
+                                        }
                                       },
                                     );
                                   }
@@ -168,12 +179,18 @@ class VisitorListState extends State<VisitorList> {
                                 return CustomInput(
                                   label: "",
                                   child: TextFormField(
-                                    initialValue: null != vStore.keyword ? vStore.keyword : '',
-                                    decoration: InputDecoration(hintText: "Search", suffixIcon: Icon(Icons.search)),
+                                    initialValue: null != vStore.keyword
+                                        ? vStore.keyword
+                                        : '',
+                                    decoration: InputDecoration(
+                                        hintText: "Search",
+                                        suffixIcon: Icon(Icons.search)),
                                     onFieldSubmitted: (value) {
                                       print('submit' + value);
                                       vStore.keyword = value;
-                                      vStore.getVisitorList(keyword: value, keyword_by: vStore.selectedKey.key);
+                                      vStore.getVisitorList(
+                                          keyword: value,
+                                          keyword_by: vStore.selectedKey.key);
                                     },
                                     //onEditingComplete: ()=>print('edited'),
                                   ),
@@ -203,8 +220,9 @@ class VisitorListState extends State<VisitorList> {
                               //contoh widget header table
                               Container(
                                 decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(16),
+                                        topRight: Radius.circular(16)),
                                     gradient: LinearGradient(
                                       colors: [redColor, primaryColor],
                                       begin: FractionalOffset.bottomLeft,
@@ -224,28 +242,38 @@ class VisitorListState extends State<VisitorList> {
                                         child: DropdownButtonHideUnderline(
                                           child: Observer(builder: (_) {
                                             if (null != vStore.selectedKey) {
-                                              if (null == vStore.selectedKey2) vStore.selectedKey2 = vStore.items2[0];
+                                              if (null == vStore.selectedKey2)
+                                                vStore.selectedKey2 =
+                                                    vStore.items2[0];
                                               return DropdownButton(
                                                 value: vStore.selectedKey2,
                                                 isExpanded: true,
                                                 iconEnabledColor: Colors.white,
-                                                selectedItemBuilder: (BuildContext context) {
-                                                  return vStore.items2.map<Widget>((KeyMap item) {
+                                                selectedItemBuilder:
+                                                    (BuildContext context) {
+                                                  return vStore.items2
+                                                      .map<Widget>(
+                                                          (KeyMap item) {
                                                     return Center(
                                                         widthFactor: 1,
                                                         child: Text(
-                                                          vStore.selectedKey.value,
+                                                          vStore.selectedKey
+                                                              .value,
                                                           style: kTextTitle,
-                                                          overflow: TextOverflow.ellipsis,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           maxLines: 1,
                                                         ));
                                                   }).toList();
                                                 },
-                                                items: vStore.items2.map((KeyMap item) {
-                                                  return DropdownMenuItem<KeyMap>(
+                                                items: vStore.items2
+                                                    .map((KeyMap item) {
+                                                  return DropdownMenuItem<
+                                                      KeyMap>(
                                                     child: Text(
                                                       item.value,
-                                                      overflow: TextOverflow.ellipsis,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       maxLines: 1,
                                                     ),
                                                     value: item,
@@ -257,9 +285,11 @@ class VisitorListState extends State<VisitorList> {
                                                     print(value.key);
                                                     vStore.getVisitorList(
                                                         keyword: vStore.keyword,
-                                                        keyword_by: vStore.selectedKey.key,
+                                                        keyword_by: vStore
+                                                            .selectedKey.key,
                                                         page: vStore.page,
-                                                        order_direction: value.key);
+                                                        order_direction:
+                                                            value.key);
                                                   });
                                                 },
                                               );
@@ -307,26 +337,36 @@ class VisitorListState extends State<VisitorList> {
                                       backgroundColor: Colors.white10,
                                       borderColor: Colors.white12,
                                       childLeft: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "" + v["name"],
-                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(
                                             "" + v["email"],
-                                            style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12.sp),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
                                       ),
                                       childRight: Padding(
-                                        padding: const EdgeInsets.only(right: 18.0),
+                                        padding:
+                                            const EdgeInsets.only(right: 18.0),
                                         child: Text(
-                                          (null != vStore.selectedKey && null != v["" + vStore.selectedKey.key])
+                                          (null != vStore.selectedKey &&
+                                                  null !=
+                                                      v["" +
+                                                          vStore
+                                                              .selectedKey.key])
                                               ? v["" + vStore.selectedKey.key]
                                               : ""
                                           //vStore.selectedKey2.key
@@ -339,7 +379,9 @@ class VisitorListState extends State<VisitorList> {
                                       flexLeft: 3,
                                       flexRight: 2,
                                       onTap: () {
-                                        Navigator.of(context).pushNamed(visitorDetailPage, arguments: v);
+                                        Navigator.of(context).pushNamed(
+                                            visitorDetailPage,
+                                            arguments: v);
                                       },
                                     );
                                     col.children.add(colData);
@@ -351,7 +393,8 @@ class VisitorListState extends State<VisitorList> {
                                   backgroundColor: Colors.white10,
                                   borderColor: Colors.grey,
                                   childLeft: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       DarkShimmer(
                                         width: 100,
@@ -385,14 +428,16 @@ class VisitorListState extends State<VisitorList> {
                                 height: 16,
                               ),
                               Observer(builder: (_) {
-                                if (vStore.isVisitorReady && vStore.hasPagination)
+                                if (vStore.isVisitorReady &&
+                                    vStore.hasPagination)
                                   return Pagination(
                                     hasNext: vStore.hasNext,
                                     hasPrev: vStore.hasPrev,
                                     pages: Row(
                                       children: [
                                         Observer(builder: (_) {
-                                          var number = vStore.visitor.meta.currentPage;
+                                          var number =
+                                              vStore.visitor.meta.currentPage;
                                           var prevNumber = number - 2;
                                           if (prevNumber > 0)
                                             return PaginationNumber(
@@ -401,8 +446,10 @@ class VisitorListState extends State<VisitorList> {
                                                 print(prevNumber);
                                                 vStore.getVisitorList(
                                                     keyword: vStore.keyword,
-                                                    keyword_by: vStore.selectedKey.key,
-                                                    page: prevNumber.toString());
+                                                    keyword_by:
+                                                        vStore.selectedKey.key,
+                                                    page:
+                                                        prevNumber.toString());
                                               },
                                               isSelected: false,
                                             );
@@ -410,7 +457,8 @@ class VisitorListState extends State<VisitorList> {
                                             return Container();
                                         }),
                                         Observer(builder: (_) {
-                                          var number = vStore.visitor.meta.currentPage;
+                                          var number =
+                                              vStore.visitor.meta.currentPage;
                                           var prevNumber = number - 1;
                                           if (prevNumber > 0)
                                             return PaginationNumber(
@@ -419,8 +467,10 @@ class VisitorListState extends State<VisitorList> {
                                                 print(prevNumber);
                                                 vStore.getVisitorList(
                                                     keyword: vStore.keyword,
-                                                    keyword_by: vStore.selectedKey.key,
-                                                    page: prevNumber.toString());
+                                                    keyword_by:
+                                                        vStore.selectedKey.key,
+                                                    page:
+                                                        prevNumber.toString());
                                               },
                                               isSelected: false,
                                             );
@@ -429,25 +479,31 @@ class VisitorListState extends State<VisitorList> {
                                         }),
                                         Observer(builder: (_) {
                                           return PaginationNumber(
-                                            number: vStore.visitor.meta.currentPage,
+                                            number:
+                                                vStore.visitor.meta.currentPage,
                                             onTap: () {
-                                              print(vStore.visitor.meta.currentPage);
+                                              print(vStore
+                                                  .visitor.meta.currentPage);
                                             },
                                             isSelected: true,
                                           );
                                         }),
                                         Observer(builder: (_) {
-                                          var number = vStore.visitor.meta.currentPage;
+                                          var number =
+                                              vStore.visitor.meta.currentPage;
                                           var nextNumber = number + 1;
-                                          if (nextNumber <= vStore.visitor.meta.lastPage)
+                                          if (nextNumber <=
+                                              vStore.visitor.meta.lastPage)
                                             return PaginationNumber(
                                               number: nextNumber,
                                               onTap: () {
                                                 print(nextNumber);
                                                 vStore.getVisitorList(
                                                     keyword: vStore.keyword,
-                                                    keyword_by: vStore.selectedKey.key,
-                                                    page: nextNumber.toString());
+                                                    keyword_by:
+                                                        vStore.selectedKey.key,
+                                                    page:
+                                                        nextNumber.toString());
                                               },
                                               isSelected: false,
                                             );
@@ -455,17 +511,21 @@ class VisitorListState extends State<VisitorList> {
                                             return Container();
                                         }),
                                         Observer(builder: (_) {
-                                          var number = vStore.visitor.meta.currentPage;
+                                          var number =
+                                              vStore.visitor.meta.currentPage;
                                           var nextNumber = number + 2;
-                                          if (nextNumber <= vStore.visitor.meta.lastPage)
+                                          if (nextNumber <=
+                                              vStore.visitor.meta.lastPage)
                                             return PaginationNumber(
                                               number: nextNumber,
                                               onTap: () {
                                                 print(nextNumber);
                                                 vStore.getVisitorList(
                                                     keyword: vStore.keyword,
-                                                    keyword_by: vStore.selectedKey.key,
-                                                    page: nextNumber.toString());
+                                                    keyword_by:
+                                                        vStore.selectedKey.key,
+                                                    page:
+                                                        nextNumber.toString());
                                               },
                                               isSelected: false,
                                             );

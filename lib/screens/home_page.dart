@@ -169,8 +169,8 @@ class _HomePageState extends State<HomePage> {
                                               Navigator.pushNamed(
                                                   context, visitorPageRoute,
                                                   arguments: ArgumentVisitor(
-                                                      keyword_by: 'type',
-                                                      keyword: 'online'));
+                                                      keyword_by: 'online',
+                                                      keyword: ''));
                                             },
                                           ),
                                         ),
@@ -191,8 +191,8 @@ class _HomePageState extends State<HomePage> {
                                               Navigator.pushNamed(
                                                   context, visitorPageRoute,
                                                   arguments: ArgumentVisitor(
-                                                      keyword_by: 'type',
-                                                      keyword: 'offline'));
+                                                      keyword_by: 'offline',
+                                                      keyword: ''));
                                             },
                                           ),
                                         ),

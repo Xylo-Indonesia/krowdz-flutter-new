@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:url_launcher/url_launcher.dart';
+import 'package:validators/validators.dart';
 
 const baseUrl = 'https://www.festrec.com/api';
 // const baseUrlPortal='https://tenant.krowdz-staging.xylo.co.id/api';
@@ -145,6 +146,13 @@ class API {
     page = "" + page.replaceAll(client_url + '/visitors' + '?page=', '');
     // print(page);
     //var page2='1';
+    var order_by = keyword_by;
+    if (keyword_by == 'online' ||
+        keyword_by == 'offline' ||
+        isNumeric(keyword_by)) {
+      order_by = '';
+    }
+
     var url = client_url +
         '/visitors' +
         '?' +
@@ -159,7 +167,7 @@ class API {
         'order_direction=' +
         order_direction +
         '&order_by=' +
-        keyword_by;
+        order_by;
     print(url);
     var headers = {
       "Content-Type": "application/json",
