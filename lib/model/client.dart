@@ -18,7 +18,7 @@ class Client extends HiveObject {
   Client({this.code, this.name, this.logo, this.apiUrl, this.expiredAt});
 
   Client.fromJson(Map<String, dynamic> json) {
-    code = json['company_code'];
+    code = json['company_code'].toString();
     name = json['name'];
     logo = json['logo_path_full'];
     apiUrl = json['api_url'];
