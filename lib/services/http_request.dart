@@ -269,7 +269,7 @@ class API {
 
     http.Response response;
     try {
-      response = await http.post(request, headers: headers, body: json);
+      response = await http.post(url, headers: headers, body: json);
       //print('Response:'+response.body.toString());
     } catch (e) {
       print(e.toString());
@@ -281,19 +281,16 @@ class API {
   }
 
   static Future<dynamic> doEditActivity(
-      var json, var activityID, var visitorID) async {
+      var json, var activityID, var historyId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
 
-    var url = client_url +
-        '/activity/history/' +
-        activityID +
-        '/visitor/' +
-        visitorID;
+    var url =
+        client_url + '/activities/' + activityID + '/history/' + historyId;
     var headers = {
       // "Content-Type": "application/json",
-      // "Accept": "application/json",
+      "Accept": "application/json",
       "Authorization": 'Bearer ' + access_token,
     };
 

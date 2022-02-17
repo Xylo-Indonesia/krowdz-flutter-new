@@ -335,7 +335,7 @@ class _CoreFormState extends State<JsonSchema> {
                     dropdownColor: Color(0xFFEDEDED),
                     hint: new Text("Select a " + item['label']),
                     value: formGeneral['fields'][count]['value'] != ''
-                        ? formGeneral['fields'][count]['value']
+                        ? formGeneral['fields'][count]['value'].toString()
                         : null,
                     onChanged: (String newValue) {
                       setState(() {

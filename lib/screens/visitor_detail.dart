@@ -294,6 +294,7 @@ class VisitorDetailState extends State<VisitorDetail> {
                                         flexLeft: 1,
                                         flexRight: 1,
                                         onTap: () {
+                                          print(h);
                                           // class ActData {
                                           //   int id;
                                           //   String name;
@@ -303,8 +304,8 @@ class VisitorDetailState extends State<VisitorDetail> {
                                               ArgumentNewActivity();
                                           ActivityHistoryData activity =
                                               ActivityHistoryData();
-                                          activity.id = 1;
-                                          activity.name = "Test Drive";
+                                          activity.id = h['activity_id'];
+                                          activity.name = h['name'];
                                           args.activity = activity;
                                           args.visitor = visitor;
                                           args.isEdit = true;

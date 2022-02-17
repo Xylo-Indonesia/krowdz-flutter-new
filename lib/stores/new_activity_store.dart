@@ -63,6 +63,7 @@ abstract class _NewActivityStore with Store {
 
       for (dynamic field in data["fields"]) {
         if (field['value'] != null) {
+          field['value'] = field['value'].toString();
           print("Debug:" + field["name"] + field["value"]);
           kv = kv + '"' + field["name"] + '"' + ':' + field["value"] + ',';
           newjson[field["name"]] = field["value"];
@@ -85,7 +86,7 @@ abstract class _NewActivityStore with Store {
             newjson, activity.id.toString(), visitor["id"].toString());
       else
         response = await API.doEditActivity(
-            newjson, activity.id.toString(), visitor["id"].toString());
+            newjson, activity.id.toString(), activityHistory["id"].toString());
       isSubmit = false;
 
       return response;
