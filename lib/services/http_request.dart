@@ -464,7 +464,7 @@ class API {
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
 
-    var url = client_url + '/reward/list';
+    var url = client_url + '/merchandises';
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",

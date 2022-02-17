@@ -1,5 +1,6 @@
 import 'package:event/model/keymap.dart';
 import 'package:event/services/consts.dart';
+import 'package:event/services/utilities.dart';
 import 'package:event/stores/prize_list_store.dart';
 import 'package:event/widgets/black_theme.dart';
 import 'package:event/widgets/custom_dialog.dart';
@@ -19,18 +20,16 @@ class PrizeList extends StatefulWidget {
 }
 
 class _PrizeListState extends State<PrizeList> {
-  PrizeListStore store=PrizeListStore();
+  PrizeListStore store = PrizeListStore();
   String selectedType = 'Testing';
 
-  _PrizeListState(){
+  _PrizeListState() {
     store.getActivity();
     store.getDashboardPrize();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return BlackTheme(
       darkMode: true,
       child: Scaffold(
@@ -39,7 +38,8 @@ class _PrizeListState extends State<PrizeList> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 12.0, horizontal: 16),
                   child: CustomHeader(
                     darkMode: true,
                     onBack: () {
@@ -56,47 +56,48 @@ class _PrizeListState extends State<PrizeList> {
                         children: [
                           CustomInput(
                             label: '',
-                            child:
-                            Observer(builder:(_){
-                              List<KeyMap> activityList=[];//KeyMap('value', '123'), KeyMap('value', 'qwe'), KeyMap('value', 'asd')
-                              if(store.ac!=null&&store.ac.status==true){
-                                activityList.add(KeyMap('value','All'));
-                                for(var item in store.ac.data){
-                                  activityList.add(KeyMap('value',item.name));
-                                  print("activity "+item.name);
+                            child: Observer(builder: (_) {
+                              List<KeyMap> activityList =
+                                  []; //KeyMap('value', '123'), KeyMap('value', 'qwe'), KeyMap('value', 'asd')
+                              if (store.ac != null && store.ac.status == true) {
+                                activityList.add(KeyMap('value', 'All'));
+                                for (var item in store.ac.data) {
+                                  activityList.add(KeyMap('value', item.name));
+                                  print("activity " + item.name);
                                 }
                                 return CustomDropdown(
                                   itemList: activityList,
                                   onClick: (value) {
-                                    KeyMap keymap=value;
+                                    KeyMap keymap = value;
                                     print('selected: ' + keymap.value);
-                                    String tmp_activity='';
-                                    tmp_activity=keymap.value=='All'?'':keymap.value;
-                                    store.activity=tmp_activity;
+                                    String tmp_activity = '';
+                                    tmp_activity = keymap.value == 'All'
+                                        ? ''
+                                        : keymap.value;
+                                    store.activity = tmp_activity;
                                     store.getDashboardPrize();
                                   },
                                 );
-
                               }
 
                               return CustomDropdown(
                                 itemList: [],
                                 onClick: (value) {
-                                print('selected: ' + value);
-
+                                  print('selected: ' + value);
                                 },
                               );
                             }),
-
                           ),
                           CustomInput(
                             label: "",
                             child: TextFormField(
                               initialValue: '',
-                              decoration: InputDecoration(hintText: "Search", suffixIcon: Icon(Icons.search)),
+                              decoration: InputDecoration(
+                                  hintText: "Search",
+                                  suffixIcon: Icon(Icons.search)),
                               onFieldSubmitted: (value) {
                                 print('submit' + value);
-                                store.keyword=value;
+                                store.keyword = value;
                                 store.getDashboardPrize();
                               },
                               //onEditingComplete: ()=>print('edited'),
@@ -105,78 +106,86 @@ class _PrizeListState extends State<PrizeList> {
                           SizedBox(
                             height: 28,
                           ),
-                          Observer(builder:(_){
-                            var col=Column(children: [],);
-                            var x=0;
-                            var row=Row();
+                          Observer(builder: (_) {
+                            var col = Column(
+                              children: [],
+                            );
+                            var x = 0;
+                            var row = Row();
 
-                            if(store.rewards!=null&&true==store.rewards.status){
-
-
+                            if (store.rewards != null &&
+                                true == store.rewards.status) {
                               for (var pr in store.rewards.data) {
-                                if(x%3==0){
-                                  row=Row(
-                                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                if (x % 3 == 0) {
+                                  row = Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.baseline,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    textBaseline: TextBaseline.alphabetic,
                                     children: [],
                                   );
-
                                 }
-                                var pi= PrizeItem(
-                                  imageUrl:pr.image!=null?pr.image:'https://dev.bounche.com/krowdz/app/gift.jpg',
-                                  title: ''+pr.name,
-                                  stockString: pr.remainingQuotas.toString()+'/'+pr.quota.toString(),
+                                var pi = PrizeItem(
+                                  imageUrl: pr.image != null
+                                      ? pr.image
+                                      : 'https://dev.bounche.com/krowdz/app/gift.jpg',
+                                  title: '' + pr.name,
+                                  stockString: pr.remainingQuotas.toString() +
+                                      '/' +
+                                      pr.quota.toString(),
                                   onTap: () {
                                     showDialog(
                                         context: context,
                                         barrierColor: Colors.transparent,
                                         builder: (BuildContext context) {
-                                          List listActivity=[];
+                                          List listActivity = [];
 
-                                          for(var ac in pr.activities){
-                                            var acItem={'name':ac.name,'image':ac.icon};
+                                          for (var ac in pr.activities) {
+                                            var acItem = {
+                                              'name': ac.name,
+                                              'image':
+                                                  Util.getActivityIcon(ac.icon)
+                                            };
                                             listActivity.add(acItem);
                                           }
+
                                           return CustomDialogPrize(
                                             availableList: listActivity,
-                                            prizeName: ''+pr.name,
-                                            imageUrl: pr.image!=null?pr.image:'https://dev.bounche.com/krowdz/app/gift.jpg',
-                                            currentStock: ''+pr.remainingQuotas.toString(),
-                                            maxStock: ''+pr.quota.toString(),
+                                            prizeName: '' + pr.name,
+                                            imageUrl: pr.image != null
+                                                ? pr.image
+                                                : 'https://dev.bounche.com/krowdz/app/gift.jpg',
+                                            currentStock: '' +
+                                                pr.remainingQuotas.toString(),
+                                            maxStock: '' + pr.quota.toString(),
                                           );
                                         });
                                   },
                                 );
                                 row.children.add(pi);
-                                if(x%3==2||x+1==store.rewards.data.length){
-                                  if(row.children.length<3){
+                                if (x % 3 == 2 ||
+                                    x + 1 == store.rewards.data.length) {
+                                  if (row.children.length < 3) {
                                     //belum 3, harus digenapin dengan dummy data
-                                    if(row.children.length==1){
+                                    if (row.children.length == 1) {
                                       row.children.add(PrizeItem(
-                                        imageUrl:
-                                        '',
+                                        imageUrl: '',
                                         title: '',
                                         stockString: '',
-
                                       ));
                                       row.children.add(PrizeItem(
-                                        imageUrl:
-                                        '',
+                                        imageUrl: '',
                                         title: '',
                                         stockString: '',
-
                                       ));
-
                                     }
-                                    if(row.children.length==2){
+                                    if (row.children.length == 2) {
                                       row.children.add(PrizeItem(
-                                        imageUrl:
-                                        '',
+                                        imageUrl: '',
                                         title: '',
                                         stockString: '',
-
                                       ));
-
                                     }
                                   }
                                   col.children.add(row);
@@ -186,13 +195,12 @@ class _PrizeListState extends State<PrizeList> {
                                   //break;
                                 }
                                 x++;
-                                print('x'+x.toString());
+                                print('x' + x.toString());
                               }
                             }
 
                             return col;
                           }),
-
                         ],
                       ),
                     ),

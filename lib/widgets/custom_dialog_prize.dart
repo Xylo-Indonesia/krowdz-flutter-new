@@ -6,9 +6,15 @@ import 'package:transparent_image/transparent_image.dart';
 
 class CustomDialogPrize extends StatefulWidget {
   final List availableList;
-  final String prizeName, currentStock, maxStock,imageUrl;
+  final String prizeName, currentStock, maxStock, imageUrl;
 
-  const CustomDialogPrize({Key key,this.imageUrl, this.availableList, this.prizeName, this.currentStock, this.maxStock})
+  const CustomDialogPrize(
+      {Key key,
+      this.imageUrl,
+      this.availableList,
+      this.prizeName,
+      this.currentStock,
+      this.maxStock})
       : super(key: key);
   @override
   _CustomDialogPrizeState createState() => _CustomDialogPrizeState();
@@ -57,14 +63,14 @@ class _CustomDialogPrizeState extends State<CustomDialogPrize> {
                       child: Container(
                         child: FadeInImage.memoryNetwork(
                           placeholder: kTransparentImage,
-                          image:
-                              ''+widget.imageUrl,
+                          image: '' + widget.imageUrl,
                           fit: BoxFit.fill,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -77,7 +83,8 @@ class _CustomDialogPrizeState extends State<CustomDialogPrize> {
                               ),
                               Text(
                                 widget.currentStock + '/' + widget.maxStock,
-                                style: TextStyle(color: Colors.grey, fontSize: 18),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 18),
                               )
                             ],
                           ),
@@ -94,14 +101,31 @@ class _CustomDialogPrizeState extends State<CustomDialogPrize> {
                                       margin: EdgeInsets.only(right: 12),
                                       child: Column(
                                         children: [
-                                          FadeInImage.memoryNetwork(
-                                              placeholder: kTransparentImage,
-                                              image: e['image'],
+                                          Image(
+                                              image: AssetImage(
+                                                  'assets/images/games-dark.png'),
                                               width: 40,
                                               fit: BoxFit.fill),
+                                          // (e['image'] != null
+                                          //     ? Image(
+                                          //         image: AssetImage(e['image']),
+                                          //         width: 40,
+                                          //         fit: BoxFit.fill)
+                                          //     : Image(
+                                          //         image: AssetImage(
+                                          //             'assets/images/games-dark.png'),
+                                          //         width: 40,
+                                          //         fit: BoxFit.fill)),
+                                          // FadeInImage.memoryNetwork(
+                                          //     placeholder: kTransparentImage,
+                                          //     image: e['image'],
+                                          //     width: 40,
+                                          //     fit: BoxFit.fill),
                                           Text(
                                             e['name'],
-                                            style: TextStyle(color: Colors.white, fontSize: 12),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12),
                                           )
                                         ],
                                       ),

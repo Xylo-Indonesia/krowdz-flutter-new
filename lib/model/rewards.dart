@@ -47,18 +47,18 @@ class Data {
 
   Data(
       {this.id,
-        this.name,
-        this.image,
-        this.quota,
-        this.remainingQuotas,
-        this.activities});
+      this.name,
+      this.image,
+      this.quota,
+      this.remainingQuotas,
+      this.activities});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    image = json['image'];
-    quota = json['quota'];
-    remainingQuotas = json['remaining_quotas'];
+    image = json['image_path'];
+    quota = json['total_stock'];
+    remainingQuotas = json['remaining_stock'];
     if (json['activities'] != null) {
       activities = new List<Activities>();
       json['activities'].forEach((v) {
@@ -71,9 +71,9 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['image'] = this.image;
-    data['quota'] = this.quota;
-    data['remaining_quotas'] = this.remainingQuotas;
+    data['image_path'] = this.image;
+    data['total_stock'] = this.quota;
+    data['remaining_stock'] = this.remainingQuotas;
     if (this.activities != null) {
       data['activities'] = this.activities.map((v) => v.toJson()).toList();
     }
@@ -96,16 +96,16 @@ class Activities {
 
   Activities(
       {this.id,
-        this.name,
-        this.description,
-        this.category,
-        this.rewardAvailable,
-        this.permissionId,
-        this.icon,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.pivot});
+      this.name,
+      this.description,
+      this.category,
+      this.rewardAvailable,
+      this.permissionId,
+      this.icon,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.pivot});
 
   Activities.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -114,7 +114,7 @@ class Activities {
     category = json['category'];
     rewardAvailable = json['reward_available'];
     permissionId = json['permission_id'];
-    icon = json['icon'];
+    icon = json['icon_path'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
@@ -129,7 +129,7 @@ class Activities {
     data['category'] = this.category;
     data['reward_available'] = this.rewardAvailable;
     data['permission_id'] = this.permissionId;
-    data['icon'] = this.icon;
+    data['icon_path'] = this.icon;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;
@@ -195,12 +195,12 @@ class Meta {
 
   Meta(
       {this.currentPage,
-        this.from,
-        this.lastPage,
-        this.path,
-        this.perPage,
-        this.to,
-        this.total});
+      this.from,
+      this.lastPage,
+      this.path,
+      this.perPage,
+      this.to,
+      this.total});
 
   Meta.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];

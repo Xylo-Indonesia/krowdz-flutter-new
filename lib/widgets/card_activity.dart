@@ -70,7 +70,7 @@ class CardActivity extends StatelessWidget {
                                     ),
                                     child: Row(
                                       children: [
-                                        (null != imageUrl && imageUrl.length > 0
+                                        (null != imageUrl && imageUrl.isNotEmpty
                                             ?
                                             //Container(color: Colors.white,width: 10,height: 10,):
                                             // Image.network(imageUrl,
@@ -80,7 +80,7 @@ class CardActivity extends StatelessWidget {
                                               )
                                             : Image(
                                                 image: AssetImage(
-                                                    'assets/images/games.png'),
+                                                    'assets/images/games-dark.png'),
                                               )),
                                         SizedBox(
                                           width: 10,
