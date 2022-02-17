@@ -114,6 +114,7 @@ class _CoreFormState extends State<JsonSchema> {
       Map item = formGeneral['fields'][count];
 
       if (item['type'] == "text" ||
+          item['type'] == "number" ||
           item['type'] == "input" ||
           item['type'] == "password" ||
           item['type'] == "email" ||
@@ -140,11 +141,12 @@ class _CoreFormState extends State<JsonSchema> {
               label: labelHidden(item) ? item['label'] : null,
               child: TextFormField(
                 controller: null,
-                keyboardType: item['name'] == "phone_number"
-                    ? TextInputType.number
-                    : item['name'] == "email"
-                        ? TextInputType.emailAddress
-                        : TextInputType.text,
+                keyboardType:
+                    item['name'] == "phone_number" || item['type'] == 'number'
+                        ? TextInputType.number
+                        : item['name'] == "email"
+                            ? TextInputType.emailAddress
+                            : TextInputType.text,
                 initialValue: formGeneral['fields'][count]['value'] ?? null,
                 decoration: item['decoration'] ??
                     widget.decorations[item['key']] ??
@@ -157,7 +159,7 @@ class _CoreFormState extends State<JsonSchema> {
                   formGeneral['fields'][count]['value'] = value;
                   _handleChanged();
                 },
-                obscureText: item['type'] == "Password" ? true : false,
+                obscureText: item['type'] == "password" ? true : false,
                 validator: (value) {
                   if (widget.validations.containsKey(item['key'])) {
                     return widget.validations[item['key']](item, value);
@@ -169,15 +171,13 @@ class _CoreFormState extends State<JsonSchema> {
                       }
                     }
                   }
-                  if (item['type'] == "Email" || item['name'] == "email") {
+                  if (item['type'] == "email" || item['name'] == "Email") {
                     return validateEmail(item, value);
                   }
 
-                  if (item.containsKey('required')) {
-                    if (item['required'] == 1 ||
-                        item['required'] == true ||
-                        item['required'] == 'True' ||
-                        item['required'] == 'true') {
+                  if (item.containsKey('is_required')) {
+                    if (item['is_required'] == 1 ||
+                        item['is_required'] == true) {
                       return isRequired(item, value);
                     }
                   }
@@ -346,9 +346,9 @@ class _CoreFormState extends State<JsonSchema> {
                     items: item['items']
                         .map<DropdownMenuItem<String>>((dynamic data) {
                       return DropdownMenuItem<String>(
-                        value: data['value'],
+                        value: data['value'].toString(),
                         child: new Text(
-                          data['value'],
+                          data['label'],
                           style: new TextStyle(color: Colors.black),
                         ),
                       );

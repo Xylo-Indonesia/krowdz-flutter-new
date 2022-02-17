@@ -15,8 +15,15 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:validators/validators.dart';
 
 const baseUrl = 'https://www.festrec.com/api';
+
+// staging
 // const baseUrlPortal='https://tenant.krowdz-staging.xylo.co.id/api';
-const baseUrlPortal = 'http://10.0.2.2:3000/api';
+
+// local
+const baseUrlPortal = 'http://192.168.0.8:3000/api';
+// const baseUrlPortal = 'http://10.0.2.2:3000/api';
+
+// old api
 // const baseUrlPortal='https://x-event-portal.xylo.co.id/api';
 //const client_url='https://x-event-client.xylo.co.id';
 
@@ -246,20 +253,23 @@ class API {
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
 
-    var url = client_url + '/activity/' + activityID + '/visitor/' + visitorID;
+    var url = client_url + '/activities/' + activityID + '/register';
     var headers = {
       // "Content-Type": "application/json",
-      // "Accept": "application/json",
+      "Accept": "application/json",
       "Authorization": 'Bearer ' + access_token,
     };
 
+    json['visitor_id'] = visitorID;
+    print(json);
+
     var request = http.MultipartRequest('POST', Uri.parse(url));
     request.fields['a'] = 'a';
-    //perlu bikin ini besok
+    // TODO: handle file inputs
 
     http.Response response;
     try {
-      response = await http.post(url, headers: headers, body: json);
+      response = await http.post(request, headers: headers, body: json);
       //print('Response:'+response.body.toString());
     } catch (e) {
       print(e.toString());
@@ -329,7 +339,7 @@ class API {
     String access_token = prefs.getString(pref_access_token);
     var client_url = await getClientUrl();
 
-    var url = client_url + '/activity/' + id + '/fields';
+    var url = client_url + '/activities/' + id + '/fields';
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
