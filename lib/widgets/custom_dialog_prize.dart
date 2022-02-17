@@ -101,26 +101,21 @@ class _CustomDialogPrizeState extends State<CustomDialogPrize> {
                                       margin: EdgeInsets.only(right: 12),
                                       child: Column(
                                         children: [
-                                          Image(
-                                              image: AssetImage(
-                                                  'assets/images/games-dark.png'),
+                                          (e['image'] != null
+                                              ? Image(
+                                                  image: AssetImage(e['image']),
+                                                  width: 40,
+                                                  fit: BoxFit.fill)
+                                              : Image(
+                                                  image: AssetImage(
+                                                      'assets/images/games-dark.png'),
+                                                  width: 40,
+                                                  fit: BoxFit.fill)),
+                                          FadeInImage.memoryNetwork(
+                                              placeholder: kTransparentImage,
+                                              image: e['image'],
                                               width: 40,
                                               fit: BoxFit.fill),
-                                          // (e['image'] != null
-                                          //     ? Image(
-                                          //         image: AssetImage(e['image']),
-                                          //         width: 40,
-                                          //         fit: BoxFit.fill)
-                                          //     : Image(
-                                          //         image: AssetImage(
-                                          //             'assets/images/games-dark.png'),
-                                          //         width: 40,
-                                          //         fit: BoxFit.fill)),
-                                          // FadeInImage.memoryNetwork(
-                                          //     placeholder: kTransparentImage,
-                                          //     image: e['image'],
-                                          //     width: 40,
-                                          //     fit: BoxFit.fill),
                                           Text(
                                             e['name'],
                                             style: TextStyle(
