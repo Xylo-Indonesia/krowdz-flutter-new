@@ -97,13 +97,9 @@ class VisitorListState extends State<VisitorList> {
                                           vStore.selectedKey = value;
                                         });
 
-                                        if (value.key == 'online' ||
-                                            value.key == 'offline' ||
-                                            value.key.contains('activity')) {
-                                          vStore.getVisitorList(
-                                            keyword_by: value.key,
-                                          );
-                                        }
+                                        vStore.getVisitorList(
+                                          keyword_by: value.key,
+                                        );
                                         ;
                                       },
                                     );

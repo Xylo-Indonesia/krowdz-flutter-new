@@ -259,12 +259,6 @@ class _HomePageState extends State<HomePage> {
                                             .indexOf(ac);
 
                                         col.children.add(ca);
-                                        // if ("pic" ==
-                                        //         widget.store.user.data.role &&
-                                        //     index == 0) col.children.add(ca);
-                                        // if ("admin" ==
-                                        //     widget.store.user.data.role)
-                                        //   col.children.add(ca);
                                       }
                                       return col;
                                     }
