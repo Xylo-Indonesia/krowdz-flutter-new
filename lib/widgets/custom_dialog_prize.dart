@@ -111,11 +111,11 @@ class _CustomDialogPrizeState extends State<CustomDialogPrize> {
                                                       'assets/images/games-dark.png'),
                                                   width: 40,
                                                   fit: BoxFit.fill)),
-                                          FadeInImage.memoryNetwork(
-                                              placeholder: kTransparentImage,
-                                              image: e['image'],
-                                              width: 40,
-                                              fit: BoxFit.fill),
+                                          // FadeInImage.memoryNetwork(
+                                          //     placeholder: kTransparentImage,
+                                          //     image: e['image'],
+                                          //     width: 40,
+                                          //     fit: BoxFit.fill),
                                           Text(
                                             e['name'],
                                             style: TextStyle(
