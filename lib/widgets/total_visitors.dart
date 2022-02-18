@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TotalVisitors extends StatelessWidget {
-  final int visitor1, visitor2;
-  final String date;
+  final int? visitor1, visitor2;
+  final String? date;
   final isLoading, isAdmin;
 
   const TotalVisitors(
-      {Key key,
+      {Key? key,
       this.visitor1,
       this.visitor2,
       this.date,
@@ -36,7 +36,7 @@ class TotalVisitors extends StatelessWidget {
               child: CircularProgressIndicator(
                 value: (visitor1 == 0 && visitor2 == 0)
                     ? 0
-                    : (visitor2 / (visitor1 + visitor2)).toDouble(),
+                    : (visitor2! / (visitor1! + visitor2!)).toDouble(),
                 backgroundColor: redColor,
                 strokeWidth: 14,
                 valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
@@ -57,8 +57,8 @@ class TotalVisitors extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[850],
-                        highlightColor: Colors.grey[800],
+                        baseColor: Colors.grey[850]!,
+                        highlightColor: Colors.grey[800]!,
                         enabled: true,
                         child: Container(
                           width: 100,
@@ -68,13 +68,13 @@ class TotalVisitors extends StatelessWidget {
                       ),
                     )
                   : Text(
-                      Util.numberFormat(visitor1 + visitor2),
+                      Util.numberFormat(visitor1! + visitor2!),
                       style: kTextPrimary1,
                     ),
               isLoading
                   ? Shimmer.fromColors(
-                      baseColor: Colors.grey[850],
-                      highlightColor: Colors.grey[800],
+                      baseColor: Colors.grey[850]!,
+                      highlightColor: Colors.grey[800]!,
                       enabled: true,
                       child: Container(
                         width: 80,
@@ -83,7 +83,7 @@ class TotalVisitors extends StatelessWidget {
                       ),
                     )
                   : Text(
-                      isAdmin ? "" : date,
+                      isAdmin ? "" : date!,
                       style: TextStyle(
                           color: textGray, fontWeight: FontWeight.bold),
                     ),

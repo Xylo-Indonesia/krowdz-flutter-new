@@ -5,7 +5,7 @@ class PaginationNumber extends StatelessWidget {
   final onTap, number, isSelected;
 
   const PaginationNumber(
-      {Key key, this.number, this.onTap, this.isSelected = false})
+      {Key? key, this.number, this.onTap, this.isSelected = false})
       : super(key: key);
 
   @override

@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                                           decoration: new BoxDecoration(
                                               shape: BoxShape.circle,
                                               image: new DecorationImage(
-                                                  fit: BoxFit.fill, image: new NetworkImage(store.url_logo)))),
+                                                  fit: BoxFit.fill, image: new NetworkImage(store.url_logo!)))),
                                 ),
                               ),
                             ],

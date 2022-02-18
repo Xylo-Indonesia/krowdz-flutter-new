@@ -21,8 +21,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:validators/validators.dart';
 
 class VisitorList extends StatefulWidget {
-  ArgumentVisitor arguments;
-  VisitorList({ArgumentVisitor arguments = null}) {
+  ArgumentVisitor? arguments;
+  VisitorList({ArgumentVisitor? arguments = null}) {
     this.arguments = arguments;
   }
 
@@ -34,13 +34,13 @@ class VisitorList extends StatefulWidget {
 
 class VisitorListState extends State<VisitorList> {
   VisitorListStore vStore = VisitorListStore();
-  ArgumentVisitor args;
-  VisitorListState({ArgumentVisitor arguments}) {
+  ArgumentVisitor? args;
+  VisitorListState({ArgumentVisitor? arguments}) {
     args = arguments;
     if (null != args) {
       vStore.getVisitorList(
-          keyword: args.keyword, keyword_by: args.keyword_by, page: '1');
-      vStore.keyword = args.keyword;
+          keyword: args!.keyword!, keyword_by: args!.keyword_by!, page: '1');
+      vStore.keyword = args!.keyword;
     } else
       vStore.getVisitorList(keyword: '', keyword_by: '', page: '1');
   }
@@ -88,7 +88,7 @@ class VisitorListState extends State<VisitorList> {
                                 child: Observer(builder: (_) {
                                   if (null != vStore.selectedKey) {
                                     if (vStore.selectedKey == null)
-                                      vStore.selectedKey = vStore.items[0];
+                                      vStore.selectedKey = vStore.items![0];
                                     return CustomDropdown(
                                       widgetSelectedType: vStore.selectedKey,
                                       itemList: vStore.items,
@@ -188,7 +188,7 @@ class VisitorListState extends State<VisitorList> {
                                       vStore.keyword = value;
                                       vStore.getVisitorList(
                                           keyword: value,
-                                          keyword_by: vStore.selectedKey.key);
+                                          keyword_by: vStore.selectedKey!.key);
                                     },
                                     //onEditingComplete: ()=>print('edited'),
                                   ),
@@ -202,7 +202,7 @@ class VisitorListState extends State<VisitorList> {
                                       width: double.infinity,
                                       child: Center(
                                         child: Text(
-                                          'Showing ${vStore.dyn_visitor["data"].length} data',
+                                          'Showing ${vStore.dyn_visitor!["data"].length} data',
                                           style: kTextWhite,
                                         ),
                                       ),
@@ -242,21 +242,21 @@ class VisitorListState extends State<VisitorList> {
                                             if (null != vStore.selectedKey) {
                                               if (null == vStore.selectedKey2)
                                                 vStore.selectedKey2 =
-                                                    vStore.items2[0];
+                                                    vStore.items2![0];
                                               return DropdownButton(
                                                 value: vStore.selectedKey2,
                                                 isExpanded: true,
                                                 iconEnabledColor: Colors.white,
                                                 selectedItemBuilder:
                                                     (BuildContext context) {
-                                                  return vStore.items2
+                                                  return vStore.items2!
                                                       .map<Widget>(
                                                           (KeyMap item) {
                                                     return Center(
                                                         widthFactor: 1,
                                                         child: Text(
-                                                          vStore.selectedKey
-                                                              .value,
+                                                          vStore.selectedKey!
+                                                              .value!,
                                                           style: kTextTitle,
                                                           overflow: TextOverflow
                                                               .ellipsis,
@@ -264,12 +264,12 @@ class VisitorListState extends State<VisitorList> {
                                                         ));
                                                   }).toList();
                                                 },
-                                                items: vStore.items2
+                                                items: vStore.items2!
                                                     .map((KeyMap item) {
                                                   return DropdownMenuItem<
                                                       KeyMap>(
                                                     child: Text(
-                                                      item.value,
+                                                      item.value!,
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       maxLines: 1,
@@ -277,14 +277,14 @@ class VisitorListState extends State<VisitorList> {
                                                     value: item,
                                                   );
                                                 }).toList(),
-                                                onChanged: (value) {
+                                                onChanged: (dynamic value) {
                                                   setState(() {
                                                     vStore.selectedKey2 = value;
                                                     print(value.key);
                                                     vStore.getVisitorList(
-                                                        keyword: vStore.keyword,
+                                                        keyword: vStore.keyword!,
                                                         keyword_by: vStore
-                                                            .selectedKey.key,
+                                                            .selectedKey!.key,
                                                         page: vStore.page,
                                                         order_direction:
                                                             value.key);
@@ -310,7 +310,7 @@ class VisitorListState extends State<VisitorList> {
                                                   value: item,
                                                 );
                                               }).toList(),
-                                              onChanged: (value) {
+                                              onChanged: (dynamic value) {
                                                 setState(() {});
                                               },
                                             );
@@ -324,13 +324,13 @@ class VisitorListState extends State<VisitorList> {
                                   Column col = Column(
                                     children: [],
                                   );
-                                  if (vStore.dyn_visitor["data"].length == 0) {
+                                  if (vStore.dyn_visitor!["data"].length == 0) {
                                     return Text(
                                       'No Data',
                                       style: kTextTitleRed,
                                     );
                                   }
-                                  for (var v in vStore.dyn_visitor["data"]) {
+                                  for (var v in vStore.dyn_visitor!["data"]) {
                                     var colData = TableChild(
                                       backgroundColor: Colors.white10,
                                       borderColor: Colors.white12,
@@ -364,8 +364,8 @@ class VisitorListState extends State<VisitorList> {
                                                   null !=
                                                       v["" +
                                                           vStore
-                                                              .selectedKey.key])
-                                              ? v["" + vStore.selectedKey.key]
+                                                              .selectedKey!.key])
+                                              ? v["" + vStore.selectedKey!.key]
                                               : ""
                                           //vStore.selectedKey2.key
                                           ,
@@ -435,7 +435,7 @@ class VisitorListState extends State<VisitorList> {
                                       children: [
                                         Observer(builder: (_) {
                                           var number =
-                                              vStore.visitor.meta.currentPage;
+                                              vStore.visitor!.meta!.currentPage!;
                                           var prevNumber = number - 2;
                                           if (prevNumber > 0)
                                             return PaginationNumber(
@@ -443,9 +443,9 @@ class VisitorListState extends State<VisitorList> {
                                               onTap: () {
                                                 print(prevNumber);
                                                 vStore.getVisitorList(
-                                                    keyword: vStore.keyword,
+                                                    keyword: vStore.keyword!,
                                                     keyword_by:
-                                                        vStore.selectedKey.key,
+                                                        vStore.selectedKey!.key,
                                                     page:
                                                         prevNumber.toString());
                                               },
@@ -456,7 +456,7 @@ class VisitorListState extends State<VisitorList> {
                                         }),
                                         Observer(builder: (_) {
                                           var number =
-                                              vStore.visitor.meta.currentPage;
+                                              vStore.visitor!.meta!.currentPage!;
                                           var prevNumber = number - 1;
                                           if (prevNumber > 0)
                                             return PaginationNumber(
@@ -464,9 +464,9 @@ class VisitorListState extends State<VisitorList> {
                                               onTap: () {
                                                 print(prevNumber);
                                                 vStore.getVisitorList(
-                                                    keyword: vStore.keyword,
+                                                    keyword: vStore.keyword!,
                                                     keyword_by:
-                                                        vStore.selectedKey.key,
+                                                        vStore.selectedKey!.key,
                                                     page:
                                                         prevNumber.toString());
                                               },
@@ -478,28 +478,28 @@ class VisitorListState extends State<VisitorList> {
                                         Observer(builder: (_) {
                                           return PaginationNumber(
                                             number:
-                                                vStore.visitor.meta.currentPage,
+                                                vStore.visitor!.meta!.currentPage,
                                             onTap: () {
                                               print(vStore
-                                                  .visitor.meta.currentPage);
+                                                  .visitor!.meta!.currentPage);
                                             },
                                             isSelected: true,
                                           );
                                         }),
                                         Observer(builder: (_) {
                                           var number =
-                                              vStore.visitor.meta.currentPage;
+                                              vStore.visitor!.meta!.currentPage!;
                                           var nextNumber = number + 1;
                                           if (nextNumber <=
-                                              vStore.visitor.meta.lastPage)
+                                              vStore.visitor!.meta!.lastPage!)
                                             return PaginationNumber(
                                               number: nextNumber,
                                               onTap: () {
                                                 print(nextNumber);
                                                 vStore.getVisitorList(
-                                                    keyword: vStore.keyword,
+                                                    keyword: vStore.keyword!,
                                                     keyword_by:
-                                                        vStore.selectedKey.key,
+                                                        vStore.selectedKey!.key,
                                                     page:
                                                         nextNumber.toString());
                                               },
@@ -510,18 +510,18 @@ class VisitorListState extends State<VisitorList> {
                                         }),
                                         Observer(builder: (_) {
                                           var number =
-                                              vStore.visitor.meta.currentPage;
+                                              vStore.visitor!.meta!.currentPage!;
                                           var nextNumber = number + 2;
                                           if (nextNumber <=
-                                              vStore.visitor.meta.lastPage)
+                                              vStore.visitor!.meta!.lastPage!)
                                             return PaginationNumber(
                                               number: nextNumber,
                                               onTap: () {
                                                 print(nextNumber);
                                                 vStore.getVisitorList(
-                                                    keyword: vStore.keyword,
+                                                    keyword: vStore.keyword!,
                                                     keyword_by:
-                                                        vStore.selectedKey.key,
+                                                        vStore.selectedKey!.key,
                                                     page:
                                                         nextNumber.toString());
                                               },

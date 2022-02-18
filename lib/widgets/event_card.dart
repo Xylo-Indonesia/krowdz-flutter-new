@@ -6,11 +6,11 @@ import 'guest_circle.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EventCard extends StatelessWidget{
-  final String eventImageUrl, eventDate, eventMonth, eventTitle, eventLocation, eventId;
+  final String? eventImageUrl, eventDate, eventMonth, eventTitle, eventLocation, eventId;
   final onTap, onFavoriteTap, scaffoldKey;
   final bool isActive, isAsset, isHomeActive, isToggleVisible;
 
-  const EventCard({Key key, this.eventImageUrl, this.eventDate, this.eventMonth, this.eventTitle, this.eventLocation, this.isActive = true, this.onTap, this.isAsset = true, this.isHomeActive = false, this.eventId, this.scaffoldKey, this.isToggleVisible = true, this.onFavoriteTap}) : super(key: key);
+  const EventCard({Key? key, this.eventImageUrl, this.eventDate, this.eventMonth, this.eventTitle, this.eventLocation, this.isActive = true, this.onTap, this.isAsset = true, this.isHomeActive = false, this.eventId, this.scaffoldKey, this.isToggleVisible = true, this.onFavoriteTap}) : super(key: key);
 
 
   @override
@@ -46,10 +46,10 @@ class EventCard extends StatelessWidget{
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
                         child: isAsset ? Image(
-                          image: AssetImage(eventImageUrl),
+                          image: AssetImage(eventImageUrl!),
                         ) : FadeInImage.memoryNetwork(
                           placeholder: kTransparentImage,
-                          image: eventImageUrl,
+                          image: eventImageUrl!,
                         ),
                       ),
                     ),
@@ -71,7 +71,7 @@ class EventCard extends StatelessWidget{
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(left: 1),
-                      child: Text(eventTitle.toUpperCase(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp, color: isActive ? Colors.white : Theme.of(context).primaryColorDark),),
+                      child: Text(eventTitle!.toUpperCase(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp, color: isActive ? Colors.white : Theme.of(context).primaryColorDark),),
                     ),
                     Row(
                       children: <Widget>[
@@ -81,7 +81,7 @@ class EventCard extends StatelessWidget{
                           color: isActive ? Colors.white : Theme.of(context).primaryColorDark,
                         ),
                         Padding(padding: EdgeInsets.only(left: 2)),
-                        Text(eventLocation, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12.sp, color: isActive ? Colors.white : Theme.of(context).primaryColorDark),),
+                        Text(eventLocation!, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12.sp, color: isActive ? Colors.white : Theme.of(context).primaryColorDark),),
                       ],
                     ),
                   ],
@@ -99,8 +99,8 @@ class EventCard extends StatelessWidget{
                 ),
                 child: Column(
                   children: <Widget>[
-                    Text(eventDate, style: TextStyle(fontWeight: FontWeight.bold, color: isActive ? Colors.white : Theme.of(context).primaryColorDark, fontSize: 28.sp),),
-                    Text(eventMonth.toUpperCase(), style: TextStyle(fontWeight: FontWeight.bold, color: isActive ? Colors.white : Theme.of(context).primaryColorDark))
+                    Text(eventDate!, style: TextStyle(fontWeight: FontWeight.bold, color: isActive ? Colors.white : Theme.of(context).primaryColorDark, fontSize: 28.sp),),
+                    Text(eventMonth!.toUpperCase(), style: TextStyle(fontWeight: FontWeight.bold, color: isActive ? Colors.white : Theme.of(context).primaryColorDark))
                   ],
                 ),
               ),

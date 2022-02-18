@@ -7,7 +7,7 @@ class GuestCircle extends StatelessWidget {
   final bool isInitialized;
 
   const GuestCircle(
-      {Key key,
+      {Key? key,
       this.isSelected = false,
       this.image,
       this.isAdd = false,

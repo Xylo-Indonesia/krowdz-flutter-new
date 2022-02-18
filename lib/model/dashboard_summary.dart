@@ -1,6 +1,6 @@
 class DashboardSummary {
-  bool status;
-  Data data;
+  bool? status;
+  Data? data;
 
   DashboardSummary({this.status, this.data});
 
@@ -13,16 +13,16 @@ class DashboardSummary {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int totalVisitor;
-  Online online;
-  Online offline;
+  int? totalVisitor;
+  Online? online;
+  Online? offline;
 
   Data({this.totalVisitor, this.online, this.offline});
 
@@ -38,18 +38,18 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['total'] = this.totalVisitor;
     if (this.online != null) {
-      data['online'] = this.online.toJson();
+      data['online'] = this.online!.toJson();
     }
     if (this.offline != null) {
-      data['offline'] = this.offline.toJson();
+      data['offline'] = this.offline!.toJson();
     }
     return data;
   }
 }
 
 class Online {
-  bool enable;
-  int total;
+  bool? enable;
+  int? total;
   dynamic percentage;
 
   Online({this.enable, this.total, this.percentage});

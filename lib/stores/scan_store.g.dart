@@ -12,13 +12,13 @@ mixin _$ScanStore on _ScanStore, Store {
   final _$resultAtom = Atom(name: '_ScanStore.result');
 
   @override
-  ScanResult get result {
+  ScanResult? get result {
     _$resultAtom.reportRead();
     return super.result;
   }
 
   @override
-  set result(ScanResult value) {
+  set result(ScanResult? value) {
     _$resultAtom.reportWrite(value, super.result, () {
       super.result = value;
     });

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class BlackTheme extends StatelessWidget {
   final child, darkMode;
 
-  const BlackTheme({Key key, this.child, this.darkMode = true})
+  const BlackTheme({Key? key, this.child, this.darkMode = true})
       : super(key: key);
 
   @override

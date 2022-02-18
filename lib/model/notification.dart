@@ -1,11 +1,11 @@
-class Visitor {
+class Notification {
   List<Data>? data;
   Links? links;
   Meta? meta;
 
-  Visitor({this.data, this.links, this.meta});
+  Notification({this.data, this.links, this.meta});
 
-  Visitor.fromJson(Map<String, dynamic> json) {
+  Notification.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       data = new List<Data>();
       json['data'].forEach((v) {
@@ -33,53 +33,46 @@ class Visitor {
 
 class Data {
   int? id;
-  String? name;
-  String? gender;
-  String? email;
-  String? phoneNumber;
-  String? code;
   String? type;
-  bool? isExpired;
-  String? expiredAt;
+  int? typeId;
+  int? userId;
+  String? title;
+  String? message;
+  String? readAt;
   String? createdAt;
 
   Data(
       {this.id,
-      this.name,
-      this.gender,
-      this.email,
-      this.phoneNumber,
-      this.code,
       this.type,
-      this.isExpired,
-      this.expiredAt,
+      this.typeId,
+      this.userId,
+      this.title,
+      this.message,
+      this.readAt,
       this.createdAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    gender = json['gender'];
-    email = json['email'];
-    phoneNumber = json['phone_number'];
-    code = json['alphanumeric_code'];
     type = json['type'];
-    isExpired = json['is_expired'];
-    expiredAt = json['expired_at'];
+    typeId = json['type_id'];
+    userId = json['user_id'];
+    title = json['title'];
+    message = json['message'];
+    readAt = json['read_at'];
     createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
-    data['gender'] = this.gender;
-    data['email'] = this.email;
-    data['phone_number'] = this.phoneNumber;
-    data['alphanumeric_code'] = this.code;
     data['type'] = this.type;
-    data['is_expired'] = this.isExpired;
-    data['expired_at'] = this.expiredAt;
+    data['type_id'] = this.typeId;
+    data['user_id'] = this.userId;
+    data['title'] = this.title;
+    data['message'] = this.message;
+    data['read_at'] = this.readAt;
     data['created_at'] = this.createdAt;
+
     return data;
   }
 }

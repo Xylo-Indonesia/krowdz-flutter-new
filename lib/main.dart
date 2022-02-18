@@ -1,4 +1,4 @@
-// @dart=2.9
+
 import 'dart:async';
 
 import 'package:event/model/client.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:event/services/routes.dart' as routes;
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,13 +49,12 @@ void main() async {
 }
 
 class Xylo extends StatelessWidget {
-  final AppLanguage appLanguage;
-  final SharedPreferences prefs;
-  const Xylo({Key key, this.appLanguage, this.prefs}) : super(key: key);
+  final AppLanguage? appLanguage;
+  final SharedPreferences? prefs;
+  const Xylo({Key? key, this.appLanguage, this.prefs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -82,10 +81,10 @@ class Xylo extends StatelessWidget {
           )),
       navigatorObservers: [locator<AnalyticsService>().getAnalyticsObserver()],
       onGenerateRoute: routes.generateRoute,
-      initialRoute: prefs.getString(pref_access_token)?.isEmpty ?? true
+      initialRoute: prefs!.getString(pref_access_token)?.isEmpty ?? true
           ? startupPageRoute
           : homePageRoute,
-      locale: appLanguage.appLocal,
+      locale: appLanguage!.appLocal,
       supportedLocales: [
         Locale('en', 'US'),
         Locale('id', 'ID'),
@@ -95,16 +94,23 @@ class Xylo extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      builder: (BuildContext context, Widget child) {
-
-        ScreenUtil.init(context, designSize: Size(412, 892),allowFontScaling: true);
+      builder: (BuildContext context, Widget? child) {
+        ScreenUtil.init(
+            BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width,
+                maxHeight: MediaQuery.of(context).size.height),
+            designSize: Size(412, 892),
+            context: context);
+        //  ScreenUtil.init(context,
+        //     designSize: Size(412, 892), allowFontScaling: true);
         final MediaQueryData data = MediaQuery.of(context);
-        print("Width:"+MediaQuery.of(context).size.width.toString());
+        print("Width:" + MediaQuery.of(context).size.width.toString());
         return MediaQuery(
           data: data.copyWith(
-              textScaleFactor: 0.9,//data.textScaleFactor > 2.0 ? 2.0 : data.textScaleFactor),
+            textScaleFactor:
+                0.9, //data.textScaleFactor > 2.0 ? 2.0 : data.textScaleFactor),
           ),
-          child: child,
+          child: child!,
         );
       },
     );

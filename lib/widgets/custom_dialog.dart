@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomDialogBox extends StatefulWidget {
-  final String title, text, text2;
+  final String? title, text, text2;
   final buttonColor1, buttonColor2, textColor1, textColor2;
-  final Function function, function2;
+  final Function? function, function2;
 
   const CustomDialogBox(
-      {Key key,
+      {Key? key,
       this.title,
       this.text,
       this.text2,
@@ -68,7 +68,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                widget.title,
+                widget.title!,
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Color(0xFFFAFAFA)),
               ),
               SizedBox(
@@ -81,11 +81,11 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       child: FlatButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-                          if (widget.function != null) widget.function();
+                          if (widget.function != null) widget.function!();
                           //Navigator.of(context).pop();
                         },
                         child:
-                            Text(widget.text, style: TextStyle(fontWeight: FontWeight.bold, color: widget.textColor1)),
+                            Text(widget.text!, style: TextStyle(fontWeight: FontWeight.bold, color: widget.textColor1)),
                         padding: EdgeInsets.all(18),
                         color: widget.buttonColor1,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -97,10 +97,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       child: FlatButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-                          if (widget.function2 != null) widget.function2();
+                          if (widget.function2 != null) widget.function2!();
                         },
                         child:
-                            Text(widget.text2, style: TextStyle(fontWeight: FontWeight.bold, color: widget.textColor2)),
+                            Text(widget.text2!, style: TextStyle(fontWeight: FontWeight.bold, color: widget.textColor2)),
                         padding: EdgeInsets.all(18),
                         color: widget.buttonColor2,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

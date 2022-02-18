@@ -3,10 +3,10 @@ import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class Profile extends StatelessWidget {
-  final String client, name;
+  final String? client, name;
   final image, isLoading;
 
-  const Profile({Key key, this.client, this.name, this.image, this.isLoading}) : super(key: key);
+  const Profile({Key? key, this.client, this.name, this.image, this.isLoading}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,8 +37,8 @@ class Profile extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.only(bottom: 4.0),
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[850],
-                        highlightColor: Colors.grey[800],
+                        baseColor: Colors.grey[850]!,
+                        highlightColor: Colors.grey[800]!,
                         child: Container(
                           width: 80,
                           height: 12,
@@ -47,13 +47,13 @@ class Profile extends StatelessWidget {
                       ),
                     )
                   : Text(
-                      client,
+                      client!,
                       style: TextStyle(color: Colors.white),
                     ),
               isLoading
                   ? Shimmer.fromColors(
-                      baseColor: Colors.grey[850],
-                      highlightColor: Colors.grey[800],
+                      baseColor: Colors.grey[850]!,
+                      highlightColor: Colors.grey[800]!,
                       child: Container(
                         width: 80,
                         height: 16,
@@ -61,7 +61,7 @@ class Profile extends StatelessWidget {
                       ),
                     )
                   : Text(
-                      name,
+                      name!,
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20, height: 1.1),
                     ),
             ],

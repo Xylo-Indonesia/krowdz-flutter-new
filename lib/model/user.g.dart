@@ -17,9 +17,9 @@ class UserAdapter extends TypeAdapter<User> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return User(
-      status: fields[0] as bool,
-      message: fields[1] as String,
-      data: fields[2] as Data,
+      status: fields[0] as bool?,
+      message: fields[1] as String?,
+      data: fields[2] as Data?,
     );
   }
 
@@ -57,11 +57,11 @@ class DataAdapter extends TypeAdapter<Data> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Data(
-      name: fields[3] as String,
-      email: fields[4] as String,
-      role: fields[5] as String,
-      permissions: (fields[6] as List)?.cast<Permissions>(),
-      accessToken: fields[7] as String,
+      name: fields[3] as String?,
+      email: fields[4] as String?,
+      role: fields[5] as String?,
+      permissions: (fields[6] as List?)?.cast<Permissions>(),
+      accessToken: fields[7] as String?,
     );
   }
 
@@ -103,13 +103,13 @@ class PermissionsAdapter extends TypeAdapter<Permissions> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Permissions(
-      id: fields[8] as int,
-      name: fields[9] as String,
-      displayName: fields[10] as String,
-      description: fields[11] as String,
-      createdAt: fields[12] as String,
-      updatedAt: fields[13] as String,
-      pivot: fields[14] as Pivot,
+      id: fields[8] as int?,
+      name: fields[9] as String?,
+      displayName: fields[10] as String?,
+      description: fields[11] as String?,
+      createdAt: fields[12] as String?,
+      updatedAt: fields[13] as String?,
+      pivot: fields[14] as Pivot?,
     );
   }
 
@@ -155,9 +155,9 @@ class PivotAdapter extends TypeAdapter<Pivot> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Pivot(
-      userId: fields[15] as int,
-      permissionId: fields[16] as int,
-      userType: fields[17] as String,
+      userId: fields[15] as int?,
+      permissionId: fields[16] as int?,
+      userType: fields[17] as String?,
     );
   }
 

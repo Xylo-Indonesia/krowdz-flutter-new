@@ -7,8 +7,8 @@ class CardActivityPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[850],
-      highlightColor: Colors.grey[800],
+      baseColor: Colors.grey[850]!,
+      highlightColor: Colors.grey[800]!,
       enabled: true,
       child: Container(
         width: double.infinity,
@@ -22,11 +22,11 @@ class CardActivityPlaceholder extends StatelessWidget {
 class CardActivity extends StatelessWidget {
   final dynamic gamesValue, gamesMaxValue;
   final onTap, isLoading;
-  final String gamesName;
-  final String imageUrl;
+  final String? gamesName;
+  final String? imageUrl;
 
   const CardActivity(
-      {Key key,
+      {Key? key,
       this.imageUrl,
       this.gamesValue,
       this.gamesMaxValue,
@@ -70,13 +70,13 @@ class CardActivity extends StatelessWidget {
                                     ),
                                     child: Row(
                                       children: [
-                                        (null != imageUrl && imageUrl.isNotEmpty
+                                        (null != imageUrl && imageUrl!.isNotEmpty
                                             ?
                                             //Container(color: Colors.white,width: 10,height: 10,):
                                             // Image.network(imageUrl,
                                             //     width: 40, height: 40)
                                             Image(
-                                                image: AssetImage(imageUrl),
+                                                image: AssetImage(imageUrl!),
                                               )
                                             : Image(
                                                 image: AssetImage(
@@ -91,7 +91,7 @@ class CardActivity extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                gamesName, //'Games',
+                                                gamesName!, //'Games',
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
                                                 style: TextStyle(

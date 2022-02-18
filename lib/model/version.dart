@@ -1,5 +1,5 @@
 class Version {
-  String latestVersion;
+  String? latestVersion;
   dynamic update;
 
   Version({this.latestVersion, this.update});

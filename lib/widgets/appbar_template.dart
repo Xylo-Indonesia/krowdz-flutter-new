@@ -6,20 +6,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 const List<String> menuList = <String>["Account", "Logout"];
 
 class AppBarTemplate extends StatelessWidget{
-  final BuildContext context;
-  final Widget body;
+  final BuildContext? context;
+  final Widget? body;
   final bool isTransparent;
   final bool isLoading;
   final scaffoldKey;
   final fab;
 
-  const AppBarTemplate({Key key, this.context, this.body, this.isTransparent = false, this.scaffoldKey, this.fab, this.isLoading = false}) : super(key: key);
+  const AppBarTemplate({Key? key, this.context, this.body, this.isTransparent = false, this.scaffoldKey, this.fab, this.isLoading = false}) : super(key: key);
 
   void menuSelected(String choice) {
     switch (choice) {
       case "Account":
         //prevent route stacking bug
-        Navigator.of(context).pushNamedAndRemoveUntil(
+        Navigator.of(context!).pushNamedAndRemoveUntil(
           profilePageRoute,
             (route) => route.isCurrent && route.settings.name == profilePageRoute
             ? false
@@ -31,7 +31,7 @@ class AppBarTemplate extends StatelessWidget{
           //API.userLogout(prefs.getString('token'));
           prefs.setString("token", null);
         });
-        Navigator.pushReplacementNamed(context, loginPageRoute);
+        Navigator.pushReplacementNamed(context!, loginPageRoute);
         break;
     }
   }

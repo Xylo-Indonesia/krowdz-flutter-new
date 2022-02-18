@@ -12,7 +12,7 @@ class ScanStore = _ScanStore with _$ScanStore;
 abstract class _ScanStore with Store {
   /* rest of the class*/
   @observable
-  ScanResult result;
+  ScanResult? result;
   @observable
   String code = "";
   @observable
@@ -25,7 +25,7 @@ abstract class _ScanStore with Store {
     //print(response);
     result = ScanResult.fromJson(json.decode(response));
     json_response = json.decode(response);
-    print(result.message);
+    print(result!.message);
     return result;
   }
 
@@ -36,7 +36,7 @@ abstract class _ScanStore with Store {
     //print(response);
     result = ScanResult.fromJson(json.decode(response));
     json_response = json.decode(response);
-    print(result.message);
+    print(result!.message);
     return result;
   }
 }

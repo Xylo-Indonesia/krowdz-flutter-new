@@ -9,7 +9,7 @@ part of 'verify_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$VerifyStore on _VerifyStore, Store {
-  Computed<bool> _$canSubmitComputed;
+  Computed<bool>? _$canSubmitComputed;
 
   @override
   bool get canSubmit => (_$canSubmitComputed ??=
@@ -19,13 +19,13 @@ mixin _$VerifyStore on _VerifyStore, Store {
   final _$responseAtom = Atom(name: '_VerifyStore.response');
 
   @override
-  ObservableFuture<Response> get response {
+  ObservableFuture<Response>? get response {
     _$responseAtom.reportRead();
     return super.response;
   }
 
   @override
-  set response(ObservableFuture<Response> value) {
+  set response(ObservableFuture<Response>? value) {
     _$responseAtom.reportWrite(value, super.response, () {
       super.response = value;
     });
@@ -93,7 +93,7 @@ canSubmit: ${canSubmit}
 }
 
 mixin _$FormVerifyErrorState on _FormVerifyErrorState, Store {
-  Computed<bool> _$hasErrorsComputed;
+  Computed<bool>? _$hasErrorsComputed;
 
   @override
   bool get hasErrors =>
@@ -104,13 +104,13 @@ mixin _$FormVerifyErrorState on _FormVerifyErrorState, Store {
   final _$codeAtom = Atom(name: '_FormVerifyErrorState.code');
 
   @override
-  String get code {
+  String? get code {
     _$codeAtom.reportRead();
     return super.code;
   }
 
   @override
-  set code(String value) {
+  set code(String? value) {
     _$codeAtom.reportWrite(value, super.code, () {
       super.code = value;
     });

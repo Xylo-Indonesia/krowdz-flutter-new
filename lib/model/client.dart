@@ -5,15 +5,15 @@ part 'client.g.dart';
 @HiveType(typeId: 0)
 class Client extends HiveObject {
   @HiveField(0)
-  String code;
+  String? code;
   @HiveField(1)
-  String name;
+  String? name;
   @HiveField(2)
-  String logo;
+  String? logo;
   @HiveField(3)
-  String apiUrl;
+  String? apiUrl;
   @HiveField(4)
-  String expiredAt;
+  String? expiredAt;
 
   Client({this.code, this.name, this.logo, this.apiUrl, this.expiredAt});
 

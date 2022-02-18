@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CircleButton extends StatelessWidget {
   final child, onTap, darkMode;
 
-  const CircleButton({Key key, this.onTap, this.child, this.darkMode = true})
+  const CircleButton({Key? key, this.onTap, this.child, this.darkMode = true})
       : super(key: key);
 
   @override

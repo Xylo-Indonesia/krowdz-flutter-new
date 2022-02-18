@@ -42,13 +42,13 @@ mixin _$VisitorDetailStore on _VisitorDetailStore, Store {
   final _$acAtom = Atom(name: '_VisitorDetailStore.ac');
 
   @override
-  Activity get ac {
+  Activity? get ac {
     _$acAtom.reportRead();
     return super.ac;
   }
 
   @override
-  set ac(Activity value) {
+  set ac(Activity? value) {
     _$acAtom.reportWrite(value, super.ac, () {
       super.ac = value;
     });

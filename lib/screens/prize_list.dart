@@ -59,21 +59,21 @@ class _PrizeListState extends State<PrizeList> {
                             child: Observer(builder: (_) {
                               List<KeyMap> activityList =
                                   []; //KeyMap('value', '123'), KeyMap('value', 'qwe'), KeyMap('value', 'asd')
-                              if (store.ac != null && store.ac.status == true) {
+                              if (store.ac != null && store.ac!.status == true) {
                                 activityList.add(KeyMap('value', 'All'));
-                                for (var item in store.ac.data) {
+                                for (var item in store.ac!.data!) {
                                   activityList.add(KeyMap('value', item.name));
-                                  print("activity " + item.name);
+                                  print("activity " + item.name!);
                                 }
                                 return CustomDropdown(
                                   itemList: activityList,
                                   onClick: (value) {
                                     KeyMap keymap = value;
-                                    print('selected: ' + keymap.value);
-                                    String tmp_activity = '';
+                                    print('selected: ' + keymap.value!);
+                                    String? tmp_activity = '';
                                     tmp_activity = keymap.value == 'All'
                                         ? ''
-                                        : keymap.value;
+                                        : keymap.value!;
                                     store.activity = tmp_activity;
                                     store.getDashboardPrize();
                                   },
@@ -114,8 +114,8 @@ class _PrizeListState extends State<PrizeList> {
                             var row = Row();
 
                             if (store.rewards != null &&
-                                true == store.rewards.status) {
-                              for (var pr in store.rewards.data) {
+                                true == store.rewards!.status) {
+                              for (var pr in store.rewards!.data!) {
                                 if (x % 3 == 0) {
                                   row = Row(
                                     crossAxisAlignment:
@@ -130,7 +130,7 @@ class _PrizeListState extends State<PrizeList> {
                                   imageUrl: pr.image != null
                                       ? pr.image
                                       : 'https://dev.bounche.com/krowdz/app/gift.jpg',
-                                  title: '' + pr.name,
+                                  title: '' + pr.name!,
                                   stockString: pr.remainingQuotas.toString() +
                                       '/' +
                                       pr.quota.toString(),
@@ -141,7 +141,7 @@ class _PrizeListState extends State<PrizeList> {
                                         builder: (BuildContext context) {
                                           List listActivity = [];
 
-                                          for (var ac in pr.activities) {
+                                          for (var ac in pr.activities!) {
                                             var acItem = {
                                               'name': ac.name,
                                               'image':
@@ -152,7 +152,7 @@ class _PrizeListState extends State<PrizeList> {
 
                                           return CustomDialogPrize(
                                             availableList: listActivity,
-                                            prizeName: '' + pr.name,
+                                            prizeName: '' + pr.name!,
                                             imageUrl: pr.image != null
                                                 ? pr.image
                                                 : 'https://dev.bounche.com/krowdz/app/gift.jpg',
@@ -165,7 +165,7 @@ class _PrizeListState extends State<PrizeList> {
                                 );
                                 row.children.add(pi);
                                 if (x % 3 == 2 ||
-                                    x + 1 == store.rewards.data.length) {
+                                    x + 1 == store.rewards!.data!.length) {
                                   if (row.children.length < 3) {
                                     //belum 3, harus digenapin dengan dummy data
                                     if (row.children.length == 1) {

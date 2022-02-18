@@ -12,13 +12,13 @@ mixin _$NewVisitor on _NewVisitor, Store {
   final _$entityAtom = Atom(name: '_NewVisitor.entity');
 
   @override
-  Entity get entity {
+  Entity? get entity {
     _$entityAtom.reportRead();
     return super.entity;
   }
 
   @override
-  set entity(Entity value) {
+  set entity(Entity? value) {
     _$entityAtom.reportWrite(value, super.entity, () {
       super.entity = value;
     });
@@ -27,13 +27,13 @@ mixin _$NewVisitor on _NewVisitor, Store {
   final _$formStringAtom = Atom(name: '_NewVisitor.formString');
 
   @override
-  String get formString {
+  String? get formString {
     _$formStringAtom.reportRead();
     return super.formString;
   }
 
   @override
-  set formString(String value) {
+  set formString(String? value) {
     _$formStringAtom.reportWrite(value, super.formString, () {
       super.formString = value;
     });
@@ -42,13 +42,13 @@ mixin _$NewVisitor on _NewVisitor, Store {
   final _$responseSubmitAtom = Atom(name: '_NewVisitor.responseSubmit');
 
   @override
-  ObservableFuture<dynamic> get responseSubmit {
+  ObservableFuture<dynamic>? get responseSubmit {
     _$responseSubmitAtom.reportRead();
     return super.responseSubmit;
   }
 
   @override
-  set responseSubmit(ObservableFuture<dynamic> value) {
+  set responseSubmit(ObservableFuture<dynamic>? value) {
     _$responseSubmitAtom.reportWrite(value, super.responseSubmit, () {
       super.responseSubmit = value;
     });

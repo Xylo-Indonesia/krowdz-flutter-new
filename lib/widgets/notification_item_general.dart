@@ -3,12 +3,12 @@ import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 
 class NotificationItemGeneral extends StatelessWidget {
-  final String title, description, dateString, timeString;
-  final bool isUnread;
+  final String? title, description, dateString, timeString;
+  final bool? isUnread;
   final onTap;
 
   const NotificationItemGeneral(
-      {Key key, this.title, this.description, this.isUnread, this.onTap, this.dateString, this.timeString})
+      {Key? key, this.title, this.description, this.isUnread, this.onTap, this.dateString, this.timeString})
       : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class NotificationItemGeneral extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 6),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1, style: BorderStyle.solid),
-            color: isUnread ? Colors.white : Colors.transparent,
+            color: isUnread! ? Colors.white : Colors.transparent,
             borderRadius: BorderRadius.circular(12)),
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 19),
         child: Row(
@@ -31,7 +31,7 @@ class NotificationItemGeneral extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      isUnread
+                      isUnread!
                           ? Badge(
                               showBadge: true,
                               padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -48,25 +48,25 @@ class NotificationItemGeneral extends StatelessWidget {
                               width: 0,
                             ),
                       SizedBox(
-                        width: isUnread ? 6 : 0,
+                        width: isUnread! ? 6 : 0,
                       ),
                       Text(
-                        dateString,
-                        style: TextStyle(color: isUnread ? darkBackground : Colors.white),
+                        dateString!,
+                        style: TextStyle(color: isUnread! ? darkBackground : Colors.white),
                       ),
                       SizedBox(
                         width: 2,
                       ),
                       Text(
                         "|",
-                        style: TextStyle(color: isUnread ? darkBackground : Colors.white),
+                        style: TextStyle(color: isUnread! ? darkBackground : Colors.white),
                       ),
                       SizedBox(
                         width: 2,
                       ),
                       Text(
-                        timeString,
-                        style: TextStyle(color: isUnread ? darkBackground : Colors.white),
+                        timeString!,
+                        style: TextStyle(color: isUnread! ? darkBackground : Colors.white),
                       ),
                     ],
                   ),
@@ -74,18 +74,18 @@ class NotificationItemGeneral extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    title,
+                    title!,
                     style: TextStyle(
-                        color: isUnread ? Colors.black : Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                        color: isUnread! ? Colors.black : Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   SizedBox(
                     height: 4,
                   ),
                   Text(
-                    description,
+                    description!,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: isUnread ? darkBackground : Colors.white, fontSize: 14),
+                    style: TextStyle(color: isUnread! ? darkBackground : Colors.white, fontSize: 14),
                   )
                 ],
               ),
@@ -95,15 +95,15 @@ class NotificationItemGeneral extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isUnread ? darkerBackground : Colors.white,
+                    color: isUnread! ? darkerBackground : Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: isUnread ? Colors.black38 : Colors.white38,
+                          color: isUnread! ? Colors.black38 : Colors.white38,
                           blurRadius: 2,
                           spreadRadius: 0.6,
                           offset: Offset(0, 1))
                     ]),
-                child: Icon(Icons.chevron_right, size: 18, color: isUnread ? Colors.white : Colors.black87),
+                child: Icon(Icons.chevron_right, size: 18, color: isUnread! ? Colors.white : Colors.black87),
               ),
             )
           ],

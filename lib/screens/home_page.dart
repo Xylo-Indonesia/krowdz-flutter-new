@@ -18,7 +18,7 @@ import 'package:event/widgets/styles.dart';
 import 'package:event/widgets/total_visitors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,14 +60,14 @@ class _HomePageState extends State<HomePage> {
                       Observer(builder: (_) {
                         return Profile(
                             client: widget.store.isClientReady
-                                ? widget.store.client.name
+                                ? widget.store.client!.name
                                 : '',
                             name: widget.store.isUserReady
-                                ? widget.store.user.data.name
+                                ? widget.store.user!.data!.name
                                 : '',
                             isLoading: !widget.store.isClientReady,
                             image: widget.store.isClientReady
-                                ? widget.store.client.logo
+                                ? widget.store.client!.logo
                                 : '');
                       }),
                       Badge(
@@ -108,11 +108,11 @@ class _HomePageState extends State<HomePage> {
                                   Observer(builder: (_) {
                                     if (widget.store.isClientReady &&
                                         "admin" ==
-                                            widget.store.user.data.role) {
+                                            widget.store.user!.data!.role) {
                                       return AdminCalendar(
                                         date: widget.store.selected_date,
                                         onTap: () async {
-                                          final DateTime picked =
+                                          final DateTime? picked =
                                               await showDatePicker(
                                             context: context,
                                             initialDate: currentDate,
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                                         isLoading: !widget
                                             .store.isDashboardSummaryReady,
                                         isAdmin: "admin" ==
-                                                widget.store.user.data.role
+                                                widget.store.user!.data!.role
                                             ? true
                                             : false,
                                       ),
@@ -221,10 +221,10 @@ class _HomePageState extends State<HomePage> {
                                     if (null !=
                                             widget.store.dashboardActivity &&
                                         null !=
-                                            widget.store.dashboardActivity.data
+                                            widget.store.dashboardActivity!.data!
                                                 .activity &&
                                         true ==
-                                            widget.store.dashboardActivity
+                                            widget.store.dashboardActivity!
                                                 .status) {
                                       print('cetak activity');
                                       Column col = Column(
@@ -232,16 +232,16 @@ class _HomePageState extends State<HomePage> {
                                       );
 
                                       for (var ac in widget.store
-                                          .dashboardActivity.data.activity) {
+                                          .dashboardActivity!.data!.activity!) {
                                         var ca = CardActivity(
                                           imageUrl:
                                               Util.getActivityIcon(ac.icon),
                                           gamesMaxValue: ac.total,
                                           gamesValue:
-                                              double.parse(ac.achievement)
+                                              double.parse(ac.achievement!)
                                                   .ceil(),
                                           onTap: () {
-                                            print("" + ac.name);
+                                            print("" + ac.name!);
                                             Navigator.pushNamed(
                                                 context, visitorPageRoute,
                                                 arguments: ArgumentVisitor(
@@ -255,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                                         );
 
                                         var index = widget.store
-                                            .dashboardActivity.data.activity
+                                            .dashboardActivity!.data!.activity!
                                             .indexOf(ac);
 
                                         col.children.add(ca);
@@ -304,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                                         if (null !=
                                                 widget.store.dashboardPrize &&
                                             true ==
-                                                widget.store.dashboardPrize
+                                                widget.store.dashboardPrize!
                                                     .status) {
                                           print('cetak prize');
                                           Row row = Row(
@@ -319,14 +319,14 @@ class _HomePageState extends State<HomePage> {
 
                                           int i = 0;
                                           for (var pr in widget.store
-                                              .dashboardPrize.data.prize) {
+                                              .dashboardPrize!.data!.prize!) {
                                             if (i >= 3) break;
                                             var cardPrize = CardPrize(
                                               image: pr.image,
                                               onTap: () {
-                                                print('prize ' + pr.name);
+                                                print('prize ' + pr.name!);
                                               },
-                                              name: "" + pr.name,
+                                              name: "" + pr.name!,
                                               stock: pr.total,
                                             );
 
@@ -504,14 +504,21 @@ class _HomePageState extends State<HomePage> {
                                 image: 'assets/images/qr.png',
                                 onTap: () async {
                                   print('qr');
-                                  Map<PermissionGroup, PermissionStatus>
-                                      permissions = await PermissionHandler()
-                                          .requestPermissions(
-                                              [PermissionGroup.camera]);
-                                  if (permissions[PermissionGroup.camera] ==
+                                  Map<Permission, PermissionStatus>
+                                      permissions =
+                                      await [Permission.camera].request();
+                                  if (permissions[Permission.camera] ==
                                       PermissionStatus.granted) {
                                     Navigator.pushNamed(context, scanPageRoute);
                                   }
+                                  // Map<PermissionGroup, PermissionStatus>
+                                  //     permissions = await PermissionHandler()
+                                  //         .requestPermissions(
+                                  //             [PermissionGroup.camera]);
+                                  // if (permissions[PermissionGroup.camera] ==
+                                  //     PermissionStatus.granted) {
+                                  //   Navigator.pushNamed(context, scanPageRoute);
+                                  // }
                                 },
                               ),
                             ),

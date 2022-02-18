@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NavButton extends StatelessWidget {
-  final String title;
+  final String? title;
   final onTap, image;
 
-  const NavButton({Key key, this.title, this.onTap, this.image})
+  const NavButton({Key? key, this.title, this.onTap, this.image})
       : super(key: key);
 
   @override
@@ -41,7 +41,7 @@ class NavButton extends StatelessWidget {
           ),
         ),
         Text(
-          title,
+          title!,
           style: TextStyle(color: Colors.white, fontSize: 12.sp),
           textAlign: TextAlign.center,
         )

@@ -5,9 +5,9 @@ part 'user.g.dart';
 
 @HiveType(typeId: 1)
 class User {
-  @HiveField(0) bool status;
-  @HiveField(1) String message;
-  @HiveField(2) Data data;
+  @HiveField(0) bool? status;
+  @HiveField(1) String? message;
+  @HiveField(2) Data? data;
 
   User({this.status, this.message, this.data});
 
@@ -22,18 +22,18 @@ class User {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 @HiveType(typeId: 2)
 class Data {
-  @HiveField(3) String name;
-  @HiveField(4) String email;
-  @HiveField(5) String role;
-  @HiveField(6) List<Permissions> permissions;
-  @HiveField(7) String accessToken;
+  @HiveField(3) String? name;
+  @HiveField(4) String? email;
+  @HiveField(5) String? role;
+  @HiveField(6) List<Permissions>? permissions;
+  @HiveField(7) String? accessToken;
 
   Data({this.name, this.email, this.role, this.permissions, this.accessToken});
 
@@ -44,7 +44,7 @@ class Data {
     if (json['permissions'] != null) {
       permissions = new List<Permissions>();
       json['permissions'].forEach((v) {
-        permissions.add(new Permissions.fromJson(v));
+        permissions!.add(new Permissions.fromJson(v));
       });
     }
     accessToken = json['access_token'];
@@ -56,7 +56,7 @@ class Data {
     data['email'] = this.email;
     data['role'] = this.role;
     if (this.permissions != null) {
-      data['permissions'] = this.permissions.map((v) => v.toJson()).toList();
+      data['permissions'] = this.permissions!.map((v) => v.toJson()).toList();
     }
     data['access_token'] = this.accessToken;
     return data;
@@ -65,13 +65,13 @@ class Data {
 
 @HiveType(typeId: 3)
 class Permissions {
-  @HiveField(8) int id;
-  @HiveField(9) String name;
-  @HiveField(10) String displayName;
-  @HiveField(11) String description;
-  @HiveField(12) String createdAt;
-  @HiveField(13) String updatedAt;
-  @HiveField(14) Pivot pivot;
+  @HiveField(8) int? id;
+  @HiveField(9) String? name;
+  @HiveField(10) String? displayName;
+  @HiveField(11) String? description;
+  @HiveField(12) String? createdAt;
+  @HiveField(13) String? updatedAt;
+  @HiveField(14) Pivot? pivot;
 
   Permissions(
       {this.id,
@@ -101,7 +101,7 @@ class Permissions {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.pivot != null) {
-      data['pivot'] = this.pivot.toJson();
+      data['pivot'] = this.pivot!.toJson();
     }
     return data;
   }
@@ -109,9 +109,9 @@ class Permissions {
 
 @HiveType(typeId: 4)
 class Pivot {
-  @HiveField(15) int userId;
-  @HiveField(16) int permissionId;
-  @HiveField(17) String userType;
+  @HiveField(15) int? userId;
+  @HiveField(16) int? permissionId;
+  @HiveField(17) String? userType;
 
   Pivot({this.userId, this.permissionId, this.userType});
 

@@ -6,7 +6,7 @@ class Pagination extends StatefulWidget {
   final leftOnTap, rightOnTap, numberOnTap, pages,hasPrev,hasNext;
 
   const Pagination(
-      {Key key,this.hasPrev,this.hasNext ,this.pages, this.leftOnTap, this.rightOnTap, this.numberOnTap})
+      {Key? key,this.hasPrev,this.hasNext ,this.pages, this.leftOnTap, this.rightOnTap, this.numberOnTap})
       : super(key: key);
 
   @override

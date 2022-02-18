@@ -14,8 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class JsonSchema extends StatefulWidget {
   const JsonSchema({
-    @required this.form,
-    @required this.onChanged,
+    required this.form,
+    required this.onChanged,
     this.padding,
     this.formMap,
     this.errorMessages = const {},
@@ -28,26 +28,26 @@ class JsonSchema extends StatefulWidget {
   final Map errorMessages;
   final Map validations;
   final Map decorations;
-  final String form;
-  final Map formMap;
-  final double padding;
-  final Widget buttonSave;
-  final Function actionSave;
+  final String? form;
+  final Map? formMap;
+  final double? padding;
+  final Widget? buttonSave;
+  final Function? actionSave;
   final ValueChanged<dynamic> onChanged;
 
   @override
   _CoreFormState createState() =>
-      new _CoreFormState(formMap ?? json.decode(form));
+      new _CoreFormState(formMap ?? json.decode(form!));
 }
 
 class _CoreFormState extends State<JsonSchema> {
   final dynamic formGeneral;
 
-  String radioValue;
+  String? radioValue;
 
   // validators
 
-  String isRequired(item, value) {
+  String? isRequired(item, value) {
     if (value.isEmpty) {
       return widget.errorMessages[item['key']] ??
           'Please fill ' + item['label'];
@@ -55,7 +55,7 @@ class _CoreFormState extends State<JsonSchema> {
     return null;
   }
 
-  String validateEmail(item, String value) {
+  String? validateEmail(item, String value) {
     String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
         "\\@" +
         "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
@@ -87,7 +87,7 @@ class _CoreFormState extends State<JsonSchema> {
   Future pickImage({var index}) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
-      imageList.add(File(pickedFile.path));
+      imageList.add(File(pickedFile!.path));
       formGeneral['fields'][index]['value'] =
           base64Encode(File(pickedFile.path).readAsBytesSync());
     });
@@ -172,7 +172,7 @@ class _CoreFormState extends State<JsonSchema> {
                     }
                   }
                   if (item['type'] == "email" || item['name'] == "Email") {
-                    return validateEmail(item, value);
+                    return validateEmail(item, value!);
                   }
 
                   if (item.containsKey('is_required')) {
@@ -211,11 +211,11 @@ class _CoreFormState extends State<JsonSchema> {
                               fontWeight: FontWeight.normal,
                               fontSize: 16.sp,
                               color: Colors.black))),
-                  new Radio<String>(
+                  new Radio<String?>(
                       activeColor: Colors.black,
                       value: formGeneral['fields'][count]['items'][i]['value'],
                       groupValue: radioValue,
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         this.setState(() {
                           radioValue = value;
                           formGeneral['fields'][count]['value'] = value;
@@ -280,7 +280,7 @@ class _CoreFormState extends State<JsonSchema> {
                         formGeneral['fields'][count]['items'][i]['label'])),
                 new Checkbox(
                   value: formGeneral['fields'][count]['items'][i]['value'],
-                  onChanged: (bool value) {
+                  onChanged: (bool? value) {
                     this.setState(
                       () {
                         formGeneral['fields'][count]['items'][i]['value'] =
@@ -337,7 +337,7 @@ class _CoreFormState extends State<JsonSchema> {
                     value: formGeneral['fields'][count]['value'] != ''
                         ? formGeneral['fields'][count]['value'].toString()
                         : null,
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       setState(() {
                         formGeneral['fields'][count]['value'] = newValue;
                         _handleChanged();
@@ -435,8 +435,8 @@ class _CoreFormState extends State<JsonSchema> {
           color: Colors.black,
           child: InkWell(
             onTap: () {
-              if (_formKey.currentState.validate()) {
-                widget.actionSave(formGeneral);
+              if (_formKey.currentState!.validate()) {
+                widget.actionSave!(formGeneral);
               }
             },
             child: widget.buttonSave,

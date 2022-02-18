@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class TableHeader extends StatefulWidget {
   final childLeft, childRight, isGradient, backgroundColor;
-  final int flexLeft, flexRight;
+  final int? flexLeft, flexRight;
 
   const TableHeader(
-      {Key key,
+      {Key? key,
       this.childLeft,
       this.childRight,
       this.flexLeft,
@@ -39,9 +39,9 @@ class TableHeaderState extends State<TableHeader> {
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          Expanded(flex: widget.flexLeft, child: widget.childLeft),
+          Expanded(flex: widget.flexLeft!, child: widget.childLeft),
           Expanded(
-            flex: widget.flexRight,
+            flex: widget.flexRight!,
             child: widget.childRight,
           )
         ],

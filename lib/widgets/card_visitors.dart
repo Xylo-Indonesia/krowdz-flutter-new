@@ -5,12 +5,12 @@ import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CardVisitors extends StatelessWidget {
-  final int visitor1, visitor2;
+  final int? visitor1, visitor2;
   final color, onTap, isLoading;
-  final String title;
+  final String? title;
 
   const CardVisitors(
-      {Key key,
+      {Key? key,
       this.visitor1,
       this.visitor2,
       this.color,
@@ -36,15 +36,15 @@ class CardVisitors extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title,
+                        title!,
                         style: TextStyle(color: textGray, fontSize: 14.sp),
                       ),
                       isLoading
                           ? Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: Shimmer.fromColors(
-                                baseColor: Colors.grey[300],
-                                highlightColor: Colors.grey[100],
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
                                 enabled: true,
                                 child: Container(
                                   width: 100,
@@ -66,10 +66,10 @@ class CardVisitors extends StatelessWidget {
                             child: CircularProgressIndicator(
                               backgroundColor: Colors.black12,
                               valueColor:
-                                  new AlwaysStoppedAnimation<Color>(color),
+                                  new AlwaysStoppedAnimation<Color?>(color),
                               value: (visitor1 == 0 && visitor2 == 0)
                                   ? 0
-                                  : (visitor1 / (visitor1 + visitor2)),
+                                  : (visitor1! / (visitor1! + visitor2!)),
                               strokeWidth: 3,
                             ),
                           ),
@@ -78,8 +78,8 @@ class CardVisitors extends StatelessWidget {
                           ),
                           isLoading
                               ? Shimmer.fromColors(
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.grey[100],
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
                                   enabled: true,
                                   child: Container(
                                     width: 18,
@@ -90,8 +90,8 @@ class CardVisitors extends StatelessWidget {
                               : Text(
                                   ((visitor1 == 0 && visitor2 == 0)
                                           ? 0
-                                          : (visitor1 /
-                                              (visitor1 + visitor2) *
+                                          : (visitor1! /
+                                              (visitor1! + visitor2!) *
                                               100))
                                       .floor()
                                       .toString(),

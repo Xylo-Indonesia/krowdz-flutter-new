@@ -1,6 +1,6 @@
 class DashboardPrize {
-  bool status;
-  Data data;
+  bool? status;
+  Data? data;
 
   DashboardPrize({this.status, this.data});
 
@@ -13,15 +13,15 @@ class DashboardPrize {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  bool enable;
-  List<Prize> prize;
+  bool? enable;
+  List<Prize>? prize;
 
   Data({this.enable, this.prize});
 
@@ -30,7 +30,7 @@ class Data {
     if (json['merchandises'] != null) {
       prize = new List<Prize>();
       json['merchandises'].forEach((v) {
-        prize.add(new Prize.fromJson(v));
+        prize!.add(new Prize.fromJson(v));
       });
     }
   }
@@ -39,17 +39,17 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['enable'] = this.enable;
     if (this.prize != null) {
-      data['merchandises'] = this.prize.map((v) => v.toJson()).toList();
+      data['merchandises'] = this.prize!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Prize {
-  int id;
-  String name;
-  String image;
-  int total;
+  int? id;
+  String? name;
+  String? image;
+  int? total;
 
   Prize({this.id, this.name, this.image, this.total});
 

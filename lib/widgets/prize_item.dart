@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class PrizeItem extends StatelessWidget {
-  final String imageUrl, title, stockString;
+  final String? imageUrl, title, stockString;
   final onTap;
 
-  const PrizeItem({Key key, this.imageUrl, this.title, this.stockString, this.onTap}) : super(key: key);
+  const PrizeItem({Key? key, this.imageUrl, this.title, this.stockString, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +22,19 @@ class PrizeItem extends StatelessWidget {
                 aspectRatio: 1 / 1,
                 child: Container(
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(color:imageUrl.length>0?Colors.white: Colors.transparent, borderRadius: BorderRadius.circular(18)),
+                  decoration: BoxDecoration(color:imageUrl!.length>0?Colors.white: Colors.transparent, borderRadius: BorderRadius.circular(18)),
                   child:
-                  imageUrl.length>0?
-                  FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: imageUrl):Container(),
+                  imageUrl!.length>0?
+                  FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: imageUrl!):Container(),
                 ),
               ),
               Text(
-                title,
+                title!,
                 style: kTextTitleLarge,
                 textAlign: TextAlign.center,
               ),
               Text(
-                stockString,
+                stockString!,
                 style: TextStyle(color: Colors.grey),
               )
             ],

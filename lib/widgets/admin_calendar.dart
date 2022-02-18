@@ -2,10 +2,10 @@ import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 
 class AdminCalendar extends StatelessWidget {
-  final String date;
+  final String? date;
   final onTap;
 
-  const AdminCalendar({Key key, this.date, this.onTap}) : super(key: key);
+  const AdminCalendar({Key? key, this.date, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class AdminCalendar extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            date,
+                            date!,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(

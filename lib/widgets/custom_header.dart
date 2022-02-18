@@ -5,7 +5,7 @@ import 'circle_button.dart';
 class CustomHeader extends StatelessWidget {
   final darkMode, title, onBack, icon;
 
-  const CustomHeader({Key key, this.darkMode = true, this.title, this.onBack, this.icon = 'assets/images/back.png'})
+  const CustomHeader({Key? key, this.darkMode = true, this.title, this.onBack, this.icon = 'assets/images/back.png'})
       : super(key: key);
 
   @override

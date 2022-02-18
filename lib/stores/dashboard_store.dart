@@ -21,29 +21,29 @@ abstract class _DashboardStore with Store {
   var selected_date;
 
   @observable
-  Client client;
+  Client? client;
   @observable
   bool isClientReady = false;
   @observable
-  User user;
+  User? user;
   @observable
   bool isUserReady = false;
 
   @observable
-  DashboardSummary dashboardSummary = null;
+  DashboardSummary? dashboardSummary = null;
   @observable
   bool isDashboardSummaryReady = false;
   @observable
-  int visitor1 = 0;
+  int? visitor1 = 0;
   @observable
-  int visitor2 = 0;
+  int? visitor2 = 0;
 
   @observable
-  DashboardActivity dashboardActivity = null;
+  DashboardActivity? dashboardActivity = null;
   @observable
   bool isDashboardActivityReady = false;
   @observable
-  DashboardPrize dashboardPrize = null;
+  DashboardPrize? dashboardPrize = null;
   @observable
   bool isDashboardPrizeReady = false;
 
@@ -60,14 +60,14 @@ abstract class _DashboardStore with Store {
     getDashboardSummary(date: date);
   }
 
-  void getDashboardSummary({DateTime date}) async {
+  void getDashboardSummary({DateTime? date}) async {
     print("get dashboard summary");
     var response = await API.DashboardSummary(date: date);
     print(response);
     dashboardSummary = DashboardSummary.fromJson(json.decode(response));
-    if (true == dashboardSummary.status) {
-      visitor1 = dashboardSummary.data.online.total;
-      visitor2 = dashboardSummary.data.offline.total;
+    if (true == dashboardSummary!.status) {
+      visitor1 = dashboardSummary!.data!.online!.total;
+      visitor2 = dashboardSummary!.data!.offline!.total;
       isDashboardSummaryReady = true;
     }
   }
@@ -77,7 +77,7 @@ abstract class _DashboardStore with Store {
     var response = await API.DashboardActivity();
     dashboardActivity = DashboardActivity.fromJson(json.decode(response));
     print(response);
-    if (true == dashboardActivity.status) {
+    if (true == dashboardActivity!.status) {
       isDashboardActivityReady = true;
     }
   }
@@ -87,7 +87,7 @@ abstract class _DashboardStore with Store {
     var response = await API.DashboardPrize();
     print(response);
     dashboardPrize = DashboardPrize.fromJson(json.decode(response));
-    if (true == dashboardPrize.status) {
+    if (true == dashboardPrize!.status) {
       isDashboardPrizeReady = true;
     }
   }

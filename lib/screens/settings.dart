@@ -21,7 +21,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsStore store;
+  late SettingsStore store;
 
   SettingsPage() {
     store = SettingsStore();
@@ -40,7 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
-      imageList.add(File(pickedFile.path));
+      imageList.add(File(pickedFile!.path));
     });
   }
 

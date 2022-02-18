@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class ScanPage extends StatefulWidget {
-  ScanPage({Key key}) : super(key: key);
+  ScanPage({Key? key}) : super(key: key);
   final ScanStore store = ScanStore();
   @override
   _ScanPageState createState() {
@@ -27,7 +27,7 @@ class _ScanPageState extends State<ScanPage> {
   final manualInputController = TextEditingController();
   final _focusNode = FocusNode();
   bool isLoading = true;
-  List<String> scanResult;
+  List<String>? scanResult;
 
   @override
   void initState() {
@@ -51,11 +51,11 @@ class _ScanPageState extends State<ScanPage> {
   }
 
   void stopScanning() {
-    qrKey.currentState.stopScan();
+    qrKey.currentState!.stopScan();
   }
 
   void startScanning() {
-    qrKey.currentState.startScan();
+    qrKey.currentState!.startScan();
   }
 
   @override

@@ -1,5 +1,5 @@
 class Entity {
-  bool status;
+  bool? status;
   dynamic data;
 
   Entity({this.status, this.data});

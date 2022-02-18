@@ -6,7 +6,7 @@ class EventCardEmpty extends StatelessWidget{
   final child;
   final onTap;
 
-  const EventCardEmpty({Key key, this.child, this.onTap}) : super(key: key);
+  const EventCardEmpty({Key? key, this.child, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

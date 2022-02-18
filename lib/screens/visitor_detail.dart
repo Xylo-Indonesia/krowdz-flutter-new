@@ -25,7 +25,7 @@ class VisitorDetail extends StatefulWidget {
   // const VisitorDetail({Key key, this.example = "VisitorDetail",var arguments})
   //     : super(key: key);
 
-  VisitorDetail({Key key, this.example = "VisitorDetail", var arguments}) {
+  VisitorDetail({Key? key, this.example = "VisitorDetail", var arguments}) {
     //print("arguments:"+arguments.toString());
     visitor = arguments;
   }
@@ -91,8 +91,10 @@ class VisitorDetailState extends State<VisitorDetail> {
                                       style: kTextTitleLargeDark,
                                     ),
                                   ),
-                                  headerAlignment:
-                                      ExpandablePanelHeaderAlignment.center,
+                                  theme: ExpandableThemeData(
+                                    headerAlignment:
+                                        ExpandablePanelHeaderAlignment.center,
+                                  ),
                                   expanded: Container(
                                     decoration: BoxDecoration(
                                         color: Colors.black12,
@@ -107,7 +109,7 @@ class VisitorDetailState extends State<VisitorDetail> {
                                           children: [],
                                         );
                                         var i = 0;
-                                        Row row = null;
+                                        Row? row = null;
                                         store.jsonResponse["meta"]["keymapper"]
                                             .forEach((k, v) {
                                           print(k.toString() +
@@ -143,8 +145,8 @@ class VisitorDetailState extends State<VisitorDetail> {
                                               ),
                                             ),
                                           );
-                                          row.children.add(e);
-                                          col.children.add(row);
+                                          row!.children.add(e);
+                                          col.children.add(row!);
 
                                           if (i % 2 == 1) {
                                             col.children.remove(row);
@@ -200,7 +202,7 @@ class VisitorDetailState extends State<VisitorDetail> {
                                       children: [],
                                     );
 
-                                    for (var activity in store.ac.data) {
+                                    for (var activity in store.ac!.data!) {
                                       var visitorDetailActivity =
                                           VisitorDetailActivity(
                                         image: Util.getActivityIcon(

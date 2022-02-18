@@ -6,7 +6,7 @@ import 'package:transparent_image/transparent_image.dart';
 class PhotoList extends StatelessWidget {
   final image, onTap;
 
-  const PhotoList({Key key, this.image, this.onTap}) : super(key: key);
+  const PhotoList({Key? key, this.image, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

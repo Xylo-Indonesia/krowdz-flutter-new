@@ -17,20 +17,20 @@ abstract class _NewActivityStore with Store {
   dynamic activityHistory;
 
   @observable
-  Entity entity;
+  Entity? entity;
   @observable
-  String formString;
+  String? formString;
   /* rest of the class*/
   void getRegisterEntity() async {
     var response = await API.getRegisterEntityById(activity.id.toString());
     //print(response);
     entity = Entity.fromJson(json.decode(response));
-    var dyn_data = entity.data;
+    var dyn_data = entity!.data;
     print(dyn_data[0]['label']);
 
     if (isEdit) {
       print("Activity History:" + activityHistory.toString());
-      entity.data.forEach((v) {
+      entity!.data.forEach((v) {
         //print(k.toString()+v.toString()) ;
 
         if (null != activityHistory["" + v["name"]])
@@ -39,11 +39,11 @@ abstract class _NewActivityStore with Store {
       });
     }
 
-    formString = json.encode({'autoValidated': false, 'fields': entity.data});
+    formString = json.encode({'autoValidated': false, 'fields': entity!.data});
   }
 
   @observable
-  ObservableFuture<dynamic> responseSubmit;
+  ObservableFuture<dynamic>? responseSubmit;
 
   @observable
   bool isSubmit = false;
@@ -58,7 +58,7 @@ abstract class _NewActivityStore with Store {
       //     kv=kv+k.toString()+':'+v.toString()+',';
       //   }
       // );
-      Map<String, dynamic> newjson = new Map<String, dynamic>();
+      Map<String?, dynamic> newjson = new Map<String?, dynamic>();
       ;
 
       for (dynamic field in data["fields"]) {

@@ -3,11 +3,11 @@ import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 
 class NotificationItem extends StatelessWidget {
-  final String title, description;
-  final bool isUnread;
+  final String? title, description;
+  final bool? isUnread;
   final onTap;
 
-  const NotificationItem({Key key, this.title, this.description, this.isUnread, this.onTap}) : super(key: key);
+  const NotificationItem({Key? key, this.title, this.description, this.isUnread, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class NotificationItem extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 6),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1, style: BorderStyle.solid),
-            color: isUnread ? Colors.white : Colors.transparent,
+            color: isUnread! ? Colors.white : Colors.transparent,
             borderRadius: BorderRadius.circular(12)),
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 19),
         child: Row(
@@ -27,19 +27,19 @@ class NotificationItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  title!,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
-                      color: isUnread ? Colors.black : Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                      color: isUnread! ? Colors.black : Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 Text(
-                  description,
-                  style: TextStyle(color: isUnread ? darkBackground : Colors.white, fontSize: 14),
+                  description!,
+                  style: TextStyle(color: isUnread! ? darkBackground : Colors.white, fontSize: 14),
                 )
               ],
             ),
             Badge(
-                showBadge: isUnread,
+                showBadge: isUnread!,
                 padding: EdgeInsets.all(6),
                 position: BadgePosition(top: 0, end: 0),
                 badgeColor: redColor)

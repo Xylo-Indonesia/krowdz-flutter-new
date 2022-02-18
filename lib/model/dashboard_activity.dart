@@ -1,6 +1,6 @@
 class DashboardActivity {
-  bool status;
-  Data data;
+  bool? status;
+  Data? data;
 
   DashboardActivity({this.status, this.data});
 
@@ -13,15 +13,15 @@ class DashboardActivity {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  bool enable;
-  List<Activity> activity;
+  bool? enable;
+  List<Activity>? activity;
 
   Data({this.enable, this.activity});
 
@@ -30,7 +30,7 @@ class Data {
     if (json['activities'] != null) {
       activity = new List<Activity>();
       json['activities'].forEach((v) {
-        activity.add(new Activity.fromJson(v));
+        activity!.add(new Activity.fromJson(v));
       });
     }
   }
@@ -39,19 +39,19 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['enable'] = this.enable;
     if (this.activity != null) {
-      data['activities'] = this.activity.map((v) => v.toJson()).toList();
+      data['activities'] = this.activity!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Activity {
-  int id;
-  String name;
-  int total;
-  String icon;
-  String achievement;
-  bool isPic;
+  int? id;
+  String? name;
+  int? total;
+  String? icon;
+  String? achievement;
+  bool? isPic;
 
   Activity({this.id, this.name, this.total, this.icon, this.achievement});
 

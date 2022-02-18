@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TopOverflowCard extends StatefulWidget{
   final child;
 
-  const TopOverflowCard({Key key, this.child}) : super(key: key);
+  const TopOverflowCard({Key? key, this.child}) : super(key: key);
 
   @override
   _StateTopOverflowCard createState() {

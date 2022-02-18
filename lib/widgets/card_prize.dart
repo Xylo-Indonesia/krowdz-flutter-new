@@ -4,11 +4,11 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CardPrize extends StatelessWidget {
-  final String name;
-  final int stock;
+  final String? name;
+  final int? stock;
   final image, onTap;
 
-  const CardPrize({Key key, this.name, this.stock, this.image, this.onTap})
+  const CardPrize({Key? key, this.name, this.stock, this.image, this.onTap})
       : super(key: key);
 
   @override
@@ -62,7 +62,7 @@ class CardPrize extends StatelessWidget {
                 height: 2,
               ),
               Text(
-                name,
+                name!,
                 style: TextStyle(color: Colors.white, fontSize: 14.sp),
                 textAlign: TextAlign.center,
               )

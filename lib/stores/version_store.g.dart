@@ -9,7 +9,7 @@ part of 'version_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$VersionStore on _VersionStore, Store {
-  Computed<bool> _$isLatestComputed;
+  Computed<bool>? _$isLatestComputed;
 
   @override
   bool get isLatest => (_$isLatestComputed ??=
@@ -19,13 +19,13 @@ mixin _$VersionStore on _VersionStore, Store {
   final _$versionServerAtom = Atom(name: '_VersionStore.versionServer');
 
   @override
-  Version get versionServer {
+  Version? get versionServer {
     _$versionServerAtom.reportRead();
     return super.versionServer;
   }
 
   @override
-  set versionServer(Version value) {
+  set versionServer(Version? value) {
     _$versionServerAtom.reportWrite(value, super.versionServer, () {
       super.versionServer = value;
     });
@@ -34,13 +34,13 @@ mixin _$VersionStore on _VersionStore, Store {
   final _$responseAtom = Atom(name: '_VersionStore.response');
 
   @override
-  ObservableFuture<Response> get response {
+  ObservableFuture<Response>? get response {
     _$responseAtom.reportRead();
     return super.response;
   }
 
   @override
-  set response(ObservableFuture<Response> value) {
+  set response(ObservableFuture<Response>? value) {
     _$responseAtom.reportWrite(value, super.response, () {
       super.response = value;
     });
@@ -49,13 +49,13 @@ mixin _$VersionStore on _VersionStore, Store {
   final _$currentVersionAtom = Atom(name: '_VersionStore.currentVersion');
 
   @override
-  ObservableFuture<String> get currentVersion {
+  ObservableFuture<String>? get currentVersion {
     _$currentVersionAtom.reportRead();
     return super.currentVersion;
   }
 
   @override
-  set currentVersion(ObservableFuture<String> value) {
+  set currentVersion(ObservableFuture<String>? value) {
     _$currentVersionAtom.reportWrite(value, super.currentVersion, () {
       super.currentVersion = value;
     });

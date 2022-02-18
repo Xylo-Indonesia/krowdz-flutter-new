@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class CustomDialogPrize extends StatefulWidget {
-  final List availableList;
-  final String prizeName, currentStock, maxStock, imageUrl;
+  final List? availableList;
+  final String? prizeName, currentStock, maxStock, imageUrl;
 
   const CustomDialogPrize(
-      {Key key,
+      {Key? key,
       this.imageUrl,
       this.availableList,
       this.prizeName,
@@ -63,7 +63,7 @@ class _CustomDialogPrizeState extends State<CustomDialogPrize> {
                       child: Container(
                         child: FadeInImage.memoryNetwork(
                           placeholder: kTransparentImage,
-                          image: '' + widget.imageUrl,
+                          image: '' + widget.imageUrl!,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -78,11 +78,11 @@ class _CustomDialogPrizeState extends State<CustomDialogPrize> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                widget.prizeName,
+                                widget.prizeName!,
                                 style: kTextTitleLarge,
                               ),
                               Text(
-                                widget.currentStock + '/' + widget.maxStock,
+                                widget.currentStock! + '/' + widget.maxStock!,
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 18),
                               )
@@ -96,7 +96,7 @@ class _CustomDialogPrizeState extends State<CustomDialogPrize> {
                             ),
                           ),
                           Row(
-                            children: widget.availableList
+                            children: widget.availableList!
                                 .map((e) => Container(
                                       margin: EdgeInsets.only(right: 12),
                                       child: Column(

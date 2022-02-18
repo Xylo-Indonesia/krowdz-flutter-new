@@ -4,43 +4,43 @@ import 'package:event/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 
 class SelectItem extends StatelessWidget {
-  final Function onTap;
-  final String text;
+  final Function? onTap;
+  final String? text;
 
-  const SelectItem({Key key, this.onTap, this.text}) : super(key: key);
+  const SelectItem({Key? key, this.onTap, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 18, horizontal: 36),
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.black12, width: 1)),
         ),
-        child: Text(text),
+        child: Text(text!),
       ),
     );
   }
 }
 
 class SelectScreen extends StatelessWidget {
-  final List<KeyMap> arguments;
+  final List<KeyMap>? arguments;
 
-  const SelectScreen({Key key, this.arguments}) : super(key: key);
+  const SelectScreen({Key? key, this.arguments}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     List<Widget> selectList = [];
 
-    for (var i = 0; i < arguments.length; i++) {
+    for (var i = 0; i < arguments!.length; i++) {
       selectList.add(SelectItem(
           onTap: () {
             //returns the selected value back to async function from previous screen
             //Navigator.pop(context, arguments[i].value);
-            Navigator.pop(context, arguments[i]);
+            Navigator.pop(context, arguments![i]);
           },
-          text: arguments[i].value));
+          text: arguments![i].value));
     }
 
     return BlackTheme(
@@ -69,7 +69,7 @@ class SelectScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border(
                           bottom:
-                              BorderSide(color: Colors.grey[400], width: 1)),
+                              BorderSide(color: Colors.grey[400]!, width: 1)),
                     ),
                   ),
                   Column(

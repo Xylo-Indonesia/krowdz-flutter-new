@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -12,20 +11,20 @@ class AppLocalizations {
 
   // Helper method to keep the code in the widgets concise
   // Localizations are accessed using an InheritedWidget "of" syntax
-  static AppLocalizations of(BuildContext context) {
+  static AppLocalizations? of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
   // Static member to have a simple access to the delegate from the MaterialApp
   static const LocalizationsDelegate<AppLocalizations> delegate =
-  _AppLocalizationsDelegate();
+      _AppLocalizationsDelegate();
 
-  Map<String, String> _localizedStrings;
+  late Map<String, String> _localizedStrings;
 
   Future<bool> load() async {
     // Load the language JSON file from the "lang" folder
     String jsonString =
-    await rootBundle.loadString('lang/${locale.languageCode}.json');
+        await rootBundle.loadString('lang/${locale.languageCode}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
 
     _localizedStrings = jsonMap.map((key, value) {
@@ -36,13 +35,13 @@ class AppLocalizations {
   }
 
   // This method will be called from every widget which needs a localized text
-  String translate(String key) {
+  String? translate(String key) {
     return _localizedStrings[key];
   }
 }
 
 class _AppLocalizationsDelegate
-  extends LocalizationsDelegate<AppLocalizations> {
+    extends LocalizationsDelegate<AppLocalizations> {
   // This delegate instance will never change (it doesn't even have fields!)
   // It can provide a constant constructor.
   const _AppLocalizationsDelegate();
@@ -68,23 +67,22 @@ class _AppLocalizationsDelegate
 class AppLanguage extends ChangeNotifier {
   Locale _appLocale = Locale('en');
 
-  Locale get appLocal => _appLocale ?? Locale("en");
+  Locale get appLocal => _appLocale;
   fetchLocale() async {
     var prefs = await SharedPreferences.getInstance();
 
-    if(prefs.getString('language_code') == null){
+    if (prefs.getString('language_code') == null) {
       prefs.setString('language_code', 'en');
     }
 
-    print("lang: "+prefs.getString('language_code'));
+    print("lang: " + prefs.getString('language_code')!);
     if (prefs.getString('language_code') == null) {
       _appLocale = Locale('en');
       return Null;
     }
-    _appLocale = Locale(prefs.getString('language_code'));
+    _appLocale = Locale(prefs.getString('language_code')!);
     return Null;
   }
-
 
   void changeLanguage(Locale type) async {
     var prefs = await SharedPreferences.getInstance();

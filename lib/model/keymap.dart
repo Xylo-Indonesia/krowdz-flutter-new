@@ -1,6 +1,6 @@
 class KeyMap{
-  String key;
-  String value;
+  late String key;
+  String? value;
 
   KeyMap(var key,var value){
     this.key=key;

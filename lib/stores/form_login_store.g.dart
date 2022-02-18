@@ -9,14 +9,14 @@ part of 'form_login_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FormLoginStore on _FormLoginStore, Store {
-  Computed<bool> _$isUserCheckPendingComputed;
+  Computed<bool>? _$isUserCheckPendingComputed;
 
   @override
   bool get isUserCheckPending => (_$isUserCheckPendingComputed ??=
           Computed<bool>(() => super.isUserCheckPending,
               name: '_FormLoginStore.isUserCheckPending'))
       .value;
-  Computed<bool> _$canLoginComputed;
+  Computed<bool>? _$canLoginComputed;
 
   @override
   bool get canLogin =>
@@ -27,13 +27,13 @@ mixin _$FormLoginStore on _FormLoginStore, Store {
   final _$url_logoAtom = Atom(name: '_FormLoginStore.url_logo');
 
   @override
-  String get url_logo {
+  String? get url_logo {
     _$url_logoAtom.reportRead();
     return super.url_logo;
   }
 
   @override
-  set url_logo(String value) {
+  set url_logo(String? value) {
     _$url_logoAtom.reportWrite(value, super.url_logo, () {
       super.url_logo = value;
     });
@@ -42,13 +42,13 @@ mixin _$FormLoginStore on _FormLoginStore, Store {
   final _$clientAtom = Atom(name: '_FormLoginStore.client');
 
   @override
-  Client get client {
+  Client? get client {
     _$clientAtom.reportRead();
     return super.client;
   }
 
   @override
-  set client(Client value) {
+  set client(Client? value) {
     _$clientAtom.reportWrite(value, super.client, () {
       super.client = value;
     });
@@ -57,13 +57,13 @@ mixin _$FormLoginStore on _FormLoginStore, Store {
   final _$colorAtom = Atom(name: '_FormLoginStore.color');
 
   @override
-  CustomColor get color {
+  CustomColor? get color {
     _$colorAtom.reportRead();
     return super.color;
   }
 
   @override
-  set color(CustomColor value) {
+  set color(CustomColor? value) {
     _$colorAtom.reportWrite(value, super.color, () {
       super.color = value;
     });
@@ -117,13 +117,13 @@ mixin _$FormLoginStore on _FormLoginStore, Store {
   final _$usernameCheckAtom = Atom(name: '_FormLoginStore.usernameCheck');
 
   @override
-  ObservableFuture<bool> get usernameCheck {
+  ObservableFuture<bool?> get usernameCheck {
     _$usernameCheckAtom.reportRead();
     return super.usernameCheck;
   }
 
   @override
-  set usernameCheck(ObservableFuture<bool> value) {
+  set usernameCheck(ObservableFuture<bool?> value) {
     _$usernameCheckAtom.reportWrite(value, super.usernameCheck, () {
       super.usernameCheck = value;
     });
@@ -168,7 +168,7 @@ canLogin: ${canLogin}
 }
 
 mixin _$FormLoginErrorState on _FormLoginErrorState, Store {
-  Computed<bool> _$hasErrorsComputed;
+  Computed<bool>? _$hasErrorsComputed;
 
   @override
   bool get hasErrors =>
@@ -179,13 +179,13 @@ mixin _$FormLoginErrorState on _FormLoginErrorState, Store {
   final _$usernameAtom = Atom(name: '_FormLoginErrorState.username');
 
   @override
-  String get username {
+  String? get username {
     _$usernameAtom.reportRead();
     return super.username;
   }
 
   @override
-  set username(String value) {
+  set username(String? value) {
     _$usernameAtom.reportWrite(value, super.username, () {
       super.username = value;
     });
@@ -194,13 +194,13 @@ mixin _$FormLoginErrorState on _FormLoginErrorState, Store {
   final _$emailAtom = Atom(name: '_FormLoginErrorState.email');
 
   @override
-  String get email {
+  String? get email {
     _$emailAtom.reportRead();
     return super.email;
   }
 
   @override
-  set email(String value) {
+  set email(String? value) {
     _$emailAtom.reportWrite(value, super.email, () {
       super.email = value;
     });
@@ -209,13 +209,13 @@ mixin _$FormLoginErrorState on _FormLoginErrorState, Store {
   final _$passwordAtom = Atom(name: '_FormLoginErrorState.password');
 
   @override
-  String get password {
+  String? get password {
     _$passwordAtom.reportRead();
     return super.password;
   }
 
   @override
-  set password(String value) {
+  set password(String? value) {
     _$passwordAtom.reportWrite(value, super.password, () {
       super.password = value;
     });

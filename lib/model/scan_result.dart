@@ -1,8 +1,8 @@
 class ScanResult {
-  Data data;
-  bool status;
-  String message;
-  Meta meta;
+  Data? data;
+  bool? status;
+  String? message;
+  Meta? meta;
 
   ScanResult({this.data, this.status, this.message, this.meta});
 
@@ -16,32 +16,32 @@ class ScanResult {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.meta != null) {
-      data['meta'] = this.meta.toJson();
+      data['meta'] = this.meta!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int id;
-  String name;
-  String gender;
-  String email;
-  String phoneNumber;
-  String code;
-  String type;
-  String activity;
-  String job;
-  String city;
-  bool isExpired;
-  String expiredAt;
-  String createdAt;
-  History history;
+  int? id;
+  String? name;
+  String? gender;
+  String? email;
+  String? phoneNumber;
+  String? code;
+  String? type;
+  String? activity;
+  String? job;
+  String? city;
+  bool? isExpired;
+  String? expiredAt;
+  String? createdAt;
+  History? history;
 
   Data({this.id, this.name, this.gender, this.email, this.phoneNumber, this.code, this.type, this.activity, this.job, this.city, this.isExpired, this.expiredAt, this.createdAt, this.history});
 
@@ -78,7 +78,7 @@ class Data {
     data['expired_at'] = this.expiredAt;
     data['created_at'] = this.createdAt;
     if (this.history != null) {
-      data['history'] = this.history.toJson();
+      data['history'] = this.history!.toJson();
     }
     return data;
   }
@@ -89,7 +89,7 @@ class History {
 
   History();
 
-History.fromJson(Map<String, dynamic> json) {
+History.fromJson(Map<String, dynamic>? json) {
 }
 
 Map<String, dynamic> toJson() {
@@ -99,7 +99,7 @@ Map<String, dynamic> toJson() {
 }
 
 class Meta {
-  Keymapper keymapper;
+  Keymapper? keymapper;
 
   Meta({this.keymapper});
 
@@ -110,20 +110,20 @@ class Meta {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.keymapper != null) {
-      data['keymapper'] = this.keymapper.toJson();
+      data['keymapper'] = this.keymapper!.toJson();
     }
     return data;
   }
 }
 
 class Keymapper {
-  String name;
-  String code;
-  String gender;
-  String type;
-  String phoneNumber;
-  String city;
-  String email;
+  String? name;
+  String? code;
+  String? gender;
+  String? type;
+  String? phoneNumber;
+  String? city;
+  String? email;
 
   Keymapper({this.name, this.code, this.gender, this.type, this.phoneNumber, this.city, this.email});
 

@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class NewActivity extends StatelessWidget {
-  NewActivityStore store;
+  late NewActivityStore store;
   String formString = json.encode({
     'autoValidated': false,
     'fields': [
@@ -67,14 +67,14 @@ class NewActivity extends StatelessWidget {
 
   dynamic response;
 
-  String validationExample(field, value) {
+  String? validationExample(field, value) {
     if (value.isEmpty) {
       return 'Please enter some text.test';
     }
     return null;
   }
 
-  Map validations;
+  Map? validations;
   Map decorations = {
     'email': InputDecoration(
       hintText: 'Email',
@@ -90,7 +90,7 @@ class NewActivity extends StatelessWidget {
     'password1': InputDecoration(prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
   };
 
-  NewActivity( {ArgumentNewActivity arguments}) {
+  NewActivity( {required ArgumentNewActivity arguments}) {
     store = NewActivityStore();
     store.activity=arguments.activity;
     store.visitor=arguments.visitor;
@@ -117,7 +117,7 @@ class NewActivity extends StatelessWidget {
           child: Stack(
             children: [
               Container(child: Observer(builder: (_) {
-                if (null != store.entity && null!=store.formString && store.formString.length>0) {
+                if (null != store.entity && null!=store.formString && store.formString!.length>0) {
                   return Column(children: [
                     SizedBox(
                       width: double.infinity,
@@ -211,11 +211,11 @@ class NewActivity extends StatelessWidget {
                       if (store.responseSubmit == null) {
                         return Container();
                       } else
-                        return Text('' + store.responseSubmit.status.toString());
+                        return Text('' + store.responseSubmit!.status.toString());
                     }),
                   ]);
                 }
-                if(null==store.formString || store.formString.length==0){
+                if(null==store.formString || store.formString!.length==0){
                   return Container();
                 }
                 return Positioned.fill(

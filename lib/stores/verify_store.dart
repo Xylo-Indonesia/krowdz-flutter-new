@@ -21,7 +21,7 @@ abstract class _VerifyStore with Store {
   final FormVerifyErrorState error = FormVerifyErrorState();
 
   @observable
-  ObservableFuture<Response> response;
+  ObservableFuture<Response>? response;
 
   @observable
   bool status = false;
@@ -40,20 +40,20 @@ abstract class _VerifyStore with Store {
         Response myResponse = Response.fromJson(json.decode(response));
 
         if ("true" == myResponse.status) {
-          Client client = Client.fromJson(myResponse.data);
+          Client client = Client.fromJson(myResponse.data as Map<String, dynamic>);
           var box = Hive.box<Client>('client');
 
           box.clear().then((value) => {box.put(0, client)});
           //await box.put(0,client);
           print("Box not empty:" + box.isNotEmpty.toString());
           SharedPreferences.getInstance().then((prefs) {
-            prefs.setString(pref_url_logo, client.logo);
-            prefs.setString(pref_api_url, client.apiUrl);
+            prefs.setString(pref_url_logo, client.logo!);
+            prefs.setString(pref_api_url, client.apiUrl!);
           });
 
           Navigator.pushReplacementNamed(context, loginPageRoute);
         } else {
-          String msg = myResponse.message;
+          String? msg = myResponse.message as String?;
           error.code = msg.toString().replaceAll("[", "").replaceAll("]", "");
         }
         return myResponse;
@@ -70,7 +70,7 @@ abstract class _VerifyStore with Store {
     error.code = null;
   }
 
-  List<ReactionDisposer> _disposers;
+  late List<ReactionDisposer> _disposers;
   void setupValidations() {
     _disposers = [
       reaction((_) => code, validateCode),
@@ -96,7 +96,7 @@ class FormVerifyErrorState = _FormVerifyErrorState with _$FormVerifyErrorState;
 
 abstract class _FormVerifyErrorState with Store {
   @observable
-  String code;
+  String? code;
 
   @computed
   bool get hasErrors => code != null;

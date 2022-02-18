@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomNumber extends StatefulWidget {
-  final InputCodeControl codeControl;
-  final String char, type;
+  final InputCodeControl? codeControl;
+  final String? char, type;
 
-  const CustomNumber({Key key, this.codeControl, this.char, this.type = 'text'}) : super(key: key);
+  const CustomNumber({Key? key, this.codeControl, this.char, this.type = 'text'}) : super(key: key);
 
   @override
   _CustomNumberState createState() => _CustomNumberState();
@@ -15,12 +15,12 @@ class CustomNumber extends StatefulWidget {
 
 class _CustomNumberState extends State<CustomNumber> {
   bool isPressed = false;
-  Widget renderContent(String type) {
+  Widget renderContent(String? type) {
     Widget result;
     switch (type) {
       case 'text':
         result = Text(
-          widget.char,
+          widget.char!,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 36),
         );
         break;
@@ -35,7 +35,7 @@ class _CustomNumberState extends State<CustomNumber> {
         break;
       default:
         result = Text(
-          widget.char,
+          widget.char!,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 36),
         );
         break;
@@ -68,11 +68,11 @@ class _CustomNumberState extends State<CustomNumber> {
       onTap: () {
         switch (widget.type) {
           case 'text':
-            widget.codeControl.value = (widget.codeControl.value.toString() + widget.char);
+            widget.codeControl!.value = (widget.codeControl!.value.toString() + widget.char!);
             break;
           case 'delete':
-            if (widget.codeControl.value != null && (widget.codeControl.value.length > 0)) {
-              widget.codeControl.value = widget.codeControl.value.substring(0, widget.codeControl.value.length - 1);
+            if (widget.codeControl!.value != null && (widget.codeControl!.value.length > 0)) {
+              widget.codeControl!.value = widget.codeControl!.value.substring(0, widget.codeControl!.value.length - 1);
             }
             break;
           case 'empty':

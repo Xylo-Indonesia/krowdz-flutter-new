@@ -12,7 +12,7 @@ class VisitorDetailStore = _VisitorDetailStore with _$VisitorDetailStore;
 abstract class _VisitorDetailStore with Store {
   @observable var jsonResponse;
   @observable bool isDataReady=false;
-  @observable Activity ac;
+  @observable Activity? ac;
 
 
   /* rest of the class*/

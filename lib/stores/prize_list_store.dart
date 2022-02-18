@@ -13,13 +13,13 @@ class PrizeListStore = _PrizeListStore with _$PrizeListStore;
 
 abstract class _PrizeListStore with Store {
   /* rest of the class*/
-  @observable Rewards rewards=null;
-  @observable Activity ac=null;
-  @observable String keyword='',activity='';
+  @observable Rewards? rewards=null;
+  @observable Activity? ac=null;
+  @observable String? keyword='',activity='';
 
   void getDashboardPrize() async{
     print("get dashboard prize");
-    var response= await API.RewardList(keyword: keyword,activity: activity);
+    var response= await API.RewardList(keyword: keyword!,activity: activity!);
     print(response);
     rewards=Rewards.fromJson(json.decode(response));
   }

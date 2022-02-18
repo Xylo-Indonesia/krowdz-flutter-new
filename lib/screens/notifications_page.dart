@@ -36,7 +36,8 @@ class _NotificationsState extends State<Notifications> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                 child: CustomHeader(
                   darkMode: true,
                   onBack: () => Navigator.of(context).pop(),
@@ -63,7 +64,9 @@ class _NotificationsState extends State<Notifications> {
                           badgeContent: Text(
                             '20',
                             style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.bold, fontSize: ScreenUtil().setSp(14)),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: ScreenUtil().setSp(14)),
                           )),
                     ),
                     SizedBox(
@@ -84,7 +87,9 @@ class _NotificationsState extends State<Notifications> {
                           badgeColor: redColor,
                           badgeContent: Text(
                             '2',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           )),
                     ),
                   ],
@@ -96,22 +101,26 @@ class _NotificationsState extends State<Notifications> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 32),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 32),
                     child: Column(
                       children: testArray
                           .map((e) => listType == 'announcement'
                               ? NotificationItem(
                                   title: "Notification" + e.toString(),
-                                  description: "This is notification " + e.toString(),
+                                  description:
+                                      "This is notification " + e.toString(),
                                   isUnread: e < 5 ? true : false,
                                 )
                               : NotificationItemGeneral(
                                   title: "Notification" + e.toString(),
-                                  description: "This is notification " + e.toString(),
+                                  description:
+                                      "This is notification " + e.toString(),
                                   dateString: '31 Nov 2020',
                                   timeString: '00:00',
                                   isUnread: e < 5 ? true : false,
-                                  onTap: () => Navigator.of(context).pushNamed(notificationDetailPage),
+                                  onTap: () => Navigator.of(context)
+                                      .pushNamed(notificationDetailPage),
                                 ))
                           .toList(),
                     ),

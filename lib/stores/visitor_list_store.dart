@@ -13,22 +13,22 @@ class VisitorListStore = _VisitorListStore with _$VisitorListStore;
 abstract class _VisitorListStore with Store {
   /* rest of the class*/
   @observable
-  KeyMap selectedKey, selectedKey2;
+  KeyMap? selectedKey, selectedKey2;
   @observable
-  String keyword = '';
+  String? keyword = '';
 
   @observable
-  Visitor visitor;
+  Visitor? visitor;
   @observable
   bool isVisitorReady = false;
 
   @observable
-  List<KeyMap> items;
+  List<KeyMap>? items;
   @observable
-  List<KeyMap> items2;
+  List<KeyMap>? items2;
 
   @observable
-  Map<String, dynamic> dyn_visitor;
+  Map<String, dynamic>? dyn_visitor;
 
   @observable
   String page = "1";
@@ -60,32 +60,32 @@ abstract class _VisitorListStore with Store {
 
     if (null == selectedKey) {
       items = List<KeyMap>();
-      dyn_visitor["meta"]["category"].forEach((k, v) {
-        items.add(KeyMap(k.toString(), v.toString()));
+      dyn_visitor!["meta"]["category"].forEach((k, v) {
+        items!.add(KeyMap(k.toString(), v.toString()));
         if (null != keyword_by && keyword_by.length > 0) {
-          if (keyword_by == k.toString()) selectedKey = items.last;
+          if (keyword_by == k.toString()) selectedKey = items!.last;
         } else {
-          selectedKey = items.first;
+          selectedKey = items!.first;
         }
       });
       //sorting asc desc
       items2 = List<KeyMap>();
-      items2.add(KeyMap("asc", "A to Z"));
-      items2.add(KeyMap("desc", "Z to A"));
+      items2!.add(KeyMap("asc", "A to Z"));
+      items2!.add(KeyMap("desc", "Z to A"));
       // items.add(KeyMap("code", visitor.meta.keymapper.code));
       // items.add(KeyMap("email", visitor.meta.keymapper.email));
       // items.add(KeyMap("city", visitor.meta.keymapper.city));
       // items.add(KeyMap("gender", visitor.meta.keymapper.gender));
       // items.add(KeyMap("phone_number", visitor.meta.keymapper.phoneNumber));
-      print("Items:" + items.length.toString());
+      print("Items:" + items!.length.toString());
       //selectedKey = items[0];
-      selectedKey2 = items2[0];
+      selectedKey2 = items2![0];
     }
     //print("Data Visitor:"+dyn_visitor["data"][0]["name"].toString());
 
     //getpagination data
-    hasNext = (null != visitor.links.next) ? true : false;
-    hasPrev = (null != visitor.links.prev) ? true : false;
+    hasNext = (null != visitor!.links!.next) ? true : false;
+    hasPrev = (null != visitor!.links!.prev) ? true : false;
     hasPagination = (hasNext || hasPrev) ? true : false;
 
     isVisitorReady = true;
@@ -96,18 +96,18 @@ abstract class _VisitorListStore with Store {
   void doNextPage() {
     if (hasNext) {
       getVisitorList(
-          keyword: keyword,
-          keyword_by: selectedKey.key,
-          page: visitor.links.next);
+          keyword: keyword!,
+          keyword_by: selectedKey!.key,
+          page: visitor!.links!.next!);
     }
   }
 
   void doPrevPage() {
     if (hasPrev) {
       getVisitorList(
-          keyword: keyword,
-          keyword_by: selectedKey.key,
-          page: visitor.links.prev);
+          keyword: keyword!,
+          keyword_by: selectedKey!.key,
+          page: visitor!.links!.prev!);
     }
   }
 }

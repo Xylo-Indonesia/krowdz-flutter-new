@@ -7,14 +7,14 @@ import 'package:image_picker/image_picker.dart';
 /// 使用前需已经获取相关权限
 /// Relevant privileges must be obtained before use
 class ScanReader extends StatefulWidget {
-  final Widget headerWidget;
+  final Widget? headerWidget;
   final Future Function(String) onScan;
   final double scanBoxRatio;
   final Color boxLineColor;
-  final Widget helpWidget;
+  final Widget? helpWidget;
   ScanReader({
-    Key key,
-    @required this.onScan,
+    Key? key,
+    required this.onScan,
     this.headerWidget,
     this.boxLineColor = Colors.cyanAccent,
     this.helpWidget,
@@ -31,10 +31,10 @@ class ScanReader extends StatefulWidget {
 /// qrViewKey.currentState.startScan();
 /// ```
 class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
-  QrReaderViewController _controller;
-  AnimationController _animationController;
-  bool openFlashlight;
-  Timer _timer;
+  late QrReaderViewController _controller;
+  AnimationController? _animationController;
+  bool? openFlashlight;
+  Timer? _timer;
   @override
   void initState() {
     super.initState();
@@ -44,7 +44,8 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
 
   void _initAnimation() {
     setState(() {
-      _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 1000));
+      _animationController = AnimationController(
+          vsync: this, duration: Duration(milliseconds: 1000));
     });
     _animationController
       ..addListener(_upState)
@@ -59,7 +60,7 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
           });
         }
       });
-    _animationController.forward(from: 0.0);
+    _animationController!.forward(from: 0.0);
   }
 
   void _clearAnimation() {
@@ -98,7 +99,7 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
     _controller.stopCamera();
   }
 
-  Future<bool> setFlashlight() async {
+  Future<bool?> setFlashlight() async {
     openFlashlight = await _controller.setFlashlight();
     setState(() {});
     return openFlashlight;
@@ -106,7 +107,7 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
 
   Future _scanImage() async {
     stopScan();
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) {
       startScan();
       return;
@@ -151,7 +152,7 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
                 callback: _onCreateController,
               ),
             ),
-            if (widget.headerWidget != null) widget.headerWidget,
+            if (widget.headerWidget != null) widget.headerWidget!,
             Positioned(
               left: (constraints.maxWidth - qrScanSize) / 2,
               top: (constraints.maxHeight - qrScanSize) * 0.5,
@@ -159,7 +160,8 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
                 painter: QrScanBoxPainter(
                   boxLineColor: widget.boxLineColor,
                   animationValue: _animationController?.value ?? 0,
-                  isForward: _animationController?.status == AnimationStatus.forward,
+                  isForward:
+                      _animationController?.status == AnimationStatus.forward,
                 ),
                 child: SizedBox(
                   width: qrScanSize,
@@ -168,7 +170,8 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
               ),
             ),
             Positioned(
-              top: ((constraints.maxHeight - qrScanSize) * 0.5 + qrScanSize) + 28,
+              top: ((constraints.maxHeight - qrScanSize) * 0.5 + qrScanSize) +
+                  28,
               width: constraints.maxWidth,
               child: Align(
                 alignment: Alignment.center,
@@ -176,12 +179,18 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
                   behavior: HitTestBehavior.translucent,
                   onTap: setFlashlight,
                   child: Container(
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white, boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.8), spreadRadius: 1, blurRadius: 7, offset: Offset(0, 4)),
-                    ]),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.8),
+                              spreadRadius: 1,
+                              blurRadius: 7,
+                              offset: Offset(0, 4)),
+                        ]),
                     padding: EdgeInsets.all(12),
-                    child: openFlashlight ? flashOpen : flashClose,
+                    child: openFlashlight! ? flashOpen : flashClose,
                   ),
                 ),
               ),
@@ -202,9 +211,12 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
 class QrScanBoxPainter extends CustomPainter {
   final double animationValue;
   final bool isForward;
-  final Color boxLineColor;
+  final Color? boxLineColor;
 
-  QrScanBoxPainter({@required this.animationValue, @required this.isForward, this.boxLineColor})
+  QrScanBoxPainter(
+      {required this.animationValue,
+      required this.isForward,
+      this.boxLineColor})
       : assert(animationValue != null),
         assert(isForward != null);
 
@@ -238,7 +250,8 @@ class QrScanBoxPainter extends CustomPainter {
     // rightBottom
     path.moveTo(size.width, size.height - 50);
     path.lineTo(size.width, size.height - 12);
-    path.quadraticBezierTo(size.width, size.height, size.width - 12, size.height);
+    path.quadraticBezierTo(
+        size.width, size.height, size.width - 12, size.height);
     path.lineTo(size.width - 50, size.height);
     // leftBottom
     path.moveTo(50, size.height);
@@ -248,7 +261,8 @@ class QrScanBoxPainter extends CustomPainter {
 
     canvas.drawPath(path, borderPaint);
 
-    canvas.clipRRect(BorderRadius.all(Radius.circular(12)).toRRect(Offset.zero & size));
+    canvas.clipRRect(
+        BorderRadius.all(Radius.circular(12)).toRRect(Offset.zero & size));
 
     // 绘制横向网格
     final linePaint = Paint();
@@ -256,7 +270,7 @@ class QrScanBoxPainter extends CustomPainter {
     final leftPress = (size.height + lineSize) * animationValue - lineSize;
     linePaint.style = PaintingStyle.stroke;
     linePaint.shader = LinearGradient(
-      colors: [Colors.transparent, boxLineColor],
+      colors: [Colors.transparent, boxLineColor!],
       begin: isForward ? Alignment.topCenter : Alignment(0.0, 2.0),
       end: isForward ? Alignment(0.0, 0.5) : Alignment.topCenter,
     ).createShader(Rect.fromLTWH(0, leftPress, size.width, lineSize));
@@ -283,8 +297,10 @@ class QrScanBoxPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(QrScanBoxPainter oldDelegate) => animationValue != oldDelegate.animationValue;
+  bool shouldRepaint(QrScanBoxPainter oldDelegate) =>
+      animationValue != oldDelegate.animationValue;
 
   @override
-  bool shouldRebuildSemantics(QrScanBoxPainter oldDelegate) => animationValue != oldDelegate.animationValue;
+  bool shouldRebuildSemantics(QrScanBoxPainter oldDelegate) =>
+      animationValue != oldDelegate.animationValue;
 }

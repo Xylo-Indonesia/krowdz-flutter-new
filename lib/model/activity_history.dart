@@ -1,12 +1,12 @@
 class ActivityHistoryData {
-  int id;
-  String name;
-  String description;
-  String category;
-  bool rewardAvailable;
-  int permissionId;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  String? name;
+  String? description;
+  String? category;
+  bool? rewardAvailable;
+  int? permissionId;
+  String? createdAt;
+  String? updatedAt;
   Null deletedAt;
 
   ActivityHistoryData(

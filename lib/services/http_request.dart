@@ -17,9 +17,10 @@ import 'package:validators/validators.dart';
 const baseUrl = 'https://www.festrec.com/api';
 
 // staging
+// const scheme = 'https';
 // const baseUrlPortal='https://tenant.krowdz-staging.xylo.co.id/api';
 
-// local
+// loca
 const baseUrlPortal = 'http://192.168.0.8:3000/api';
 // const baseUrlPortal = 'http://10.0.2.2:3000/api';
 
@@ -28,14 +29,14 @@ const baseUrlPortal = 'http://192.168.0.8:3000/api';
 //const client_url='https://x-event-client.xylo.co.id';
 
 class API {
-  static Future<String> getClientUrl() async {
+  static Future<String?> getClientUrl() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print(prefs.getString(pref_api_url));
     return prefs.getString(pref_api_url);
   }
 
   Future getVersion() async {
-    var url = baseUrlPortal + "/version";
+    var url = Uri.parse(baseUrlPortal + "/version");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       //Version version=jsonDecode(response.body);
@@ -46,7 +47,7 @@ class API {
   }
 
   Future doVerify(String code) async {
-    var url = baseUrlPortal + "/verify";
+    var url = Uri.parse(baseUrlPortal + "/verify");
     VerifyRequest request = VerifyRequest(code: code);
 
     final response = await http.post(url, body: request.toJson());
@@ -61,9 +62,9 @@ class API {
   static Future<String> loginPost(email, password) async {
     //    var box=Hive.box<Client>('client');
     //    var client=box.getAt(0);
-    var client_url = await getClientUrl();
+    var client_url = await (getClientUrl() as Future<String>);
     print(client_url);
-    var url = client_url + '/login';
+    var url = Uri.parse(client_url + '/login');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json"
@@ -84,10 +85,10 @@ class API {
 
   static Future<String> scanCode(code) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
     //print(client_url);
-    var url = client_url + '/visitors/scan-qrcode';
+    var url = Uri.parse(client_url + '/visitors/scan-qrcode');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -110,10 +111,10 @@ class API {
 
   static Future<String> inputCode(code) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
     //print(client_url);
-    var url = client_url + '/visitors/input-code';
+    var url = Uri.parse(client_url + '/visitors/input-code');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -135,7 +136,7 @@ class API {
   }
 
   static Future<String> forgotPassword(email) async {
-    var url = baseUrl + '/password/email';
+    var url = Uri.parse(baseUrl + '/password/email');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -148,7 +149,7 @@ class API {
 
   static Future<String> registerPost(
       name, email, password, confirmPassword) async {
-    var url = baseUrl + '/register';
+    var url = Uri.parse(baseUrl + '/register');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json"
@@ -174,8 +175,8 @@ class API {
       String page = '',
       String order_direction = 'asc'}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
     // print(page);
     page = "" + page.replaceAll(client_url + '/visitors' + '?page=', '');
     // print(page);
@@ -190,7 +191,7 @@ class API {
       order_by = 'alphanumeric_code';
     }
 
-    var url = client_url +
+    var url = Uri.parse(client_url +
         '/visitors' +
         '?' +
         'keyword=' +
@@ -204,7 +205,7 @@ class API {
         'order_direction=' +
         order_direction +
         '&order_by=' +
-        order_by;
+        order_by);
     print(url);
     var headers = {
       "Content-Type": "application/json",
@@ -225,10 +226,10 @@ class API {
 
   static Future<dynamic> doRegisterNewVisitor(var json) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/visitors/register';
+    var url = Uri.parse(client_url + '/visitors/register');
     var headers = {
       // "Content-Type": "application/json",
       // "Accept": "application/json",
@@ -250,10 +251,10 @@ class API {
   static Future<dynamic> doRegisterNewActivity(
       var json, var activityID, var visitorID) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/activities/' + activityID + '/register';
+    var url = Uri.parse(client_url + '/activities/' + activityID + '/register');
     var headers = {
       // "Content-Type": "application/json",
       "Accept": "application/json",
@@ -263,7 +264,7 @@ class API {
     json['visitor_id'] = visitorID;
     print(json);
 
-    var request = http.MultipartRequest('POST', Uri.parse(url));
+    var request = http.MultipartRequest('POST', url);
     request.fields['a'] = 'a';
     // TODO: handle file inputs
 
@@ -283,11 +284,11 @@ class API {
   static Future<dynamic> doEditActivity(
       var json, var activityID, var historyId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url =
-        client_url + '/activities/' + activityID + '/history/' + historyId;
+    var url = Uri.parse(
+        client_url + '/activities/' + activityID + '/history/' + historyId);
     var headers = {
       // "Content-Type": "application/json",
       "Accept": "application/json",
@@ -309,10 +310,10 @@ class API {
 
   static Future<String> getRegisterEntity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/visitors/fields';
+    var url = Uri.parse(client_url + '/visitors/fields');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -333,10 +334,10 @@ class API {
 
   static Future<String> getRegisterEntityById(var id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/activities/' + id + '/fields';
+    var url = Uri.parse(client_url + '/activities/' + id + '/fields');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -355,16 +356,16 @@ class API {
     return response.body;
   }
 
-  static Future<String> RegisterVisitor() async {
+  static Future<String?> RegisterVisitor() async {
     return null;
   }
 
   static Future<String> VisitorDetail(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/visitors/' + id;
+    var url = Uri.parse(client_url + '/visitors/' + id);
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -383,16 +384,16 @@ class API {
     return response.body;
   }
 
-  static Future<String> DashboardSummary({DateTime date}) async {
+  static Future<String> DashboardSummary({DateTime? date}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
     var registered_at = date != null
         ? '?registered_at=' + DateFormat('yyyy-MM-dd').format(date)
         : '';
 
-    var url = client_url + '/dashboard/summary' + registered_at;
+    var url = Uri.parse(client_url + '/dashboard/summary' + registered_at);
 
     var headers = {
       "Content-Type": "application/json",
@@ -414,10 +415,10 @@ class API {
 
   static Future<String> DashboardActivity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/dashboard/activity';
+    var url = Uri.parse(client_url + '/dashboard/activity');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -437,10 +438,10 @@ class API {
 
   static Future<String> DashboardPrize() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/dashboard/prize';
+    var url = Uri.parse(client_url + '/dashboard/prize');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -461,10 +462,15 @@ class API {
   static Future<String> RewardList(
       {String keyword = '', String activity = ''}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/merchandises';
+    var url = Uri.parse(client_url +
+        '/merchandises' +
+        '?keyword=' +
+        keyword +
+        '&activity=' +
+        activity);
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -473,10 +479,8 @@ class API {
     http.Response response;
 
     try {
-      print(url + '?keyword=' + keyword + '&activity=' + activity);
-      response = await http.get(
-          url + '?keyword=' + keyword + '&activity=' + activity,
-          headers: headers);
+      print(url);
+      response = await http.get(url, headers: headers);
     } catch (_) {
       return {"status": "error", "message": "Failed to connect to server"}
           .toString();
@@ -488,10 +492,56 @@ class API {
   //Visitor Detail
   static Future<String> ActivityList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String access_token = prefs.getString(pref_access_token);
-    var client_url = await getClientUrl();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
 
-    var url = client_url + '/activities';
+    var url = Uri.parse(client_url + '/activities');
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+    http.Response response;
+
+    try {
+      response = await http.get(url, headers: headers);
+    } catch (_) {
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response.body;
+  }
+
+  static Future<String> GeneralNotificationList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+
+    var url = Uri.parse(client_url + '/notifications/general');
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+    http.Response response;
+
+    try {
+      response = await http.get(url, headers: headers);
+    } catch (_) {
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response.body;
+  }
+
+  static Future<String> AnnouncementList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+
+    var url = Uri.parse(client_url + '/notifications/announcements');
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",

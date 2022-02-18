@@ -1,5 +1,5 @@
 class VerifyRequest {
-  String code;
+  String? code;
 
   VerifyRequest({this.code});
 

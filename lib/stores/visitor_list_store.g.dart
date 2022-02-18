@@ -12,13 +12,13 @@ mixin _$VisitorListStore on _VisitorListStore, Store {
   final _$selectedKeyAtom = Atom(name: '_VisitorListStore.selectedKey');
 
   @override
-  KeyMap get selectedKey {
+  KeyMap? get selectedKey {
     _$selectedKeyAtom.reportRead();
     return super.selectedKey;
   }
 
   @override
-  set selectedKey(KeyMap value) {
+  set selectedKey(KeyMap? value) {
     _$selectedKeyAtom.reportWrite(value, super.selectedKey, () {
       super.selectedKey = value;
     });
@@ -27,13 +27,13 @@ mixin _$VisitorListStore on _VisitorListStore, Store {
   final _$selectedKey2Atom = Atom(name: '_VisitorListStore.selectedKey2');
 
   @override
-  KeyMap get selectedKey2 {
+  KeyMap? get selectedKey2 {
     _$selectedKey2Atom.reportRead();
     return super.selectedKey2;
   }
 
   @override
-  set selectedKey2(KeyMap value) {
+  set selectedKey2(KeyMap? value) {
     _$selectedKey2Atom.reportWrite(value, super.selectedKey2, () {
       super.selectedKey2 = value;
     });
@@ -42,13 +42,13 @@ mixin _$VisitorListStore on _VisitorListStore, Store {
   final _$keywordAtom = Atom(name: '_VisitorListStore.keyword');
 
   @override
-  String get keyword {
+  String? get keyword {
     _$keywordAtom.reportRead();
     return super.keyword;
   }
 
   @override
-  set keyword(String value) {
+  set keyword(String? value) {
     _$keywordAtom.reportWrite(value, super.keyword, () {
       super.keyword = value;
     });
@@ -57,13 +57,13 @@ mixin _$VisitorListStore on _VisitorListStore, Store {
   final _$visitorAtom = Atom(name: '_VisitorListStore.visitor');
 
   @override
-  Visitor get visitor {
+  Visitor? get visitor {
     _$visitorAtom.reportRead();
     return super.visitor;
   }
 
   @override
-  set visitor(Visitor value) {
+  set visitor(Visitor? value) {
     _$visitorAtom.reportWrite(value, super.visitor, () {
       super.visitor = value;
     });
@@ -87,13 +87,13 @@ mixin _$VisitorListStore on _VisitorListStore, Store {
   final _$itemsAtom = Atom(name: '_VisitorListStore.items');
 
   @override
-  List<KeyMap> get items {
+  List<KeyMap>? get items {
     _$itemsAtom.reportRead();
     return super.items;
   }
 
   @override
-  set items(List<KeyMap> value) {
+  set items(List<KeyMap>? value) {
     _$itemsAtom.reportWrite(value, super.items, () {
       super.items = value;
     });
@@ -102,13 +102,13 @@ mixin _$VisitorListStore on _VisitorListStore, Store {
   final _$items2Atom = Atom(name: '_VisitorListStore.items2');
 
   @override
-  List<KeyMap> get items2 {
+  List<KeyMap>? get items2 {
     _$items2Atom.reportRead();
     return super.items2;
   }
 
   @override
-  set items2(List<KeyMap> value) {
+  set items2(List<KeyMap>? value) {
     _$items2Atom.reportWrite(value, super.items2, () {
       super.items2 = value;
     });
@@ -117,13 +117,13 @@ mixin _$VisitorListStore on _VisitorListStore, Store {
   final _$dyn_visitorAtom = Atom(name: '_VisitorListStore.dyn_visitor');
 
   @override
-  Map<String, dynamic> get dyn_visitor {
+  Map<String, dynamic>? get dyn_visitor {
     _$dyn_visitorAtom.reportRead();
     return super.dyn_visitor;
   }
 
   @override
-  set dyn_visitor(Map<String, dynamic> value) {
+  set dyn_visitor(Map<String, dynamic>? value) {
     _$dyn_visitorAtom.reportWrite(value, super.dyn_visitor, () {
       super.dyn_visitor = value;
     });

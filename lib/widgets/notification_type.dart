@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotificationType extends StatelessWidget {
-  final String title;
+  final String? title;
   final bool isActive;
   final onTap, badge;
 
-  const NotificationType({Key key, this.title, this.isActive = false, this.onTap, this.badge}) : super(key: key);
+  const NotificationType({Key? key, this.title, this.isActive = false, this.onTap, this.badge}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class NotificationType extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                title,
+                title!,
                 style: TextStyle(color: isActive ? darkerBackground : Colors.white, fontWeight: FontWeight.bold),
               ),
               badge

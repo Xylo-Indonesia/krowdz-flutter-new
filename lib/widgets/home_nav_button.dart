@@ -3,19 +3,19 @@ import 'package:event/widgets/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeNavButton extends StatelessWidget{
-  final String title;
-  final String imageUrl;
+  final String? title;
+  final String? imageUrl;
   final onTap;
   final color;
   final bool isActive;
 
-  const HomeNavButton({Key key, this.title, this.imageUrl, this.onTap, this.isActive = true, this.color = primaryColor}) : super(key: key);
+  const HomeNavButton({Key? key, this.title, this.imageUrl, this.onTap, this.isActive = true, this.color = primaryColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
         children: <Widget>[
-          Text(title.toUpperCase(), style: TextStyle(
+          Text(title!.toUpperCase(), style: TextStyle(
             fontSize: 12.sp,
             color: Colors.grey,
             fontWeight: FontWeight.w600
@@ -32,7 +32,7 @@ class HomeNavButton extends StatelessWidget{
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 17),
                 child: Image(
-                  image: AssetImage(imageUrl),
+                  image: AssetImage(imageUrl!),
                 ),
               ),
             ),

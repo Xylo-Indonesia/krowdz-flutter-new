@@ -27,13 +27,13 @@ mixin _$DashboardStore on _DashboardStore, Store {
   final _$clientAtom = Atom(name: '_DashboardStore.client');
 
   @override
-  Client get client {
+  Client? get client {
     _$clientAtom.reportRead();
     return super.client;
   }
 
   @override
-  set client(Client value) {
+  set client(Client? value) {
     _$clientAtom.reportWrite(value, super.client, () {
       super.client = value;
     });
@@ -57,13 +57,13 @@ mixin _$DashboardStore on _DashboardStore, Store {
   final _$userAtom = Atom(name: '_DashboardStore.user');
 
   @override
-  User get user {
+  User? get user {
     _$userAtom.reportRead();
     return super.user;
   }
 
   @override
-  set user(User value) {
+  set user(User? value) {
     _$userAtom.reportWrite(value, super.user, () {
       super.user = value;
     });
@@ -87,13 +87,13 @@ mixin _$DashboardStore on _DashboardStore, Store {
   final _$dashboardSummaryAtom = Atom(name: '_DashboardStore.dashboardSummary');
 
   @override
-  DashboardSummary get dashboardSummary {
+  DashboardSummary? get dashboardSummary {
     _$dashboardSummaryAtom.reportRead();
     return super.dashboardSummary;
   }
 
   @override
-  set dashboardSummary(DashboardSummary value) {
+  set dashboardSummary(DashboardSummary? value) {
     _$dashboardSummaryAtom.reportWrite(value, super.dashboardSummary, () {
       super.dashboardSummary = value;
     });
@@ -119,13 +119,13 @@ mixin _$DashboardStore on _DashboardStore, Store {
   final _$visitor1Atom = Atom(name: '_DashboardStore.visitor1');
 
   @override
-  int get visitor1 {
+  int? get visitor1 {
     _$visitor1Atom.reportRead();
     return super.visitor1;
   }
 
   @override
-  set visitor1(int value) {
+  set visitor1(int? value) {
     _$visitor1Atom.reportWrite(value, super.visitor1, () {
       super.visitor1 = value;
     });
@@ -134,13 +134,13 @@ mixin _$DashboardStore on _DashboardStore, Store {
   final _$visitor2Atom = Atom(name: '_DashboardStore.visitor2');
 
   @override
-  int get visitor2 {
+  int? get visitor2 {
     _$visitor2Atom.reportRead();
     return super.visitor2;
   }
 
   @override
-  set visitor2(int value) {
+  set visitor2(int? value) {
     _$visitor2Atom.reportWrite(value, super.visitor2, () {
       super.visitor2 = value;
     });
@@ -150,13 +150,13 @@ mixin _$DashboardStore on _DashboardStore, Store {
       Atom(name: '_DashboardStore.dashboardActivity');
 
   @override
-  DashboardActivity get dashboardActivity {
+  DashboardActivity? get dashboardActivity {
     _$dashboardActivityAtom.reportRead();
     return super.dashboardActivity;
   }
 
   @override
-  set dashboardActivity(DashboardActivity value) {
+  set dashboardActivity(DashboardActivity? value) {
     _$dashboardActivityAtom.reportWrite(value, super.dashboardActivity, () {
       super.dashboardActivity = value;
     });
@@ -182,13 +182,13 @@ mixin _$DashboardStore on _DashboardStore, Store {
   final _$dashboardPrizeAtom = Atom(name: '_DashboardStore.dashboardPrize');
 
   @override
-  DashboardPrize get dashboardPrize {
+  DashboardPrize? get dashboardPrize {
     _$dashboardPrizeAtom.reportRead();
     return super.dashboardPrize;
   }
 
   @override
-  set dashboardPrize(DashboardPrize value) {
+  set dashboardPrize(DashboardPrize? value) {
     _$dashboardPrizeAtom.reportWrite(value, super.dashboardPrize, () {
       super.dashboardPrize = value;
     });

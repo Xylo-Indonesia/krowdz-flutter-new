@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class NewVisitorPage extends StatelessWidget {
-  NewVisitor store;
+  late NewVisitor store;
   String formString = json.encode({
     'autoValidated': false,
     'fields': [
@@ -88,14 +88,14 @@ class NewVisitorPage extends StatelessWidget {
 
   dynamic response;
 
-  String validationExample(field, value) {
+  String? validationExample(field, value) {
     if (value.isEmpty) {
       return 'Please enter some text.test';
     }
     return null;
   }
 
-  Map validations;
+  Map? validations;
   Map decorations = {
     'email': InputDecoration(
       hintText: 'Email',
@@ -237,7 +237,7 @@ class NewVisitorPage extends StatelessWidget {
                         return Container();
                       } else
                         return Text(
-                            '' + store.responseSubmit.status.toString());
+                            '' + store.responseSubmit!.status.toString());
                     }),
                   ]);
                 }

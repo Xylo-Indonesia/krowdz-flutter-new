@@ -66,7 +66,7 @@ class StartupPage extends StatelessWidget {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Observer(builder: (_) {
-              switch (store.response.status) {
+              switch (store.response!.status) {
                 case FutureStatus.pending:
                   return Center(
                     child: Column(
@@ -102,10 +102,10 @@ class StartupPage extends StatelessWidget {
                   );
                 case FutureStatus.fulfilled:
                   //Version version=Version.fromJson(json.decode(store.response.value));
-                  Version version = store.versionServer;
-                  String currentVersion = store.currentVersion.value;
+                  Version version = store.versionServer!;
+                  String currentVersion = store.currentVersion!.value!;
                   var isLatest =
-                      currentVersion.compareTo(version.latestVersion);
+                      currentVersion.compareTo(version.latestVersion!);
                   if (isLatest == 0) {
                     var box = Hive.box<Client>('client');
                     print("Hive startup: " +
@@ -213,7 +213,7 @@ class StartupPage extends StatelessWidget {
                                 Observer(
                                   builder: (_) => Text(
                                     (verify_store.error.hasErrors
-                                        ? verify_store.error.code
+                                        ? verify_store.error.code!
                                         : ""),
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -304,7 +304,7 @@ class StartupPage extends StatelessWidget {
                   return ResponseDialog.showVersionDialog(
                       context,
                       "Latest version:" +
-                          version.latestVersion +
+                          version.latestVersion! +
                           ".\n" +
                           "Your version is : " +
                           currentVersion +

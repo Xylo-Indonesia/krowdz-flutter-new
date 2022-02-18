@@ -1,9 +1,9 @@
 class Rewards {
-  bool status;
-  String message;
-  List<Data> data;
-  Links links;
-  Meta meta;
+  bool? status;
+  String? message;
+  List<Data>? data;
+  Links? links;
+  Meta? meta;
 
   Rewards({this.status, this.message, this.data, this.links, this.meta});
 
@@ -13,7 +13,7 @@ class Rewards {
     if (json['data'] != null) {
       data = new List<Data>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
     links = json['links'] != null ? new Links.fromJson(json['links']) : null;
@@ -25,25 +25,25 @@ class Rewards {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     if (this.links != null) {
-      data['links'] = this.links.toJson();
+      data['links'] = this.links!.toJson();
     }
     if (this.meta != null) {
-      data['meta'] = this.meta.toJson();
+      data['meta'] = this.meta!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int id;
-  String name;
-  String image;
-  int quota;
-  int remainingQuotas;
-  List<Activities> activities;
+  int? id;
+  String? name;
+  String? image;
+  int? quota;
+  int? remainingQuotas;
+  List<Activities>? activities;
 
   Data(
       {this.id,
@@ -62,7 +62,7 @@ class Data {
     if (json['activities'] != null) {
       activities = new List<Activities>();
       json['activities'].forEach((v) {
-        activities.add(new Activities.fromJson(v));
+        activities!.add(new Activities.fromJson(v));
       });
     }
   }
@@ -75,24 +75,24 @@ class Data {
     data['total_stock'] = this.quota;
     data['remaining_stock'] = this.remainingQuotas;
     if (this.activities != null) {
-      data['activities'] = this.activities.map((v) => v.toJson()).toList();
+      data['activities'] = this.activities!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Activities {
-  int id;
-  String name;
-  String description;
-  String category;
-  bool rewardAvailable;
-  int permissionId;
-  String icon;
-  String createdAt;
-  String updatedAt;
-  String deletedAt;
-  Pivot pivot;
+  int? id;
+  String? name;
+  String? description;
+  String? category;
+  bool? rewardAvailable;
+  int? permissionId;
+  String? icon;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+  Pivot? pivot;
 
   Activities(
       {this.id,
@@ -134,15 +134,15 @@ class Activities {
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;
     if (this.pivot != null) {
-      data['pivot'] = this.pivot.toJson();
+      data['pivot'] = this.pivot!.toJson();
     }
     return data;
   }
 }
 
 class Pivot {
-  int rewardId;
-  int activityId;
+  int? rewardId;
+  int? activityId;
 
   Pivot({this.rewardId, this.activityId});
 
@@ -160,10 +160,10 @@ class Pivot {
 }
 
 class Links {
-  String first;
-  String last;
-  String prev;
-  String next;
+  String? first;
+  String? last;
+  String? prev;
+  String? next;
 
   Links({this.first, this.last, this.prev, this.next});
 
@@ -185,13 +185,13 @@ class Links {
 }
 
 class Meta {
-  int currentPage;
-  int from;
-  int lastPage;
-  String path;
-  int perPage;
-  int to;
-  int total;
+  int? currentPage;
+  int? from;
+  int? lastPage;
+  String? path;
+  int? perPage;
+  int? to;
+  int? total;
 
   Meta(
       {this.currentPage,

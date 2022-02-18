@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomInput extends StatelessWidget {
-  final String label;
+  final String? label;
   final child, padding, darkMode;
 
-  const CustomInput({Key key, this.label, this.child, this.padding = const EdgeInsets.all(0), this.darkMode = false})
+  const CustomInput({Key? key, this.label, this.child, this.padding = const EdgeInsets.all(0), this.darkMode = false})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class CustomInput extends StatelessWidget {
               ? Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
-                    label,
+                    label!,
                     style: TextStyle(color: darkMode ? Colors.white : Colors.black, fontWeight: FontWeight.bold),
                   ),
                 )

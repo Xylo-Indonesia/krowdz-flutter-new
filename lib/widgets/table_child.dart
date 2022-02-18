@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TableChild extends StatelessWidget {
-  final int flexLeft, flexRight;
+  final int? flexLeft, flexRight;
   final childLeft, childRight, backgroundColor, borderColor, onTap, darkMode;
 
   const TableChild(
-      {Key key,
+      {Key? key,
       this.flexLeft,
       this.flexRight,
       this.childLeft,
@@ -29,7 +29,7 @@ class TableChild extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    flex: flexLeft,
+                    flex: flexLeft!,
                     child: Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Padding(
@@ -38,7 +38,7 @@ class TableChild extends StatelessWidget {
                         )),
                   ),
                   Expanded(
-                    flex: flexRight,
+                    flex: flexRight!,
                     child: childRight,
                   ),
                 ],

@@ -10,25 +10,25 @@ part 'new_visitor_store.g.dart';
 class NewVisitor = _NewVisitor with _$NewVisitor;
 
 abstract class _NewVisitor with Store {
-  @observable Entity entity;
-  @observable String formString;
+  @observable Entity? entity;
+  @observable String? formString;
   /* rest of the class*/
   void getRegisterEntity()async{
     var response= await API.getRegisterEntity();
     entity=Entity.fromJson(json.decode(response));
-    var dyn_data=entity.data;
+    var dyn_data=entity!.data;
     //print(dyn_data[0]['placeholder']);
 
     formString=json.encode({
       'autoValidated': false,
-      'fields':entity.data
+      'fields':entity!.data
     }
     );
 
   }
 
   @observable
-  ObservableFuture<dynamic> responseSubmit;
+  ObservableFuture<dynamic>? responseSubmit;
 
   @observable bool isSubmit=false ;
 
@@ -42,7 +42,7 @@ abstract class _NewVisitor with Store {
       //     kv=kv+k.toString()+':'+v.toString()+',';
       //   }
       // );
-      Map<String, dynamic> newjson = new Map<String, dynamic>();
+      Map<String?, dynamic> newjson = new Map<String?, dynamic>();
       ;
       for (dynamic field in data["fields"]) {
         kv = kv + '"' + field["name"] + '"' + ':' + field["value"] + ',';

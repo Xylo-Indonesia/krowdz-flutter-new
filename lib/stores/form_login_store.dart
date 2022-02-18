@@ -21,13 +21,15 @@ class FormLoginStore = _FormLoginStore with _$FormLoginStore;
 
 abstract class _FormLoginStore with Store {
   final FormLoginErrorState error = FormLoginErrorState();
-  @observable String url_logo="https://dev.bounche.com/xylo-event-2020/login-placeholder.png";
+  @observable
+  String? url_logo =
+      "https://dev.bounche.com/xylo-event-2020/login-placeholder.png";
 
   @observable
-  Client client;
+  Client? client;
 
   @observable
-  CustomColor color;
+  CustomColor? color;
 
   @observable
   String name = '';
@@ -39,7 +41,7 @@ abstract class _FormLoginStore with Store {
   String password = '';
 
   @observable
-  ObservableFuture<bool> usernameCheck = ObservableFuture.value(true);
+  ObservableFuture<bool?> usernameCheck = ObservableFuture.value(true);
 
   @computed
   bool get isUserCheckPending => usernameCheck.status == FutureStatus.pending;
@@ -47,7 +49,7 @@ abstract class _FormLoginStore with Store {
   @computed
   bool get canLogin => !error.hasErrors;
 
-  List<ReactionDisposer> _disposers;
+  late List<ReactionDisposer> _disposers;
 
   void setupValidations() {
     _disposers = [
@@ -55,49 +57,43 @@ abstract class _FormLoginStore with Store {
       reaction((_) => password, validatePassword)
     ];
   }
-  void getClient () async {
-    print('Getting Client');
-    SharedPreferences.getInstance().then((prefs){
-      url_logo=prefs.getString(pref_url_logo);
-    });
 
+  void getClient() async {
+    print('Getting Client');
+    SharedPreferences.getInstance().then((prefs) {
+      url_logo = prefs.getString(pref_url_logo);
+    });
   }
 
-
-
   @action
-  void validatePassword (String value){
+  void validatePassword(String value) {
     error.password = isNull(value) || value.isEmpty ? 'Cannot be blank' : null;
-
   }
 
   @action
   Future validateEmail(String value) async {
-    if(!isEmail(value) || value.isEmpty){
-      error.email='Not a valid email';
+    if (!isEmail(value) || value.isEmpty) {
+      error.email = 'Not a valid email';
       return;
     }
     error.email = null;
   }
 
-  Future<bool> checkValidUsername(String value) async {
-    var response=await API.loginPost(email, password);
-    print('Response:'+response.toString());
+  Future<bool?> checkValidUsername(String value) async {
+    var response = await API.loginPost(email, password);
+    print('Response:' + response.toString());
     print('Saving box');
 
-    User  user =User.fromJson(json.decode(response));
-    if(false==user.status){
-      error.email=user.message;
-    }
-    else{
-
-
-        var box = Hive.box<User>('user');
-        await box.clear();
-        await box.put(0, user);
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setString(pref_access_token, user.data.accessToken);
-        });
+    User user = User.fromJson(json.decode(response));
+    if (false == user.status) {
+      error.email = user.message;
+    } else {
+      var box = Hive.box<User>('user');
+      await box.clear();
+      await box.put(0, user);
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setString(pref_access_token, user.data!.accessToken!);
+      });
 
       print('Done');
     }
@@ -110,23 +106,22 @@ abstract class _FormLoginStore with Store {
     }
   }
 
-  Future validateAll(context) async{
+  Future validateAll(context) async {
     validatePassword(password);
     validateEmail(email);
-    if(error.email==null && error.password==null){
+    if (error.email == null && error.password == null) {
       try {
         usernameCheck = ObservableFuture(checkValidUsername(email));
 
         error.email = null;
 
-        final isValid = await usernameCheck;
+        final isValid = await (usernameCheck as Future<bool>);
         if (!isValid) {
           //error.email = 'Wrong username / password';
           return;
-        }else{
+        } else {
           print('HomePageRoute');
           Navigator.pushReplacementNamed(context, homePageRoute);
-
         }
       } on Object catch (_) {
         error.email = null;
@@ -139,13 +134,13 @@ class FormLoginErrorState = _FormLoginErrorState with _$FormLoginErrorState;
 
 abstract class _FormLoginErrorState with Store {
   @observable
-  String username;
+  String? username;
 
   @observable
-  String email=' ';
+  String? email = ' ';
 
   @observable
-  String password=' ';
+  String? password = ' ';
 
   @computed
   bool get hasErrors => username != null || email != null || password != null;

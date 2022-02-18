@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'prize_list_store.dart';
+part of 'notification_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,62 +8,62 @@ part of 'prize_list_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$PrizeListStore on _PrizeListStore, Store {
-  final _$rewardsAtom = Atom(name: '_PrizeListStore.rewards');
+mixin _$NotificationStore on _NotificationStore, Store {
+  final _$generalAtom = Atom(name: '_NotificationStore.general');
 
   @override
-  Rewards? get rewards {
-    _$rewardsAtom.reportRead();
-    return super.rewards;
+  Notification? get general {
+    _$generalAtom.reportRead();
+    return super.general;
   }
 
   @override
-  set rewards(Rewards? value) {
-    _$rewardsAtom.reportWrite(value, super.rewards, () {
-      super.rewards = value;
+  set general(Notification? value) {
+    _$generalAtom.reportWrite(value, super.general, () {
+      super.general = value;
     });
   }
 
-  final _$acAtom = Atom(name: '_PrizeListStore.ac');
+  final _$announcementsAtom = Atom(name: '_NotificationStore.announcements');
 
   @override
-  Activity? get ac {
-    _$acAtom.reportRead();
-    return super.ac;
+  Notification? get announcements {
+    _$announcementsAtom.reportRead();
+    return super.announcements;
   }
 
   @override
-  set ac(Activity? value) {
-    _$acAtom.reportWrite(value, super.ac, () {
-      super.ac = value;
+  set announcements(Notification? value) {
+    _$announcementsAtom.reportWrite(value, super.announcements, () {
+      super.announcements = value;
     });
   }
 
-  final _$keywordAtom = Atom(name: '_PrizeListStore.keyword');
+  final _$keywordAtom = Atom(name: '_NotificationStore.keyword');
 
   @override
-  String? get keyword {
+  String get keyword {
     _$keywordAtom.reportRead();
     return super.keyword;
   }
 
   @override
-  set keyword(String? value) {
+  set keyword(String value) {
     _$keywordAtom.reportWrite(value, super.keyword, () {
       super.keyword = value;
     });
   }
 
-  final _$activityAtom = Atom(name: '_PrizeListStore.activity');
+  final _$activityAtom = Atom(name: '_NotificationStore.activity');
 
   @override
-  String? get activity {
+  String get activity {
     _$activityAtom.reportRead();
     return super.activity;
   }
 
   @override
-  set activity(String? value) {
+  set activity(String value) {
     _$activityAtom.reportWrite(value, super.activity, () {
       super.activity = value;
     });
@@ -72,8 +72,8 @@ mixin _$PrizeListStore on _PrizeListStore, Store {
   @override
   String toString() {
     return '''
-rewards: ${rewards},
-ac: ${ac},
+general: ${general},
+announcements: ${announcements},
 keyword: ${keyword},
 activity: ${activity}
     ''';

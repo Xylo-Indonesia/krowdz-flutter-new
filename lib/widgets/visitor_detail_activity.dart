@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class VisitorDetailActivity extends StatelessWidget {
   final image, onTap, title;
 
-  const VisitorDetailActivity({Key key, this.image, this.onTap, this.title})
+  const VisitorDetailActivity({Key? key, this.image, this.onTap, this.title})
       : super(key: key);
 
   @override

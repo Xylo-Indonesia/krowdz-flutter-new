@@ -1,7 +1,7 @@
 class Response{
-  String status;
-  Object data;
-  Object message;
+  String? status;
+  Object? data;
+  Object? message;
 
   Response(this.status, this.data,this.message);
   Response.fromJson(Map<String, dynamic> json) {
