@@ -11,7 +11,7 @@ class Rewards {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = [];
       json['data'].forEach((v) {
         data!.add(new Data.fromJson(v));
       });
@@ -60,7 +60,7 @@ class Data {
     quota = json['total_stock'];
     remainingQuotas = json['remaining_stock'];
     if (json['activities'] != null) {
-      activities = new List<Activities>();
+      activities = [];
       json['activities'].forEach((v) {
         activities!.add(new Activities.fromJson(v));
       });

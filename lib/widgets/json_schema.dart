@@ -95,7 +95,7 @@ class _CoreFormState extends State<JsonSchema> {
   // Return widgets
 
   Widget jsonToForm() {
-    List<Widget> listWidget = new List<Widget>();
+    List<Widget> listWidget = [];
 
     if (formGeneral['title'] != null) {
       listWidget.add(Text(

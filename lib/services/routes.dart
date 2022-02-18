@@ -13,6 +13,7 @@ import 'package:event/screens/visitor_list.dart';
 import 'package:event/widgets/select_screen.dart';
 import 'package:event/model/arguments_visitor.dart';
 import 'package:event/model/ArgumentNewActivity.dart';
+import 'package:event/model/keymap.dart';
 import 'package:flutter/material.dart';
 
 import 'package:event/services/consts.dart';

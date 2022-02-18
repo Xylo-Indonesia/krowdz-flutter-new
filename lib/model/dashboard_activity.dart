@@ -28,7 +28,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     enable = json['enable'];
     if (json['activities'] != null) {
-      activity = new List<Activity>();
+      activity = [];
       json['activities'].forEach((v) {
         activity!.add(new Activity.fromJson(v));
       });

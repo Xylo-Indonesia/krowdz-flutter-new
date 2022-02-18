@@ -11,10 +11,9 @@ abstract class _SettingsStore with Store {
   /* rest of the class*/
 
   @action
-  Future<String> doLogout() async{
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    prefs.setString(pref_access_token, null);
+  Future<String> doLogout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(pref_access_token, "");
     return 'true';
   }
-
 }

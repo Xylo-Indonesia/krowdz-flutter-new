@@ -59,7 +59,7 @@ abstract class _VisitorListStore with Store {
     dyn_visitor = await jsonDecode(response);
 
     if (null == selectedKey) {
-      items = List<KeyMap>();
+      items = [];
       dyn_visitor!["meta"]["category"].forEach((k, v) {
         items!.add(KeyMap(k.toString(), v.toString()));
         if (null != keyword_by && keyword_by.length > 0) {
@@ -69,7 +69,7 @@ abstract class _VisitorListStore with Store {
         }
       });
       //sorting asc desc
-      items2 = List<KeyMap>();
+      items2 = [];
       items2!.add(KeyMap("asc", "A to Z"));
       items2!.add(KeyMap("desc", "Z to A"));
       // items.add(KeyMap("code", visitor.meta.keymapper.code));

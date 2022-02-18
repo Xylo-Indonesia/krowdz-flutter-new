@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const List<String> menuList = <String>["Account", "Logout"];
 
-class AppBarTemplate extends StatelessWidget{
+class AppBarTemplate extends StatelessWidget {
   final BuildContext? context;
   final Widget? body;
   final bool isTransparent;
@@ -13,23 +13,32 @@ class AppBarTemplate extends StatelessWidget{
   final scaffoldKey;
   final fab;
 
-  const AppBarTemplate({Key? key, this.context, this.body, this.isTransparent = false, this.scaffoldKey, this.fab, this.isLoading = false}) : super(key: key);
+  const AppBarTemplate(
+      {Key? key,
+      this.context,
+      this.body,
+      this.isTransparent = false,
+      this.scaffoldKey,
+      this.fab,
+      this.isLoading = false})
+      : super(key: key);
 
   void menuSelected(String choice) {
     switch (choice) {
       case "Account":
         //prevent route stacking bug
         Navigator.of(context!).pushNamedAndRemoveUntil(
-          profilePageRoute,
-            (route) => route.isCurrent && route.settings.name == profilePageRoute
-            ? false
-            : true);
+            profilePageRoute,
+            (route) =>
+                route.isCurrent && route.settings.name == profilePageRoute
+                    ? false
+                    : true);
         break;
       case "Logout":
         //destroy token
         SharedPreferences.getInstance().then((prefs) {
           //API.userLogout(prefs.getString('token'));
-          prefs.setString("token", null);
+          prefs.setString("token", '');
         });
         Navigator.pushReplacementNamed(context!, loginPageRoute);
         break;
@@ -52,7 +61,9 @@ class AppBarTemplate extends StatelessWidget{
           title: Image(
             image: AssetImage('assets/logo.png'),
           ),
-          backgroundColor: isTransparent ? Colors.transparent : Theme.of(context).primaryColorDark,
+          backgroundColor: isTransparent
+              ? Colors.transparent
+              : Theme.of(context).primaryColorDark,
           actions: <Widget>[
             PopupMenuButton<String>(
               icon: Icon(Icons.account_circle),
@@ -61,7 +72,10 @@ class AppBarTemplate extends StatelessWidget{
                 return menuList.map((String choice) {
                   return PopupMenuItem(
                     value: choice,
-                    child: Text(choice, style: TextStyle(fontWeight: FontWeight.w600),),
+                    child: Text(
+                      choice,
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                   );
                 }).toList();
               },

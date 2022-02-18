@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:event/model/client.dart';
@@ -79,7 +78,7 @@ class Xylo extends StatelessWidget {
                 OutlineInputBorder(borderRadius: new BorderRadius.circular(16)),
             errorStyle: TextStyle(fontSize: 14),
           )),
-      navigatorObservers: [locator<AnalyticsService>().getAnalyticsObserver()],
+      // navigatorObservers: [locator<AnalyticsService>().getAnalyticsObserver()],
       onGenerateRoute: routes.generateRoute,
       initialRoute: prefs!.getString(pref_access_token)?.isEmpty ?? true
           ? startupPageRoute

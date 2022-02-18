@@ -47,7 +47,7 @@ class ScanReaderState extends State<ScanReader> with TickerProviderStateMixin {
       _animationController = AnimationController(
           vsync: this, duration: Duration(milliseconds: 1000));
     });
-    _animationController
+    _animationController!
       ..addListener(_upState)
       ..addStatusListener((state) {
         if (state == AnimationStatus.completed) {

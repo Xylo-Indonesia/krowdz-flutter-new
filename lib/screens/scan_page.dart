@@ -167,13 +167,13 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  Future onScan(String data) {
+  Future onScan(String data) async {
     stopScanning();
     widget.store.code = data;
     widget.store.scanCode().then((result) => processScan(result));
   }
 
-  Future processScan(var result) {
+  Future processScan(var result) async {
     if (result.status == true) {
       showDialog(
         context: context,

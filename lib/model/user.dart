@@ -1,13 +1,15 @@
-
 import 'package:hive/hive.dart';
 
 part 'user.g.dart';
 
 @HiveType(typeId: 1)
 class User {
-  @HiveField(0) bool? status;
-  @HiveField(1) String? message;
-  @HiveField(2) Data? data;
+  @HiveField(0)
+  bool? status;
+  @HiveField(1)
+  String? message;
+  @HiveField(2)
+  Data? data;
 
   User({this.status, this.message, this.data});
 
@@ -27,13 +29,19 @@ class User {
     return data;
   }
 }
+
 @HiveType(typeId: 2)
 class Data {
-  @HiveField(3) String? name;
-  @HiveField(4) String? email;
-  @HiveField(5) String? role;
-  @HiveField(6) List<Permissions>? permissions;
-  @HiveField(7) String? accessToken;
+  @HiveField(3)
+  String? name;
+  @HiveField(4)
+  String? email;
+  @HiveField(5)
+  String? role;
+  @HiveField(6)
+  List<Permissions>? permissions;
+  @HiveField(7)
+  String? accessToken;
 
   Data({this.name, this.email, this.role, this.permissions, this.accessToken});
 
@@ -42,7 +50,7 @@ class Data {
     email = json['email'];
     role = json['role'];
     if (json['permissions'] != null) {
-      permissions = new List<Permissions>();
+      permissions = [];
       json['permissions'].forEach((v) {
         permissions!.add(new Permissions.fromJson(v));
       });
@@ -65,22 +73,29 @@ class Data {
 
 @HiveType(typeId: 3)
 class Permissions {
-  @HiveField(8) int? id;
-  @HiveField(9) String? name;
-  @HiveField(10) String? displayName;
-  @HiveField(11) String? description;
-  @HiveField(12) String? createdAt;
-  @HiveField(13) String? updatedAt;
-  @HiveField(14) Pivot? pivot;
+  @HiveField(8)
+  int? id;
+  @HiveField(9)
+  String? name;
+  @HiveField(10)
+  String? displayName;
+  @HiveField(11)
+  String? description;
+  @HiveField(12)
+  String? createdAt;
+  @HiveField(13)
+  String? updatedAt;
+  @HiveField(14)
+  Pivot? pivot;
 
   Permissions(
       {this.id,
-        this.name,
-        this.displayName,
-        this.description,
-        this.createdAt,
-        this.updatedAt,
-        this.pivot});
+      this.name,
+      this.displayName,
+      this.description,
+      this.createdAt,
+      this.updatedAt,
+      this.pivot});
 
   Permissions.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -109,9 +124,12 @@ class Permissions {
 
 @HiveType(typeId: 4)
 class Pivot {
-  @HiveField(15) int? userId;
-  @HiveField(16) int? permissionId;
-  @HiveField(17) String? userType;
+  @HiveField(15)
+  int? userId;
+  @HiveField(16)
+  int? permissionId;
+  @HiveField(17)
+  String? userType;
 
   Pivot({this.userId, this.permissionId, this.userType});
 
