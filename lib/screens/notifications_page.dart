@@ -130,8 +130,6 @@ class _NotificationsState extends State<Notifications> {
                     child: Observer(builder: (_) {
                       if (listType == 'general' &&
                           store.general?.data != null) {
-                        print('general');
-
                         return Column(
                           children: [
                             for (var item in store.general!.data!)
@@ -144,7 +142,6 @@ class _NotificationsState extends State<Notifications> {
                         );
                       } else if (listType == 'announcement' &&
                           store.announcements?.data != null) {
-                        print('announcement');
                         return Column(
                           children: [
                             for (var item in store.announcements!.data!)

@@ -5,6 +5,7 @@ import 'package:event/model/client.dart';
 import 'package:event/model/dashboard_activity.dart';
 import 'package:event/model/dashboard_prize.dart';
 import 'package:event/model/dashboard_summary.dart';
+import 'package:event/model/unread_notifications_count.dart';
 import 'package:event/model/user.dart';
 import 'package:event/services/http_request.dart';
 import 'package:hive/hive.dart';
@@ -46,6 +47,11 @@ abstract class _DashboardStore with Store {
   DashboardPrize? dashboardPrize = null;
   @observable
   bool isDashboardPrizeReady = false;
+
+  @observable
+  UnreadNotificationsCount? unreadNotificationCount;
+  @observable
+  bool isUnreadNotificationsReady = false;
 
   void getDate() {
     final now = new DateTime.now();
@@ -105,5 +111,17 @@ abstract class _DashboardStore with Store {
     Box<User> box = Hive.box<User>('user');
     user = box.get(0);
     if (user != null) isUserReady = true;
+  }
+
+  void getUnreadNotificationsCount() async {
+    print("get unread notifications");
+    var response = await API.UnreadNotificationsCount();
+    print(response);
+    unreadNotificationCount =
+        UnreadNotificationsCount.fromJson(json.decode(response));
+
+    if (true == unreadNotificationCount!.status) {
+      isUnreadNotificationsReady = true;
+    }
   }
 }

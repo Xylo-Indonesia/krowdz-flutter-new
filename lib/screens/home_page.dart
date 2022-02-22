@@ -30,6 +30,7 @@ class HomePage extends StatefulWidget {
     store.getDashboardSummary();
     store.getDashboardActivity();
     store.getDashboardPrize();
+    store.getUnreadNotificationsCount();
     store.getClient();
     store.getUser();
     store.getDate();
@@ -73,14 +74,22 @@ class _HomePageState extends State<HomePage> {
                       Badge(
                           showBadge: true,
                           padding: EdgeInsets.all(3),
-                          position: BadgePosition(top: -2, end: -4),
+                          position: BadgePosition(top: -2, end: 0),
                           badgeColor: redColor,
-                          badgeContent: Text(
-                            '50',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          badgeContent: Observer(builder: (_) {
+                            if (widget.store.isUnreadNotificationsReady) {
+                              return Text(
+                                widget
+                                    .store.unreadNotificationCount!.data!.total
+                                    .toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          }),
                           child: CircleButton(
                             child: Image(
                               image: AssetImage('assets/images/bell.png'),

@@ -211,6 +211,40 @@ mixin _$DashboardStore on _DashboardStore, Store {
     });
   }
 
+  final _$unreadNotificationCountAtom =
+      Atom(name: '_DashboardStore.unreadNotificationCount');
+
+  @override
+  UnreadNotificationsCount? get unreadNotificationCount {
+    _$unreadNotificationCountAtom.reportRead();
+    return super.unreadNotificationCount;
+  }
+
+  @override
+  set unreadNotificationCount(UnreadNotificationsCount? value) {
+    _$unreadNotificationCountAtom
+        .reportWrite(value, super.unreadNotificationCount, () {
+      super.unreadNotificationCount = value;
+    });
+  }
+
+  final _$isUnreadNotificationsReadyAtom =
+      Atom(name: '_DashboardStore.isUnreadNotificationsReady');
+
+  @override
+  bool get isUnreadNotificationsReady {
+    _$isUnreadNotificationsReadyAtom.reportRead();
+    return super.isUnreadNotificationsReady;
+  }
+
+  @override
+  set isUnreadNotificationsReady(bool value) {
+    _$isUnreadNotificationsReadyAtom
+        .reportWrite(value, super.isUnreadNotificationsReady, () {
+      super.isUnreadNotificationsReady = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -226,7 +260,9 @@ visitor2: ${visitor2},
 dashboardActivity: ${dashboardActivity},
 isDashboardActivityReady: ${isDashboardActivityReady},
 dashboardPrize: ${dashboardPrize},
-isDashboardPrizeReady: ${isDashboardPrizeReady}
+isDashboardPrizeReady: ${isDashboardPrizeReady},
+unreadNotificationCount: ${unreadNotificationCount},
+isUnreadNotificationsReady: ${isUnreadNotificationsReady}
     ''';
   }
 }
