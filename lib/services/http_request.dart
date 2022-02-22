@@ -31,12 +31,13 @@ const baseUrlPortal = 'http://192.168.0.8:3000/api';
 class API {
   static Future<String?> getClientUrl() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(prefs.getString(pref_api_url));
+    // print(prefs.getString('API URL: ' + pref_api_url));
     return prefs.getString(pref_api_url);
   }
 
   Future getVersion() async {
     var url = Uri.parse(baseUrlPortal + "/version");
+    print(baseUrlPortal);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       //Version version=jsonDecode(response.body);
@@ -513,18 +514,20 @@ class API {
     return response.body;
   }
 
-  static Future<String> GeneralNotificationList() async {
+  static Future<String> GeneralNotificationList({String page = '1'}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String access_token = prefs.getString(pref_access_token)!;
     var client_url = await (getClientUrl() as Future<String>);
 
-    var url = Uri.parse(client_url + '/notifications/general');
+    var url = Uri.parse(client_url + '/notifications/general?page=' + page);
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       "Authorization": 'Bearer ' + access_token,
     };
     http.Response response;
+
+    print(url);
 
     try {
       response = await http.get(url, headers: headers);
@@ -536,18 +539,21 @@ class API {
     return response.body;
   }
 
-  static Future<String> AnnouncementList() async {
+  static Future<String> AnnouncementList({String page = '1'}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String access_token = prefs.getString(pref_access_token)!;
     var client_url = await (getClientUrl() as Future<String>);
 
-    var url = Uri.parse(client_url + '/notifications/announcements');
+    var url =
+        Uri.parse(client_url + '/notifications/announcements?page=' + page);
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
       "Authorization": 'Bearer ' + access_token,
     };
     http.Response response;
+
+    print(url);
 
     try {
       response = await http.get(url, headers: headers);

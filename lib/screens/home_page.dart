@@ -86,7 +86,6 @@ class _HomePageState extends State<HomePage> {
                               image: AssetImage('assets/images/bell.png'),
                             ),
                             onTap: () {
-                              print("notifications");
                               Navigator.of(context)
                                   .pushNamed(notificationsPageRoute);
                             },

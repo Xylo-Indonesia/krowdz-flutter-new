@@ -282,7 +282,8 @@ class VisitorListState extends State<VisitorList> {
                                                     vStore.selectedKey2 = value;
                                                     print(value.key);
                                                     vStore.getVisitorList(
-                                                        keyword: vStore.keyword!,
+                                                        keyword:
+                                                            vStore.keyword!,
                                                         keyword_by: vStore
                                                             .selectedKey!.key,
                                                         page: vStore.page,
@@ -363,8 +364,8 @@ class VisitorListState extends State<VisitorList> {
                                           (null != vStore.selectedKey &&
                                                   null !=
                                                       v["" +
-                                                          vStore
-                                                              .selectedKey!.key])
+                                                          vStore.selectedKey!
+                                                              .key])
                                               ? v["" + vStore.selectedKey!.key]
                                               : ""
                                           //vStore.selectedKey2.key
@@ -434,8 +435,8 @@ class VisitorListState extends State<VisitorList> {
                                     pages: Row(
                                       children: [
                                         Observer(builder: (_) {
-                                          var number =
-                                              vStore.visitor!.meta!.currentPage!;
+                                          var number = vStore
+                                              .visitor!.meta!.currentPage!;
                                           var prevNumber = number - 2;
                                           if (prevNumber > 0)
                                             return PaginationNumber(
@@ -455,8 +456,8 @@ class VisitorListState extends State<VisitorList> {
                                             return Container();
                                         }),
                                         Observer(builder: (_) {
-                                          var number =
-                                              vStore.visitor!.meta!.currentPage!;
+                                          var number = vStore
+                                              .visitor!.meta!.currentPage!;
                                           var prevNumber = number - 1;
                                           if (prevNumber > 0)
                                             return PaginationNumber(
@@ -477,8 +478,8 @@ class VisitorListState extends State<VisitorList> {
                                         }),
                                         Observer(builder: (_) {
                                           return PaginationNumber(
-                                            number:
-                                                vStore.visitor!.meta!.currentPage,
+                                            number: vStore
+                                                .visitor!.meta!.currentPage,
                                             onTap: () {
                                               print(vStore
                                                   .visitor!.meta!.currentPage);
@@ -487,8 +488,8 @@ class VisitorListState extends State<VisitorList> {
                                           );
                                         }),
                                         Observer(builder: (_) {
-                                          var number =
-                                              vStore.visitor!.meta!.currentPage!;
+                                          var number = vStore
+                                              .visitor!.meta!.currentPage!;
                                           var nextNumber = number + 1;
                                           if (nextNumber <=
                                               vStore.visitor!.meta!.lastPage!)
@@ -509,8 +510,8 @@ class VisitorListState extends State<VisitorList> {
                                             return Container();
                                         }),
                                         Observer(builder: (_) {
-                                          var number =
-                                              vStore.visitor!.meta!.currentPage!;
+                                          var number = vStore
+                                              .visitor!.meta!.currentPage!;
                                           var nextNumber = number + 2;
                                           if (nextNumber <=
                                               vStore.visitor!.meta!.lastPage!)

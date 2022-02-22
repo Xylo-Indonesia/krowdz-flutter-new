@@ -9,7 +9,7 @@ class Notification {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     links = json['links'] != null ? new Links.fromJson(json['links']) : null;
@@ -32,7 +32,7 @@ class Notification {
 }
 
 class Data {
-  int? id;
+  String? id;
   String? type;
   int? typeId;
   int? userId;
@@ -55,7 +55,7 @@ class Data {
     id = json['id'];
     type = json['type'];
     typeId = json['type_id'];
-    userId = json['user_id'];
+    userId = json['notifiable_id'];
     title = json['title'];
     message = json['message'];
     readAt = json['read_at'];
@@ -67,7 +67,7 @@ class Data {
     data['id'] = this.id;
     data['type'] = this.type;
     data['type_id'] = this.typeId;
-    data['user_id'] = this.userId;
+    data['notifiable_id'] = this.userId;
     data['title'] = this.title;
     data['message'] = this.message;
     data['read_at'] = this.readAt;
@@ -110,7 +110,7 @@ class Meta {
   int? perPage;
   int? to;
   int? total;
-  Keymapper? keymapper;
+  int? unreadCount;
 
   Meta(
       {this.currentPage,
@@ -119,8 +119,7 @@ class Meta {
       this.path,
       this.perPage,
       this.to,
-      this.total,
-      this.keymapper});
+      this.total});
 
   Meta.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
@@ -130,9 +129,7 @@ class Meta {
     perPage = json['per_page'];
     to = json['to'];
     total = json['total'];
-    keymapper = json['keymapper'] != null
-        ? new Keymapper.fromJson(json['keymapper'])
-        : null;
+    unreadCount = json['unread_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -144,46 +141,8 @@ class Meta {
     data['per_page'] = this.perPage;
     data['to'] = this.to;
     data['total'] = this.total;
-    if (this.keymapper != null) {
-      data['keymapper'] = this.keymapper!.toJson();
-    }
-    return data;
-  }
-}
+    data['unread_count'] = this.unreadCount;
 
-class Keymapper {
-  String? code;
-  String? gender;
-  String? type;
-  String? phoneNumber;
-  String? city;
-  String? email;
-
-  Keymapper(
-      {this.code,
-      this.gender,
-      this.type,
-      this.phoneNumber,
-      this.city,
-      this.email});
-
-  Keymapper.fromJson(Map<String, dynamic> json) {
-    code = json['alphanumeric_code'];
-    gender = json['gender'];
-    type = json['type'];
-    phoneNumber = json['phone_number'];
-    city = json['city'];
-    email = json['email'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['alphanumeric_code'] = this.code;
-    data['gender'] = this.gender;
-    data['type'] = this.type;
-    data['phone_number'] = this.phoneNumber;
-    data['city'] = this.city;
-    data['email'] = this.email;
     return data;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:badges/badges.dart';
-import 'package:event/services/consts.dart';
+import 'package:event/stores/notification_list_store.dart';
 import 'package:event/widgets/black_theme.dart';
 import 'package:event/widgets/custom_header.dart';
 import 'package:event/widgets/notification_item.dart';
@@ -7,7 +7,9 @@ import 'package:event/widgets/notification_item_general.dart';
 import 'package:event/widgets/notification_type.dart';
 import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:event/services/consts.dart';
 
 class Notifications extends StatefulWidget {
   @override
@@ -15,6 +17,13 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+  NotificationListStore store = NotificationListStore();
+
+  _NotificationsState() {
+    store.getGeneralNotifications();
+    store.getAnnouncements();
+  }
+
   var testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   String listType = 'general';
 
@@ -29,7 +38,7 @@ class _NotificationsState extends State<Notifications> {
             print("add");
           },
           icon: Icon(Icons.add),
-          label: Text("New Thread"),
+          label: Text("New Discussion"),
           backgroundColor: redColor,
         ),
         body: SafeArea(
@@ -57,41 +66,56 @@ class _NotificationsState extends State<Notifications> {
                         });
                       },
                       badge: Badge(
-                          showBadge: true,
-                          padding: EdgeInsets.all(4),
-                          position: BadgePosition(top: 0, end: 0),
-                          badgeColor: redColor,
-                          badgeContent: Text(
-                            '20',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setSp(14)),
-                          )),
+                        showBadge: true,
+                        padding: EdgeInsets.all(4),
+                        position: BadgePosition(top: 0, end: 0),
+                        badgeColor: redColor,
+                        badgeContent: Observer(builder: (_) {
+                          if (store.announcements?.meta != null) {
+                            return Text(
+                              store.announcements?.meta?.unreadCount
+                                      .toString() ??
+                                  '0',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: ScreenUtil().setSp(14)),
+                            );
+                          }
+                          return Container();
+                        }),
+                      ),
                     ),
                     SizedBox(
                       width: 16,
                     ),
                     NotificationType(
-                      isActive: listType == 'general' ? true : false,
-                      title: "General",
-                      onTap: () {
-                        setState(() {
-                          listType = 'general';
-                        });
-                      },
-                      badge: Badge(
+                        isActive: listType == 'general' ? true : false,
+                        title: "Discussion",
+                        onTap: () {
+                          setState(() {
+                            listType = 'general';
+                          });
+                        },
+                        badge: Badge(
                           showBadge: true,
                           padding: EdgeInsets.all(4),
                           position: BadgePosition(top: 0, end: 0),
                           badgeColor: redColor,
-                          badgeContent: Text(
-                            '2',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          )),
-                    ),
+                          badgeContent: Observer(builder: (_) {
+                            if (store.general?.meta != null) {
+                              return Text(
+                                store.general?.meta?.unreadCount.toString() ??
+                                    '0',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: ScreenUtil().setSp(14)),
+                              );
+                            }
+                            return Container();
+                          }),
+                        )),
                   ],
                 ),
               ),
@@ -103,27 +127,38 @@ class _NotificationsState extends State<Notifications> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 32),
-                    child: Column(
-                      children: testArray
-                          .map((e) => listType == 'announcement'
-                              ? NotificationItem(
-                                  title: "Notification" + e.toString(),
-                                  description:
-                                      "This is notification " + e.toString(),
-                                  isUnread: e < 5 ? true : false,
-                                )
-                              : NotificationItemGeneral(
-                                  title: "Notification" + e.toString(),
-                                  description:
-                                      "This is notification " + e.toString(),
-                                  dateString: '31 Nov 2020',
-                                  timeString: '00:00',
-                                  isUnread: e < 5 ? true : false,
-                                  onTap: () => Navigator.of(context)
-                                      .pushNamed(notificationDetailPage),
-                                ))
-                          .toList(),
-                    ),
+                    child: Observer(builder: (_) {
+                      if (listType == 'general' &&
+                          store.general?.data != null) {
+                        print('general');
+
+                        return Column(
+                          children: [
+                            for (var item in store.general!.data!)
+                              NotificationItem(
+                                title: item.title,
+                                message: item.message,
+                                isUnread: item.readAt == null,
+                              ),
+                          ],
+                        );
+                      } else if (listType == 'announcement' &&
+                          store.announcements?.data != null) {
+                        print('announcement');
+                        return Column(
+                          children: [
+                            for (var item in store.announcements!.data!)
+                              NotificationItem(
+                                title: item.title,
+                                message: item.message,
+                                isUnread: item.readAt == null,
+                              ),
+                          ],
+                        );
+                      } else {
+                        return Column();
+                      }
+                    }),
                   ),
                 ),
               ),
