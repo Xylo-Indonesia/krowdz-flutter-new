@@ -59,7 +59,7 @@ class Activity {
     id = json['id'];
     name = json['name'];
     total = json['total'];
-    icon = json['icon_path'];
+    icon = json['icon'];
     achievement = json['achievement'];
     isPic = json['is_pic'];
   }
@@ -69,7 +69,7 @@ class Activity {
     data['id'] = this.id;
     data['name'] = this.name;
     data['total'] = this.total;
-    data['icon_path'] = this.icon;
+    data['icon'] = this.icon;
     data['achievement'] = this.achievement;
     data['is_pic'] = this.isPic;
     return data;

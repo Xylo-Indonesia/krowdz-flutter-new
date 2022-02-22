@@ -114,7 +114,7 @@ class Activities {
     category = json['category'];
     rewardAvailable = json['reward_available'];
     permissionId = json['permission_id'];
-    icon = json['icon_path'];
+    icon = json['icon'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
@@ -129,7 +129,7 @@ class Activities {
     data['category'] = this.category;
     data['reward_available'] = this.rewardAvailable;
     data['permission_id'] = this.permissionId;
-    data['icon_path'] = this.icon;
+    data['icon'] = this.icon;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;

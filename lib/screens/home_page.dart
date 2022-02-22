@@ -221,8 +221,8 @@ class _HomePageState extends State<HomePage> {
                                     if (null !=
                                             widget.store.dashboardActivity &&
                                         null !=
-                                            widget.store.dashboardActivity!.data!
-                                                .activity &&
+                                            widget.store.dashboardActivity!
+                                                .data!.activity &&
                                         true ==
                                             widget.store.dashboardActivity!
                                                 .status) {
@@ -235,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                                           .dashboardActivity!.data!.activity!) {
                                         var ca = CardActivity(
                                           imageUrl:
-                                              Util.getActivityIcon(ac.icon),
+                                              Util.getActivityIconDark(ac.icon),
                                           gamesMaxValue: ac.total,
                                           gamesValue:
                                               double.parse(ac.achievement!)

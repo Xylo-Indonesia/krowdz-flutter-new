@@ -51,9 +51,15 @@ class Util {
   //     }
   // }
 
-  static String getActivityIcon(var icon) {
+  static String getActivityIconDark(var icon) {
     return (icon != null && icon != '')
-        ? 'assets/images/' + icon + '.png'
+        ? 'assets/images/' + icon + '-dark.png'
+        : 'assets/images/games-dark.png';
+  }
+
+  static String getActivityIconLight(var icon) {
+    return (icon != null && icon != '')
+        ? 'assets/images/' + icon + '-light.png'
         : 'assets/images/games-dark.png';
   }
 

@@ -56,7 +56,7 @@ class Data {
     name = json['name'];
     description = json['description'];
     category = json['category'];
-    iconPath = json['icon_path'];
+    iconPath = json['icon'];
     rewardAvailable = json['reward_available'];
     permissionId = json['permission_id'];
     createdAt = json['created_at'];
@@ -70,7 +70,7 @@ class Data {
     data['name'] = this.name;
     data['description'] = this.description;
     data['category'] = this.category;
-    data['icon_path'] = this.iconPath;
+    data['icon'] = this.iconPath;
     data['reward_available'] = this.rewardAvailable;
     data['permission_id'] = this.permissionId;
     data['created_at'] = this.createdAt;

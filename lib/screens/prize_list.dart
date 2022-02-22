@@ -59,7 +59,8 @@ class _PrizeListState extends State<PrizeList> {
                             child: Observer(builder: (_) {
                               List<KeyMap> activityList =
                                   []; //KeyMap('value', '123'), KeyMap('value', 'qwe'), KeyMap('value', 'asd')
-                              if (store.ac != null && store.ac!.status == true) {
+                              if (store.ac != null &&
+                                  store.ac!.status == true) {
                                 activityList.add(KeyMap('value', 'All'));
                                 for (var item in store.ac!.data!) {
                                   activityList.add(KeyMap('value', item.name));
@@ -144,8 +145,8 @@ class _PrizeListState extends State<PrizeList> {
                                           for (var ac in pr.activities!) {
                                             var acItem = {
                                               'name': ac.name,
-                                              'image':
-                                                  Util.getActivityIcon(ac.icon)
+                                              'image': Util.getActivityIconDark(
+                                                  ac.icon)
                                             };
                                             listActivity.add(acItem);
                                           }

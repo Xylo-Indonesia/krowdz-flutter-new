@@ -205,7 +205,7 @@ class VisitorDetailState extends State<VisitorDetail> {
                                     for (var activity in store.ac!.data!) {
                                       var visitorDetailActivity =
                                           VisitorDetailActivity(
-                                        image: Util.getActivityIcon(
+                                        image: Util.getActivityIconLight(
                                             activity.iconPath),
                                         title: activity.name,
                                         onTap: () {
