@@ -35,6 +35,7 @@ class Data {
   String? id;
   String? type;
   int? typeId;
+  int? senderId;
   int? userId;
   String? title;
   String? message;
@@ -45,6 +46,7 @@ class Data {
       {this.id,
       this.type,
       this.typeId,
+      this.senderId,
       this.userId,
       this.title,
       this.message,
@@ -55,6 +57,7 @@ class Data {
     id = json['id'];
     type = json['type'];
     typeId = json['type_id'];
+    senderId = json['user_id'];
     userId = json['notifiable_id'];
     title = json['title'];
     message = json['message'];
@@ -67,6 +70,7 @@ class Data {
     data['id'] = this.id;
     data['type'] = this.type;
     data['type_id'] = this.typeId;
+    data['user_id'] = this.senderId;
     data['notifiable_id'] = this.userId;
     data['title'] = this.title;
     data['message'] = this.message;

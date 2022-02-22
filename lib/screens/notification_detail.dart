@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class NotificationDetail extends StatelessWidget {
+class NotificationDetail extends StatefulWidget {
+  @override
+  State<NotificationDetail> createState() => _NotificationDetailState();
+}
+
+class _NotificationDetailState extends State<NotificationDetail> {
   @override
   Widget build(BuildContext context) {
     return BlackTheme(

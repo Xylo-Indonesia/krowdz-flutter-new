@@ -2,12 +2,20 @@ import 'package:badges/badges.dart';
 import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:event/services/consts.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 
 class NotificationItem extends StatelessWidget {
-  final String? title, message;
+  final String? title, message, type, createdAt;
   final bool? isUnread;
 
-  const NotificationItem({Key? key, this.title, this.message, this.isUnread})
+  const NotificationItem(
+      {Key? key,
+      this.title,
+      this.message,
+      this.isUnread,
+      this.type,
+      this.createdAt})
       : super(key: key);
 
   @override
@@ -31,6 +39,41 @@ class NotificationItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Observer(builder: (_) {
+                    if (type == 'general') {
+                      List<Widget> row = [];
+
+                      if (isUnread!) {
+                        row.add(Badge(
+                            showBadge: isUnread!,
+                            shape: BadgeShape.square,
+                            badgeColor: redColor,
+                            borderRadius: BorderRadius.circular(10),
+                            badgeContent: const Text(
+                              'New',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )));
+
+                        row.add(const SizedBox(width: 5));
+                      }
+
+                      row.add(Text(
+                        DateFormat('dd MMM yyyy | HH:mm')
+                            .format(DateTime.parse(createdAt!)),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
+                      ));
+
+                      return Row(
+                        children: row,
+                      );
+                    }
+
+                    return Container();
+                  }),
+                  const SizedBox(height: 6),
                   Text(
                     title!,
                     overflow: TextOverflow.ellipsis,
@@ -39,6 +82,7 @@ class NotificationItem extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
                   ),
+                  const SizedBox(height: 6),
                   Text(
                     message!,
                     overflow: TextOverflow.ellipsis,
@@ -49,11 +93,27 @@ class NotificationItem extends StatelessWidget {
                 ],
               ),
             ),
-            Badge(
-                showBadge: isUnread!,
-                padding: const EdgeInsets.all(6),
-                position: const BadgePosition(top: 0, end: 0),
-                badgeColor: redColor)
+            Observer(builder: (_) {
+              if (type == 'announcement') {
+                return Badge(
+                    showBadge: isUnread!,
+                    padding: const EdgeInsets.all(6),
+                    position: const BadgePosition(top: 0, end: 0),
+                    badgeColor: redColor);
+              } else {
+                if (isUnread!) {
+                  return const Image(
+                      image: AssetImage(
+                    'assets/images/chevron-circle-right-dark.png',
+                  ));
+                }
+
+                return const Image(
+                    image: AssetImage(
+                  'assets/images/chevron-circle-right-light.png',
+                ));
+              }
+            })
           ],
         ),
       ),

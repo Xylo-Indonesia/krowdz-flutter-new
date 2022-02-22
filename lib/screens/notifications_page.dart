@@ -37,8 +37,8 @@ class _NotificationsState extends State<Notifications> {
           onPressed: () {
             print("add");
           },
-          icon: Icon(Icons.add),
-          label: Text("New Discussion"),
+          icon: const Icon(Icons.add),
+          label: const Text("New Discussion"),
           backgroundColor: redColor,
         ),
         body: SafeArea(
@@ -67,8 +67,8 @@ class _NotificationsState extends State<Notifications> {
                       },
                       badge: Badge(
                         showBadge: true,
-                        padding: EdgeInsets.all(4),
-                        position: BadgePosition(top: 0, end: 0),
+                        padding: const EdgeInsets.all(4),
+                        position: const BadgePosition(top: 0, end: 0),
                         badgeColor: redColor,
                         badgeContent: Observer(builder: (_) {
                           if (store.announcements?.meta != null) {
@@ -86,7 +86,7 @@ class _NotificationsState extends State<Notifications> {
                         }),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     NotificationType(
@@ -99,8 +99,8 @@ class _NotificationsState extends State<Notifications> {
                         },
                         badge: Badge(
                           showBadge: true,
-                          padding: EdgeInsets.all(4),
-                          position: BadgePosition(top: 0, end: 0),
+                          padding: const EdgeInsets.all(4),
+                          position: const BadgePosition(top: 0, end: 0),
                           badgeColor: redColor,
                           badgeContent: Observer(builder: (_) {
                             if (store.general?.meta != null) {
@@ -119,7 +119,7 @@ class _NotificationsState extends State<Notifications> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               Expanded(
@@ -137,6 +137,8 @@ class _NotificationsState extends State<Notifications> {
                                 title: item.title,
                                 message: item.message,
                                 isUnread: item.readAt == null,
+                                type: 'general',
+                                createdAt: item.createdAt,
                               ),
                           ],
                         );
@@ -149,6 +151,8 @@ class _NotificationsState extends State<Notifications> {
                                 title: item.title,
                                 message: item.message,
                                 isUnread: item.readAt == null,
+                                type: 'announcement',
+                                createdAt: item.createdAt,
                               ),
                           ],
                         );

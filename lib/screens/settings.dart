@@ -54,7 +54,8 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 12.0, horizontal: 16),
                   child: CustomHeader(
                     onBack: () {
                       Navigator.pop(context);
@@ -72,14 +73,18 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width * 0.35,
-                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
                             clipBehavior: Clip.antiAlias,
-                            child: FadeInImage.memoryNetwork(
-                              placeholder: kTransparentImage,
-                              image: 'https://placehold.it/600',
-                              fit: BoxFit.contain,
-                              width: double.infinity,
+                            child: Image(
+                              image: AssetImage('assets/images/wuling.png'),
                             ),
+                            //  FadeInImage.memoryNetwork(
+                            //   placeholder: kTransparentImage,
+                            //   image: 'https://placehold.it/600',
+                            //   fit: BoxFit.contain,
+                            //   width: double.infinity,
+                            // ),
                           ),
                           CustomInput(
                             label: "Name",
@@ -93,7 +98,10 @@ class _SettingsPageState extends State<SettingsPage> {
                               label: "Language",
                               darkMode: true,
                               child: CustomDropdown(
-                                itemList: [KeyMap('value', 'English'), KeyMap('value', 'Indonesia')],
+                                itemList: [
+                                  KeyMap('value', 'English'),
+                                  KeyMap('value', 'Indonesia')
+                                ],
                                 onClick: (value) {
                                   print('selected: ' + value);
                                 },
@@ -114,7 +122,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                     size: 24,
                                   ),
                                   backgroundColor: Colors.white,
-                                  shape: CircleBorder(side: BorderSide(color: darkerBackground, width: 1)),
+                                  shape: CircleBorder(
+                                      side: BorderSide(
+                                          color: darkerBackground, width: 1)),
                                 ),
                                 SizedBox(width: 16),
                                 Row(
@@ -145,7 +155,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: RadialGradient(
-                        radius: 2.5, colors: [darkerBackground, Color(0xFF101010)], center: Alignment.topCenter),
+                        radius: 2.5,
+                        colors: [darkerBackground, Color(0xFF101010)],
+                        center: Alignment.topCenter),
                   ),
                   padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
                   child: Observer(
@@ -166,7 +178,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                       function: () {
                                         widget.store.doLogout().then((status) {
                                           print('Logout:' + status);
-                                          if ('true' == status) Navigator.pushReplacementNamed(context, loginPageRoute);
+                                          if ('true' == status)
+                                            Navigator.pushReplacementNamed(
+                                                context, loginPageRoute);
                                         });
                                       },
                                     );
@@ -174,12 +188,16 @@ class _SettingsPageState extends State<SettingsPage> {
                             },
                             splashColor: Colors.white30,
                             highlightColor: Colors.white12,
-                            child: Text("Log Out", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                            child: Text("Log Out",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
                             padding: EdgeInsets.all(18),
                             color: Colors.transparent,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
-                                side: BorderSide(color: Colors.white, width: 1)),
+                                side:
+                                    BorderSide(color: Colors.white, width: 1)),
                           )),
                 ),
               ],
