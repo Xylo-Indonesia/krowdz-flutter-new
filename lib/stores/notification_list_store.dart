@@ -22,6 +22,11 @@ abstract class _NotificationListStore with Store {
   @observable
   String announcementsPage = "1";
 
+  @observable
+  bool isGeneralPageReady = false;
+  @observable
+  bool isAnnouncementsPageReady = false;
+
   //pagination
   @observable
   bool generalHasNext = true;
@@ -45,13 +50,15 @@ abstract class _NotificationListStore with Store {
       page: page,
     );
     general = Notification.fromJson(json.decode(response));
+
     //getpagination data
     generalHasNext = (null != general!.links!.next) ? true : false;
     generalHasPrev = (null != general!.links!.prev) ? true : false;
     generalHasPagination = (generalHasNext || generalHasPrev) ? true : false;
 
-    // print('general notifications');
-    // print(general);
+    if (general?.status == true) {
+      isGeneralPageReady = true;
+    }
   }
 
   void getAnnouncements({
@@ -70,25 +77,45 @@ abstract class _NotificationListStore with Store {
 
     // print('announcements');
     // print(response);
-  }
 
-  void doNextPage(String type) {
-    if (type == 'general' && generalHasNext) {
-      getGeneralNotifications(page: general!.links!.next!);
-    }
-
-    if (type == 'announcement' && announcementsHasNext) {
-      getAnnouncements(page: announcements!.links!.next!);
+    if (announcements?.status == true) {
+      isAnnouncementsPageReady = true;
     }
   }
 
-  void doPrevPage(String type) {
-    if (type == 'general' && generalHasPrev) {
-      getGeneralNotifications(page: general!.links!.next!);
+  void doGeneralNextPage() {
+    if (generalHasNext) {
+      getGeneralNotifications(
+          page: (general!.meta!.currentPage! + 1).toString());
+    } else {
+      print('no next page');
     }
+  }
 
-    if (type == 'announcement' && announcementsHasPrev) {
-      getAnnouncements(page: announcements!.links!.next!);
+  void doGeneralPrevPage() {
+    if (generalHasPrev) {
+      getGeneralNotifications(
+          page: (general!.meta!.currentPage! - 1).toString());
+    } else {
+      print('no prev page');
+    }
+  }
+
+  void doAnnouncementsNextPage() {
+    if (announcementsHasNext) {
+      getAnnouncements(
+          page: (announcements!.meta!.currentPage! + 1).toString());
+    } else {
+      print('no next page');
+    }
+  }
+
+  void doAnnouncementsPrevPage() {
+    if (announcementsHasPrev) {
+      getAnnouncements(
+          page: (announcements!.meta!.currentPage! - 1).toString());
+    } else {
+      print('no prev page');
     }
   }
 }

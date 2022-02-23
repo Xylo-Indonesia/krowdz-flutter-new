@@ -71,6 +71,39 @@ mixin _$NotificationListStore on _NotificationListStore, Store {
     });
   }
 
+  final _$isGeneralPageReadyAtom =
+      Atom(name: '_NotificationListStore.isGeneralPageReady');
+
+  @override
+  bool get isGeneralPageReady {
+    _$isGeneralPageReadyAtom.reportRead();
+    return super.isGeneralPageReady;
+  }
+
+  @override
+  set isGeneralPageReady(bool value) {
+    _$isGeneralPageReadyAtom.reportWrite(value, super.isGeneralPageReady, () {
+      super.isGeneralPageReady = value;
+    });
+  }
+
+  final _$isAnnouncementsPageReadyAtom =
+      Atom(name: '_NotificationListStore.isAnnouncementsPageReady');
+
+  @override
+  bool get isAnnouncementsPageReady {
+    _$isAnnouncementsPageReadyAtom.reportRead();
+    return super.isAnnouncementsPageReady;
+  }
+
+  @override
+  set isAnnouncementsPageReady(bool value) {
+    _$isAnnouncementsPageReadyAtom
+        .reportWrite(value, super.isAnnouncementsPageReady, () {
+      super.isAnnouncementsPageReady = value;
+    });
+  }
+
   final _$generalHasNextAtom =
       Atom(name: '_NotificationListStore.generalHasNext');
 
@@ -178,6 +211,8 @@ general: ${general},
 announcements: ${announcements},
 generalPage: ${generalPage},
 announcementsPage: ${announcementsPage},
+isGeneralPageReady: ${isGeneralPageReady},
+isAnnouncementsPageReady: ${isAnnouncementsPageReady},
 generalHasNext: ${generalHasNext},
 generalHasPrev: ${generalHasPrev},
 generalHasPagination: ${generalHasPagination},

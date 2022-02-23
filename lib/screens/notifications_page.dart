@@ -5,6 +5,8 @@ import 'package:event/widgets/custom_header.dart';
 import 'package:event/widgets/notification_item.dart';
 import 'package:event/widgets/notification_item_general.dart';
 import 'package:event/widgets/notification_type.dart';
+import 'package:event/widgets/pagination.dart';
+import 'package:event/widgets/pagination_number.dart';
 import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -22,9 +24,11 @@ class _NotificationsState extends State<Notifications> {
   _NotificationsState() {
     store.getGeneralNotifications();
     store.getAnnouncements();
+
+    print(store.isAnnouncementsPageReady);
+    print(store.isGeneralPageReady);
   }
 
-  var testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   String listType = 'general';
 
   @override
@@ -71,7 +75,7 @@ class _NotificationsState extends State<Notifications> {
                         position: const BadgePosition(top: 0, end: 0),
                         badgeColor: redColor,
                         badgeContent: Observer(builder: (_) {
-                          if (store.announcements?.meta != null) {
+                          if (store.isAnnouncementsPageReady) {
                             return Text(
                               store.announcements?.meta?.unreadCount
                                       .toString() ??
@@ -103,7 +107,7 @@ class _NotificationsState extends State<Notifications> {
                           position: const BadgePosition(top: 0, end: 0),
                           badgeColor: redColor,
                           badgeContent: Observer(builder: (_) {
-                            if (store.general?.meta != null) {
+                            if (store.isGeneralPageReady) {
                               return Text(
                                 store.general?.meta?.unreadCount.toString() ??
                                     '0',
@@ -128,8 +132,7 @@ class _NotificationsState extends State<Notifications> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 32),
                     child: Observer(builder: (_) {
-                      if (listType == 'general' &&
-                          store.general?.data != null) {
+                      if (listType == 'general' && store.isGeneralPageReady) {
                         return Column(
                           children: [
                             for (var item in store.general!.data!)
@@ -140,10 +143,12 @@ class _NotificationsState extends State<Notifications> {
                                 type: 'general',
                                 createdAt: item.createdAt,
                               ),
+                            const SizedBox(height: 12),
+                            GeneralPagination(store: store),
                           ],
                         );
                       } else if (listType == 'announcement' &&
-                          store.announcements?.data != null) {
+                          store.isAnnouncementsPageReady) {
                         return Column(
                           children: [
                             for (var item in store.announcements!.data!)
@@ -154,6 +159,8 @@ class _NotificationsState extends State<Notifications> {
                                 type: 'announcement',
                                 createdAt: item.createdAt,
                               ),
+                            const SizedBox(height: 12),
+                            AnnouncementsPagination(store: store)
                           ],
                         );
                       } else {
@@ -163,10 +170,219 @@ class _NotificationsState extends State<Notifications> {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class AnnouncementsPagination extends StatelessWidget {
+  const AnnouncementsPagination({
+    Key? key,
+    required this.store,
+  }) : super(key: key);
+
+  final NotificationListStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pagination(
+      hasNext: store.announcementsHasNext,
+      hasPrev: store.announcementsHasPrev,
+      pages: Row(
+        children: [
+          Observer(builder: (_) {
+            var number = store.announcements!.meta!.currentPage!;
+            var prevNumber = number - 2;
+            if (prevNumber > 0) {
+              return PaginationNumber(
+                number: prevNumber,
+                onTap: () {
+                  print(prevNumber);
+                  store.getAnnouncements(page: prevNumber.toString());
+                },
+                isSelected: false,
+              );
+            } else
+              return Container();
+          }),
+          Observer(builder: (_) {
+            var number = store.announcements!.meta!.currentPage!;
+            var prevNumber = number - 1;
+            if (prevNumber > 0) {
+              return PaginationNumber(
+                number: prevNumber,
+                onTap: () {
+                  print(prevNumber);
+                  store.getAnnouncements(page: prevNumber.toString());
+                },
+                isSelected: false,
+              );
+            } else {
+              return Container();
+            }
+          }),
+          Observer(builder: (_) {
+            return PaginationNumber(
+              number: store.announcements!.meta!.currentPage,
+              onTap: () {
+                print(store.announcements!.meta!.currentPage);
+              },
+              isSelected: true,
+            );
+          }),
+          Observer(builder: (_) {
+            var number = store.announcements!.meta!.currentPage!;
+            var nextNumber = number + 1;
+            if (nextNumber <= store.announcements!.meta!.lastPage!) {
+              return PaginationNumber(
+                number: nextNumber,
+                onTap: () {
+                  print(nextNumber);
+                  store.getAnnouncements(page: nextNumber.toString());
+                },
+                isSelected: false,
+              );
+            } else {
+              return Container();
+            }
+          }),
+          Observer(builder: (_) {
+            var number = store.announcements!.meta!.currentPage!;
+            var nextNumber = number + 2;
+            if (nextNumber <= store.announcements!.meta!.lastPage!) {
+              return PaginationNumber(
+                number: nextNumber,
+                onTap: () {
+                  print(nextNumber);
+                  store.getAnnouncements(page: nextNumber.toString());
+                },
+                isSelected: false,
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
+      ),
+      leftOnTap: () {
+        print('left');
+        store.doAnnouncementsPrevPage();
+      },
+      rightOnTap: () {
+        print('right');
+        store.doAnnouncementsNextPage();
+      },
+      numberOnTap: () {
+        print('number');
+      },
+    );
+  }
+}
+
+class GeneralPagination extends StatelessWidget {
+  const GeneralPagination({
+    Key? key,
+    required this.store,
+  }) : super(key: key);
+
+  final NotificationListStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pagination(
+      hasNext: store.generalHasNext,
+      hasPrev: store.generalHasPrev,
+      pages: Row(
+        children: [
+          Observer(builder: (_) {
+            var number = store.general!.meta!.currentPage!;
+            var prevNumber = number - 2;
+            if (prevNumber > 0) {
+              return PaginationNumber(
+                number: prevNumber,
+                onTap: () {
+                  print(prevNumber);
+                  store.getGeneralNotifications(page: prevNumber.toString());
+                },
+                isSelected: false,
+              );
+            } else
+              return Container();
+          }),
+          Observer(builder: (_) {
+            var number = store.general!.meta!.currentPage!;
+            var prevNumber = number - 1;
+            if (prevNumber > 0) {
+              return PaginationNumber(
+                number: prevNumber,
+                onTap: () {
+                  print(prevNumber);
+                  store.getGeneralNotifications(page: prevNumber.toString());
+                },
+                isSelected: false,
+              );
+            } else {
+              return Container();
+            }
+          }),
+          Observer(builder: (_) {
+            return PaginationNumber(
+              number: store.general!.meta!.currentPage,
+              onTap: () {
+                print(store.general!.meta!.currentPage);
+              },
+              isSelected: true,
+            );
+          }),
+          Observer(builder: (_) {
+            var number = store.general!.meta!.currentPage!;
+            var nextNumber = number + 1;
+            if (nextNumber <= store.general!.meta!.lastPage!) {
+              return PaginationNumber(
+                number: nextNumber,
+                onTap: () {
+                  print(nextNumber);
+                  store.getGeneralNotifications(page: nextNumber.toString());
+                },
+                isSelected: false,
+              );
+            } else {
+              return Container();
+            }
+          }),
+          Observer(builder: (_) {
+            var number = store.general!.meta!.currentPage!;
+            var nextNumber = number + 2;
+            if (nextNumber <= store.general!.meta!.lastPage!) {
+              return PaginationNumber(
+                number: nextNumber,
+                onTap: () {
+                  print(nextNumber);
+                  store.getGeneralNotifications(page: nextNumber.toString());
+                },
+                isSelected: false,
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
+      ),
+      leftOnTap: () {
+        print('left');
+        store.doGeneralPrevPage();
+      },
+      rightOnTap: () {
+        print('right');
+        store.doGeneralNextPage();
+      },
+      numberOnTap: () {
+        print('number');
+      },
     );
   }
 }

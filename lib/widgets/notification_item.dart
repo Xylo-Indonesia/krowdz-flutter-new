@@ -39,40 +39,8 @@ class NotificationItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Observer(builder: (_) {
-                    if (type == 'general') {
-                      List<Widget> row = [];
-
-                      if (isUnread!) {
-                        row.add(Badge(
-                            showBadge: isUnread!,
-                            shape: BadgeShape.square,
-                            badgeColor: redColor,
-                            borderRadius: BorderRadius.circular(10),
-                            badgeContent: const Text(
-                              'New',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            )));
-
-                        row.add(const SizedBox(width: 5));
-                      }
-
-                      row.add(Text(
-                        DateFormat('dd MMM yyyy | HH:mm')
-                            .format(DateTime.parse(createdAt!)),
-                        style:
-                            const TextStyle(color: Colors.grey, fontSize: 14),
-                      ));
-
-                      return Row(
-                        children: row,
-                      );
-                    }
-
-                    return Container();
-                  }),
+                  DisplayNotificationDate(
+                      type: type, isUnread: isUnread, createdAt: createdAt),
                   const SizedBox(height: 6),
                   Text(
                     title!,
@@ -93,30 +61,88 @@ class NotificationItem extends StatelessWidget {
                 ],
               ),
             ),
-            Observer(builder: (_) {
-              if (type == 'announcement') {
-                return Badge(
-                    showBadge: isUnread!,
-                    padding: const EdgeInsets.all(6),
-                    position: const BadgePosition(top: 0, end: 0),
-                    badgeColor: redColor);
-              } else {
-                if (isUnread!) {
-                  return const Image(
-                      image: AssetImage(
-                    'assets/images/chevron-circle-right-dark.png',
-                  ));
-                }
-
-                return const Image(
-                    image: AssetImage(
-                  'assets/images/chevron-circle-right-light.png',
-                ));
-              }
-            })
+            ShowBadge(type: type, isUnread: isUnread)
           ],
         ),
       ),
+    );
+  }
+}
+
+class DisplayNotificationDate extends StatelessWidget {
+  const DisplayNotificationDate({
+    Key? key,
+    required this.type,
+    required this.isUnread,
+    required this.createdAt,
+  }) : super(key: key);
+
+  final String? type;
+  final bool? isUnread;
+  final String? createdAt;
+
+  @override
+  Widget build(BuildContext context) {
+    if (type == 'general') {
+      List<Widget> row = [];
+
+      if (isUnread!) {
+        row.add(Badge(
+            showBadge: isUnread!,
+            shape: BadgeShape.square,
+            badgeColor: redColor,
+            borderRadius: BorderRadius.circular(10),
+            badgeContent: const Text(
+              'New',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            )));
+
+        row.add(const SizedBox(width: 5));
+      }
+
+      row.add(Text(
+        DateFormat('dd MMM yyyy | HH:mm').format(DateTime.parse(createdAt!)),
+        style: const TextStyle(color: Colors.grey, fontSize: 14),
+      ));
+
+      return Row(
+        children: row,
+      );
+    }
+
+    return Container();
+  }
+}
+
+class ShowBadge extends StatelessWidget {
+  const ShowBadge({
+    Key? key,
+    required this.type,
+    required this.isUnread,
+  }) : super(key: key);
+
+  final String? type;
+  final bool? isUnread;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: type == 'announcement'
+          ? Badge(
+              showBadge: isUnread!,
+              padding: const EdgeInsets.all(6),
+              position: const BadgePosition(top: 0, end: 0),
+              badgeColor: redColor)
+          : isUnread!
+              ? const Image(
+                  image: AssetImage(
+                  'assets/images/chevron-circle-right-dark.png',
+                ))
+              : const Image(
+                  image: AssetImage(
+                  'assets/images/chevron-circle-right-light.png',
+                )),
     );
   }
 }
