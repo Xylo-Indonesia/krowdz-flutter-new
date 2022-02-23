@@ -163,9 +163,36 @@ class _NotificationsState extends State<Notifications> {
                             AnnouncementsPagination(store: store)
                           ],
                         );
-                      } else {
-                        return Column();
                       }
+
+                      return Column(
+                        children: [
+                          const DarkShimmer(
+                            width: double.infinity,
+                            height: 56.0,
+                          ),
+                          const SizedBox(height: 12),
+                          const DarkShimmer(
+                            width: double.infinity,
+                            height: 56.0,
+                          ),
+                          const SizedBox(height: 12),
+                          const DarkShimmer(
+                            width: double.infinity,
+                            height: 56.0,
+                          ),
+                          const SizedBox(height: 12),
+                          const DarkShimmer(
+                            width: double.infinity,
+                            height: 56.0,
+                          ),
+                          const SizedBox(height: 12),
+                          const DarkShimmer(
+                            width: double.infinity,
+                            height: 56.0,
+                          ),
+                        ],
+                      );
                     }),
                   ),
                 ),
