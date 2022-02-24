@@ -1,17 +1,35 @@
+import 'package:event/stores/notification_detail_store.dart';
 import 'package:event/widgets/black_theme.dart';
 import 'package:event/widgets/custom_header.dart';
 import 'package:event/widgets/custom_input.dart';
 import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'package:mobx/mobx.dart';
 
 class NotificationDetail extends StatefulWidget {
+  final int notificationId;
+
+  const NotificationDetail({Key? key, required this.notificationId})
+      : super(key: key);
+
   @override
   State<NotificationDetail> createState() => _NotificationDetailState();
 }
 
 class _NotificationDetailState extends State<NotificationDetail> {
+  NotificationDetailStore store = NotificationDetailStore();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final notificationId = widget.notificationId;
+
+    store.getNotificationDetail(notificationId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlackTheme(
@@ -24,13 +42,25 @@ class _NotificationDetailState extends State<NotificationDetail> {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 12.0, horizontal: 16),
-                  child: CustomHeader(
-                    darkMode: false,
-                    title: "General",
-                    onBack: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                  child: Observer(builder: (_) {
+                    if (store.isNotificationDetailReady) {
+                      return CustomHeader(
+                        darkMode: false,
+                        title: store.notification?.data?.type,
+                        onBack: () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    }
+
+                    return CustomHeader(
+                      darkMode: false,
+                      title: '',
+                      onBack: () {
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  }),
                 ),
                 Expanded(
                   child: SingleChildScrollView(

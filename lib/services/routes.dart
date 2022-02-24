@@ -75,7 +75,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case notificationsPageRoute:
       return MaterialPageRoute(builder: (context) => Notifications());
     case notificationDetailPage:
-      return MaterialPageRoute(builder: (context) => NotificationDetail());
+      return MaterialPageRoute(
+          builder: (context) =>
+              NotificationDetail(notificationId: settings.arguments as int),
+          settings: RouteSettings(name: notificationDetailPage));
     default:
       return MaterialPageRoute(
           builder: (context) => StartupPage(),

@@ -137,6 +137,7 @@ class _NotificationsState extends State<Notifications> {
                           children: [
                             for (var item in store.general!.data!)
                               NotificationItem(
+                                id: item.typeId,
                                 title: item.title,
                                 message: item.message,
                                 isUnread: item.readAt == null,
@@ -153,6 +154,7 @@ class _NotificationsState extends State<Notifications> {
                           children: [
                             for (var item in store.announcements!.data!)
                               NotificationItem(
+                                id: item.typeId,
                                 title: item.title,
                                 message: item.message,
                                 isUnread: item.readAt == null,

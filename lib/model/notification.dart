@@ -4,7 +4,7 @@ class Notification {
   Links? links;
   Meta? meta;
 
-  Notification({this.data, this.links, this.meta});
+  Notification({this.status, this.data, this.links, this.meta});
 
   Notification.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -20,9 +20,8 @@ class Notification {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.status != null) {
-      data['status'] = this.status;
-    }
+    data['status'] = this.status;
+
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }

@@ -2,15 +2,16 @@ import 'package:badges/badges.dart';
 import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:event/services/consts.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 
 class NotificationItem extends StatelessWidget {
+  final int? id;
   final String? title, message, type, createdAt;
   final bool? isUnread;
 
   const NotificationItem(
       {Key? key,
+      this.id,
       this.title,
       this.message,
       this.isUnread,
@@ -22,7 +23,7 @@ class NotificationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(notificationDetailPage);
+        Navigator.of(context).pushNamed(notificationDetailPage, arguments: id);
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 6),

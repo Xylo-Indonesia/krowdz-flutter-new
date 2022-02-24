@@ -539,6 +539,31 @@ class API {
     return response.body;
   }
 
+  static Future<String> GeneralNotificationDetail(int id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+
+    var url = Uri.parse(client_url + '/notifications/general/' + id.toString());
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+    http.Response response;
+
+    // print(url);
+
+    try {
+      response = await http.get(url, headers: headers);
+    } catch (_) {
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response.body;
+  }
+
   static Future<String> AnnouncementList({String page = '1'}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String access_token = prefs.getString(pref_access_token)!;
@@ -552,6 +577,31 @@ class API {
       "Authorization": 'Bearer ' + access_token,
     };
     http.Response response;
+
+    try {
+      response = await http.get(url, headers: headers);
+    } catch (_) {
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response.body;
+  }
+
+  static Future<String> AnnouncementDetail(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+
+    var url = Uri.parse(client_url + '/notifications/announcements/' + id);
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+    http.Response response;
+
+    // print(url);
 
     try {
       response = await http.get(url, headers: headers);
