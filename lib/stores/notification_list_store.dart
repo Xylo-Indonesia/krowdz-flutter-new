@@ -46,6 +46,8 @@ abstract class _NotificationListStore with Store {
   void getGeneralNotifications({
     String page = '1',
   }) async {
+    isGeneralPageReady = false;
+
     var response = await API.GeneralNotificationList(
       page: page,
     );
@@ -64,6 +66,8 @@ abstract class _NotificationListStore with Store {
   void getAnnouncements({
     String page = '1',
   }) async {
+    isAnnouncementsPageReady = false;
+
     var response = await API.AnnouncementList(
       page: page,
     );
