@@ -1,29 +1,36 @@
 import 'package:badges/badges.dart';
+import 'package:event/model/arguments_notification.dart';
 import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:event/services/consts.dart';
 import 'package:intl/intl.dart';
 
 class NotificationItem extends StatelessWidget {
-  final int? id;
-  final String? title, message, type, createdAt;
+  final String id;
+  final String type;
+  final String? title, message, createdAt;
   final bool? isUnread;
+  final void Function() onTap;
 
   const NotificationItem(
       {Key? key,
-      this.id,
+      required this.id,
       this.title,
       this.message,
       this.isUnread,
-      this.type,
-      this.createdAt})
+      required this.type,
+      this.createdAt,
+      required this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(notificationDetailPage, arguments: id);
+      onTap: () async {
+        await Navigator.of(context).pushNamed(notificationDetailPage,
+            arguments: ArgumentsNotification(id: id, type: type));
+
+        onTap();
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 6),

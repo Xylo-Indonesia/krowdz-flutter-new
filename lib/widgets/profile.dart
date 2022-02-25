@@ -6,7 +6,8 @@ class Profile extends StatelessWidget {
   final String? client, name;
   final image, isLoading;
 
-  const Profile({Key? key, this.client, this.name, this.image, this.isLoading}) : super(key: key);
+  const Profile({Key? key, this.client, this.name, this.image, this.isLoading})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,10 +16,11 @@ class Profile extends StatelessWidget {
           Container(
             width: 50,
             height: 50,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: Colors.transparent),
             child: image == null
                 ? Image(
-                    image: AssetImage('assets/images/wuling.png'),
+                    image: AssetImage('assets/images/app_icon.png'),
                   )
                 : FadeInImage.memoryNetwork(
                     placeholder: kTransparentImage,
@@ -62,7 +64,11 @@ class Profile extends StatelessWidget {
                     )
                   : Text(
                       name!,
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20, height: 1.1),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          height: 1.1),
                     ),
             ],
           )

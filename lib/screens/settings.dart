@@ -77,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 shape: BoxShape.circle, color: Colors.white),
                             clipBehavior: Clip.antiAlias,
                             child: Image(
-                              image: AssetImage('assets/images/wuling.png'),
+                              image: AssetImage('assets/images/app_icon.png'),
                             ),
                             //  FadeInImage.memoryNetwork(
                             //   placeholder: kTransparentImage,

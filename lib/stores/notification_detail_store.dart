@@ -18,10 +18,21 @@ abstract class _NotificationDetailStore with Store {
   @observable
   bool isNotificationDetailReady = false;
 
-  void getNotificationDetail(int id) async {
+  void getGeneralNotificationDetail(String id) async {
     isNotificationDetailReady = false;
 
     var response = await API.GeneralNotificationDetail(id);
+    notification = NotificationDetail.fromJson(json.decode(response));
+
+    if (notification?.status == true) {
+      isNotificationDetailReady = true;
+    }
+  }
+
+  void getAnnouncementDetail(String id) async {
+    isNotificationDetailReady = false;
+
+    var response = await API.AnnouncementDetail(id);
     notification = NotificationDetail.fromJson(json.decode(response));
 
     if (notification?.status == true) {

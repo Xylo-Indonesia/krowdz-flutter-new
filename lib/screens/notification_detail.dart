@@ -1,3 +1,5 @@
+import 'package:event/model/arguments_notification.dart';
+import 'package:event/services/consts.dart';
 import 'package:event/stores/notification_detail_store.dart';
 import 'package:event/widgets/black_theme.dart';
 import 'package:event/widgets/custom_header.dart';
@@ -6,12 +8,13 @@ import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobx/mobx.dart';
+import 'package:intl/intl.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class NotificationDetail extends StatefulWidget {
-  final int notificationId;
+  final ArgumentsNotification arguments;
 
-  const NotificationDetail({Key? key, required this.notificationId})
+  const NotificationDetail({Key? key, required this.arguments})
       : super(key: key);
 
   @override
@@ -25,9 +28,13 @@ class _NotificationDetailState extends State<NotificationDetail> {
   void initState() {
     super.initState();
 
-    final notificationId = widget.notificationId;
+    final id = widget.arguments.id;
 
-    store.getNotificationDetail(notificationId);
+    if (widget.arguments.type == 'general') {
+      store.getGeneralNotificationDetail(id);
+    } else {
+      store.getAnnouncementDetail(id);
+    }
   }
 
   @override
@@ -42,25 +49,13 @@ class _NotificationDetailState extends State<NotificationDetail> {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 12.0, horizontal: 16),
-                  child: Observer(builder: (_) {
-                    if (store.isNotificationDetailReady) {
-                      return CustomHeader(
-                        darkMode: false,
-                        title: store.notification?.data?.type,
-                        onBack: () {
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    }
-
-                    return CustomHeader(
-                      darkMode: false,
-                      title: '',
-                      onBack: () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  }),
+                  child: CustomHeader(
+                    darkMode: false,
+                    title: toBeginningOfSentenceCase(widget.arguments.type),
+                    onBack: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -70,19 +65,26 @@ class _NotificationDetailState extends State<NotificationDetail> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: double.infinity,
                           ),
-                          Text("Keep up the good work.", style: kTextTitleDark),
-                          SizedBox(
+                          Observer(builder: (_) {
+                            if (store.isNotificationDetailReady) {
+                              return Text(store.notification?.data?.title ?? '',
+                                  style: kTextTitleDark);
+                            }
+                            return const LightShimmer(
+                                height: 24, width: double.infinity);
+                          }),
+                          const SizedBox(
                             height: 8,
                           ),
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
                                         color: Colors.grey, width: 1))),
-                            padding: EdgeInsets.only(top: 8),
+                            padding: const EdgeInsets.only(top: 8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -93,178 +95,114 @@ class _NotificationDetailState extends State<NotificationDetail> {
                                   children: [
                                     Container(
                                         clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
                                             color: Colors.white),
                                         width: ScreenUtil().setSp(60),
-                                        child: Image(
-                                          image: AssetImage(
-                                              'assets/images/wuling.png'),
-                                        )
-                                        // FadeInImage.memoryNetwork(
-                                        //     placeholder: kTransparentImage,
-                                        //     image: 'https://placehold.it/100'),
-                                        ),
-                                    SizedBox(
+                                        child: Observer(builder: (_) {
+                                          if (store.isNotificationDetailReady) {
+                                            return Image.network(
+                                              store.notification!.companyLogo!,
+                                              errorBuilder: (
+                                                context,
+                                                object,
+                                                stacktrace,
+                                              ) {
+                                                return Image.asset(
+                                                  'assets/images/app_icon.png',
+                                                );
+                                              },
+                                            );
+                                          }
+                                          return const LightShimmer(
+                                              height: 48,
+                                              width: double.infinity);
+                                        })),
+                                    const SizedBox(
                                       width: 8,
                                     ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Admin Wuling",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: darkBackground),
-                                          ),
-                                          Row(
+                                    Expanded(child: Observer(
+                                      builder: (_) {
+                                        if (store.isNotificationDetailReady) {
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "31 Aug 2020",
-                                                style: TextStyle(
+                                                store.notification?.data?.sender
+                                                        ?.name ??
+                                                    '',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
                                                     color: darkBackground),
-                                              ),
-                                              SizedBox(
-                                                width: 2,
                                               ),
                                               Text(
-                                                "|",
-                                                style: TextStyle(
+                                                DateFormat(
+                                                        'dd MMM yyyy | HH:mm')
+                                                    .format(DateTime.parse(store
+                                                        .notification!
+                                                        .data!
+                                                        .createdAt!)),
+                                                style: const TextStyle(
                                                     color: darkBackground),
                                               ),
-                                              SizedBox(
-                                                width: 2,
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child:
+                                                        Observer(builder: (_) {
+                                                      if (store
+                                                          .isNotificationDetailReady) {
+                                                        {
+                                                          List recipients =
+                                                              store
+                                                                  .notification!
+                                                                  .recipients!
+                                                                  .map((e) =>
+                                                                      e.name)
+                                                                  .toList();
+
+                                                          return Text(
+                                                              'to: ' +
+                                                                  recipients
+                                                                      .join(
+                                                                          ', '),
+                                                              style: const TextStyle(
+                                                                  color:
+                                                                      darkBackground));
+                                                        }
+                                                      }
+
+                                                      return const Text('');
+                                                    }),
+                                                  )
+                                                ],
                                               ),
-                                              Text(
-                                                "21:00",
-                                                style: TextStyle(
-                                                    color: darkBackground),
-                                              )
                                             ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text("to:"),
-                                              SizedBox(
-                                                width: 2,
-                                              ),
-                                              Text(
-                                                "PIC_SPK",
-                                                style: TextStyle(
-                                                    color: darkBackground),
-                                              ),
-                                              Text(
-                                                ", ",
-                                                style: TextStyle(
-                                                    color: darkBackground),
-                                              ),
-                                              Text(
-                                                "PIC_SPK",
-                                                style: TextStyle(
-                                                    color: darkBackground),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
+                                          );
+                                        }
+
+                                        return const LightShimmer(
+                                            height: 48, width: double.infinity);
+                                      },
+                                    ))
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
-                                Text(
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dapibus ultrices in iaculis nunc sed augue lacus. Quam nulla porttitor massa id neque aliquam. Ultrices mi tempus imperdiet nulla malesuada. Eros in cursus turpis massa tincidunt dui ut ornare lectus. Egestas sed sed risus pretium. Lorem dolor sed viverra ipsum. Gravida rutrum quisque non tellus. Rutrum tellus pellentesque eu tincidunt tortor. Sed blandit libero volutpat sed cras ornare. Et netus et malesuada fames ac. Ultrices eros in cursus turpis massa tincidunt dui ut ornare. Lacus sed viverra tellus in. Sollicitudin ac orci phasellus egestas. Purus in mollis nunc sed. Sollicitudin ac orci phasellus egestas tellus rutrum tellus pellentesque. Interdum consectetur libero id faucibus nisl tincidunt eget.",
-                                  style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(14),
-                                      color: Colors.grey[700]),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: Colors.grey, width: 1))),
-                            padding: EdgeInsets.only(top: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white),
-                                        width: ScreenUtil().setSp(60),
-                                        child: Image(
-                                          image: AssetImage(
-                                              'assets/images/wuling.png'),
-                                        )
-                                        // FadeInImage.memoryNetwork(
-                                        //     placeholder: kTransparentImage,
-                                        //     image: 'https://placehold.it/100'),
-                                        ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Crew Wuling",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: darkBackground),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "31 Aug 2020",
-                                                style: TextStyle(
-                                                    color: darkBackground),
-                                              ),
-                                              SizedBox(
-                                                width: 2,
-                                              ),
-                                              Text(
-                                                "|",
-                                                style: TextStyle(
-                                                    color: darkBackground),
-                                              ),
-                                              SizedBox(
-                                                width: 2,
-                                              ),
-                                              Text(
-                                                "21:00",
-                                                style: TextStyle(
-                                                    color: darkBackground),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  "ok mantap",
-                                  style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(14),
-                                      color: Colors.grey[700]),
-                                ),
+                                Observer(builder: (_) {
+                                  if (store.isNotificationDetailReady) {
+                                    return Text(
+                                      store.notification?.data?.message ?? '',
+                                      style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(14),
+                                          color: Colors.grey[700]),
+                                    );
+                                  }
+                                  return const LightShimmer(
+                                      height: 100, width: double.infinity);
+                                }),
                                 SizedBox(
                                   height: 16,
                                 ),
@@ -276,37 +214,131 @@ class _NotificationDetailState extends State<NotificationDetail> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 12.0, horizontal: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CustomInput(
-                          child: TextFormField(
-                            decoration: InputDecoration(hintText: "Reply.."),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      FlatButton(
-                          child: Image(
-                              image: AssetImage('assets/images/send.png')),
-                          shape: CircleBorder(),
-                          color: redColor,
-                          minWidth: 0,
-                          padding: EdgeInsets.all(16),
-                          onPressed: () {
-                            print("asd");
-                          }),
-                    ],
-                  ),
-                )
+                ReplyField(type: widget.arguments.type)
               ],
             ),
           )),
+    );
+  }
+}
+
+class Reply extends StatelessWidget {
+  const Reply({Key? key, required Reply reply}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
+      padding: EdgeInsets.only(top: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
+                  width: ScreenUtil().setSp(60),
+                  child: Image(
+                    image: AssetImage('assets/images/app_icon.png'),
+                  )),
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Crew Wuling",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: darkBackground),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "31 Aug 2020",
+                          style: TextStyle(color: darkBackground),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "|",
+                          style: TextStyle(color: darkBackground),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "21:00",
+                          style: TextStyle(color: darkBackground),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            "ok mantap",
+            style: TextStyle(
+                fontSize: ScreenUtil().setSp(14), color: Colors.grey[700]),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReplyField extends StatelessWidget {
+  const ReplyField({
+    Key? key,
+    required this.type,
+  }) : super(key: key);
+
+  final String type;
+
+  @override
+  Widget build(BuildContext context) {
+    if (type == 'announcement') {
+      return Container();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+      child: Row(
+        children: [
+          Expanded(
+            child: CustomInput(
+              child: TextFormField(
+                decoration: InputDecoration(hintText: "Reply.."),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 12,
+          ),
+          FlatButton(
+              child: Image(image: AssetImage('assets/images/send.png')),
+              shape: CircleBorder(),
+              color: redColor,
+              minWidth: 0,
+              padding: EdgeInsets.all(16),
+              onPressed: () {
+                print("asd");
+              }),
+        ],
+      ),
     );
   }
 }

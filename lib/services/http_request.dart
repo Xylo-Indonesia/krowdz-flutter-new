@@ -539,7 +539,7 @@ class API {
     return response.body;
   }
 
-  static Future<String> GeneralNotificationDetail(int id) async {
+  static Future<String> GeneralNotificationDetail(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String access_token = prefs.getString(pref_access_token)!;
     var client_url = await (getClientUrl() as Future<String>);

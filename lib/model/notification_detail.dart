@@ -1,8 +1,9 @@
 class NotificationDetail {
   bool? status;
   Data? data;
-  List<User>? recipients;
-  List<Reply>? replies;
+  List<User>? recipients = [];
+  List<Reply>? replies = [];
+  String? companyLogo;
 
   NotificationDetail({this.status, this.data, this.recipients, this.replies});
 
@@ -10,18 +11,27 @@ class NotificationDetail {
     status = json['status'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
 
-    if (json['recipients'] != null) {
-      recipients = [];
-      json['recipients'].forEach((v) {
-        recipients?.add(User.fromJson(v));
-      });
+    if (data?.type == 'general') {
+      if (json['data']['recipients'] != null) {
+        recipients = [];
+        json['data']['recipients'].forEach((v) {
+          recipients?.add(User.fromJson(v));
+        });
+      }
+
+      if (json['data']['replies'] != null) {
+        replies = [];
+        json['data']['replies'].forEach((v) {
+          replies?.add(Reply.fromJson(v));
+        });
+      }
     }
 
-    if (json['replies'] != null) {
-      replies = [];
-      json['replies'].forEach((v) {
-        replies?.add(Reply.fromJson(v));
-      });
+    try {
+      companyLogo = json['meta']['logo_path'];
+    } catch (e) {
+      print(json['meta']);
+      // companyLogo = null;
     }
   }
 
@@ -89,7 +99,7 @@ class Data {
 }
 
 class Reply {
-  String? id;
+  int? id;
   String? message;
   String? createdAt;
   User? sender;

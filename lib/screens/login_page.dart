@@ -57,21 +57,22 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: Image(image: AssetImage('assets/images/xylo.png')),
+                                child: Image(
+                                    image:
+                                        AssetImage('assets/images/xylo.png')),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 32.0),
                                 child: Observer(
-                                  builder: (_) =>
-                                      //    Text(store.url_logo)
-
-                                      Container(
-                                          width: 140.0,
-                                          height: 140.0,
-                                          decoration: new BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: new DecorationImage(
-                                                  fit: BoxFit.fill, image: new NetworkImage(store.url_logo!)))),
+                                  builder: (_) => Container(
+                                      width: 140.0,
+                                      height: 140.0,
+                                      decoration: new BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: new NetworkImage(
+                                                  store.url_logo!)))),
                                 ),
                               ),
                             ],
@@ -85,12 +86,16 @@ class _LoginPageState extends State<LoginPage> {
                                     darkMode: true,
                                     child: Observer(
                                       builder: (_) => TextFormField(
-                                        onChanged: (value) => store.email = value,
+                                        onChanged: (value) =>
+                                            store.email = value,
                                         controller: usernameController,
-                                        keyboardType: TextInputType.emailAddress,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         decoration: InputDecoration(
                                             hintText: 'Input Username',
-                                            errorText: store.error.email == null ? ' ' : store.error.email,
+                                            errorText: store.error.email == null
+                                                ? ' '
+                                                : store.error.email,
                                             helperText: ' '),
                                       ),
                                     ),
@@ -102,11 +107,16 @@ class _LoginPageState extends State<LoginPage> {
                                     padding: EdgeInsets.only(top: 16),
                                     child: Observer(
                                       builder: (_) => TextFormField(
-                                        onChanged: (value) => store.password = value,
-                                        keyboardType: TextInputType.emailAddress,
+                                        onChanged: (value) =>
+                                            store.password = value,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         decoration: InputDecoration(
                                           hintText: 'Input Password',
-                                          errorText: store.error.password == null ? ' ' : store.error.password,
+                                          errorText:
+                                              store.error.password == null
+                                                  ? ' '
+                                                  : store.error.password,
                                           helperText: '-',
                                         ),
                                         obscureText: true,
@@ -133,28 +143,36 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   child: isLoading
                                       ? Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             SizedBox(
                                               width: 16,
                                               height: 16,
                                               child: CircularProgressIndicator(
                                                 strokeWidth: 2,
-                                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(Colors.white),
                                               ),
                                             ),
                                             SizedBox(
                                               width: 8,
                                             ),
                                             Text("Please Wait",
-                                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white))
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white))
                                           ],
                                         )
                                       : Text("Log in",
-                                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white)),
                                   padding: EdgeInsets.all(18),
                                   color: redColor,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16)),
                                 )),
                           )
                         ],

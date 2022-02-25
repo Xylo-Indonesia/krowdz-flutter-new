@@ -11,25 +11,25 @@ import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:event/services/consts.dart';
 
 class Notifications extends StatefulWidget {
+  const Notifications({Key? key}) : super(key: key);
+
   @override
   _NotificationsState createState() => _NotificationsState();
 }
 
 class _NotificationsState extends State<Notifications> {
   NotificationListStore store = NotificationListStore();
+  String? listType = 'general';
 
-  _NotificationsState() {
+  @override
+  void initState() {
+    super.initState();
+
     store.getGeneralNotifications();
     store.getAnnouncements();
-
-    print(store.isAnnouncementsPageReady);
-    print(store.isGeneralPageReady);
   }
-
-  String listType = 'general';
 
   @override
   Widget build(BuildContext context) {
@@ -137,12 +137,15 @@ class _NotificationsState extends State<Notifications> {
                           children: [
                             for (var item in store.general!.data!)
                               NotificationItem(
-                                id: item.typeId,
+                                id: item.id!,
                                 title: item.title,
                                 message: item.message,
                                 isUnread: item.readAt == null,
                                 type: 'general',
                                 createdAt: item.createdAt,
+                                onTap: () {
+                                  store.getGeneralNotifications();
+                                },
                               ),
                             const SizedBox(height: 12),
                             GeneralPagination(store: store),
@@ -154,12 +157,15 @@ class _NotificationsState extends State<Notifications> {
                           children: [
                             for (var item in store.announcements!.data!)
                               NotificationItem(
-                                id: item.typeId,
+                                id: item.id!,
                                 title: item.title,
                                 message: item.message,
                                 isUnread: item.readAt == null,
                                 type: 'announcement',
                                 createdAt: item.createdAt,
+                                onTap: () {
+                                  store.getAnnouncements();
+                                },
                               ),
                             const SizedBox(height: 12),
                             AnnouncementsPagination(store: store)

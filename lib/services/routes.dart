@@ -1,3 +1,4 @@
+import 'package:event/model/arguments_notification.dart';
 import 'package:event/screens/home_page.dart';
 import 'package:event/screens/login_page.dart';
 import 'package:event/screens/new_activity.dart';
@@ -73,11 +74,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           builder: (context) => PrizeList(),
           settings: RouteSettings(name: prizePageRoute));
     case notificationsPageRoute:
-      return MaterialPageRoute(builder: (context) => Notifications());
+      return MaterialPageRoute(
+          builder: (context) => Notifications(),
+          settings: RouteSettings(name: notificationsPageRoute));
     case notificationDetailPage:
       return MaterialPageRoute(
-          builder: (context) =>
-              NotificationDetail(notificationId: settings.arguments as int),
+          builder: (context) => NotificationDetail(
+              arguments: settings.arguments as ArgumentsNotification),
           settings: RouteSettings(name: notificationDetailPage));
     default:
       return MaterialPageRoute(
