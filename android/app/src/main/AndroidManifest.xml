@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.krowdz_flutter_new">
    <application
-        android:label="krowdz_flutter_new"
+        android:label="Krowdz"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
