@@ -1,4 +1,5 @@
 import 'package:event/model/arguments_notification.dart';
+import 'package:event/model/notification_detail.dart';
 import 'package:event/services/consts.dart';
 import 'package:event/stores/notification_detail_store.dart';
 import 'package:event/widgets/black_theme.dart';
@@ -79,136 +80,46 @@ class _NotificationDetailState extends State<NotificationDetail> {
                           const SizedBox(
                             height: 8,
                           ),
-                          Container(
-                            decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: Colors.grey, width: 1))),
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: [
-                                    Container(
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white),
-                                        width: ScreenUtil().setSp(60),
-                                        child: Observer(builder: (_) {
-                                          if (store.isNotificationDetailReady) {
-                                            return Image.network(
-                                              store.notification!.companyLogo!,
-                                              errorBuilder: (
-                                                context,
-                                                object,
-                                                stacktrace,
-                                              ) {
-                                                return Image.asset(
-                                                  'assets/images/app_icon.png',
-                                                );
-                                              },
-                                            );
-                                          }
-                                          return const LightShimmer(
-                                              height: 48,
-                                              width: double.infinity);
-                                        })),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    Expanded(child: Observer(
-                                      builder: (_) {
-                                        if (store.isNotificationDetailReady) {
-                                          return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                store.notification?.data?.sender
-                                                        ?.name ??
-                                                    '',
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: darkBackground),
-                                              ),
-                                              Text(
-                                                DateFormat(
-                                                        'dd MMM yyyy | HH:mm')
-                                                    .format(DateTime.parse(store
-                                                        .notification!
-                                                        .data!
-                                                        .createdAt!)),
-                                                style: const TextStyle(
-                                                    color: darkBackground),
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child:
-                                                        Observer(builder: (_) {
-                                                      if (store
-                                                          .isNotificationDetailReady) {
-                                                        {
-                                                          List recipients =
-                                                              store
-                                                                  .notification!
-                                                                  .recipients!
-                                                                  .map((e) =>
-                                                                      e.name)
-                                                                  .toList();
+                          Observer(builder: (_) {
+                            if (store.isNotificationDetailReady) {
+                              return MessageItem(
+                                  isReady: true,
+                                  store: store,
+                                  isParent: true,
+                                  sender:
+                                      store.notification!.data!.sender!.name!,
+                                  message: store.notification!.data!.message!,
+                                  recipients: store.notification!.recipients!,
+                                  createdAt:
+                                      store.notification!.data!.createdAt!);
+                            }
 
-                                                          return Text(
-                                                              'to: ' +
-                                                                  recipients
-                                                                      .join(
-                                                                          ', '),
-                                                              style: const TextStyle(
-                                                                  color:
-                                                                      darkBackground));
-                                                        }
-                                                      }
-
-                                                      return const Text('');
-                                                    }),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          );
-                                        }
-
-                                        return const LightShimmer(
-                                            height: 48, width: double.infinity);
-                                      },
-                                    ))
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Observer(builder: (_) {
-                                  if (store.isNotificationDetailReady) {
-                                    return Text(
-                                      store.notification?.data?.message ?? '',
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(14),
-                                          color: Colors.grey[700]),
-                                    );
-                                  }
-                                  return const LightShimmer(
-                                      height: 100, width: double.infinity);
-                                }),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                              ],
-                            ),
-                          ),
+                            return MessageItem(
+                                isReady: false,
+                                store: store,
+                                sender: '',
+                                message: '',
+                                recipients: const [],
+                                createdAt: '',
+                                isParent: true);
+                          }),
+                          Observer(builder: (_) {
+                            if (store.isNotificationDetailReady &&
+                                store.notification!.replies!.isNotEmpty) {
+                              return Column(children: [
+                                for (Reply reply
+                                    in store.notification!.replies!)
+                                  MessageItem(
+                                      isReady: true,
+                                      store: store,
+                                      isParent: false,
+                                      sender: reply.sender!.name,
+                                      message: reply.message,
+                                      createdAt: reply.createdAt)
+                              ]);
+                            }
+                            return Container();
+                          })
                         ],
                       ),
                     ),
@@ -222,15 +133,140 @@ class _NotificationDetailState extends State<NotificationDetail> {
   }
 }
 
-class Reply extends StatelessWidget {
-  const Reply({Key? key, required Reply reply}) : super(key: key);
+class MessageItem extends StatelessWidget {
+  const MessageItem({
+    Key? key,
+    required this.isReady,
+    required this.store,
+    required this.isParent,
+    this.sender,
+    this.message,
+    this.recipients,
+    this.createdAt,
+  }) : super(key: key);
+
+  final bool isReady;
+  final NotificationDetailStore store;
+  final String? sender;
+  final String? message;
+  final List<User>? recipients;
+  final String? createdAt;
+  final bool isParent;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
-      padding: EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.only(top: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
+                  width: ScreenUtil().setSp(60),
+                  child: Observer(builder: (_) {
+                    if (store.isNotificationDetailReady) {
+                      return Image.network(
+                        store.notification!.companyLogo!,
+                        errorBuilder: (
+                          context,
+                          object,
+                          stacktrace,
+                        ) {
+                          return Image.asset(
+                            'assets/images/app_icon.png',
+                          );
+                        },
+                      );
+                    }
+                    return const LightShimmer(
+                        height: 48, width: double.infinity);
+                  })),
+              const SizedBox(
+                width: 8,
+              ),
+              Expanded(child: Observer(
+                builder: (_) {
+                  if (isReady) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          sender ?? '',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: darkBackground),
+                        ),
+                        Text(
+                          DateFormat('dd MMM yyyy | HH:mm')
+                              .format(DateTime.parse(createdAt ?? '')),
+                          style: const TextStyle(color: darkBackground),
+                        ),
+                        if (isParent)
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                      'to: ' +
+                                          recipients!
+                                              .map((e) => e.name)
+                                              .toList()
+                                              .join(', '),
+                                      style: const TextStyle(
+                                          color: darkBackground)))
+                            ],
+                          ),
+                      ],
+                    );
+                  }
+
+                  return const LightShimmer(height: 48, width: double.infinity);
+                },
+              ))
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Observer(builder: (_) {
+            if (isReady) {
+              return Text(
+                message ?? '',
+                style: TextStyle(
+                    fontSize: ScreenUtil().setSp(14), color: Colors.grey[700]),
+              );
+            }
+            return const LightShimmer(height: 100, width: double.infinity);
+          }),
+          const SizedBox(
+            height: 16,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReplyItem extends StatelessWidget {
+  const ReplyItem({Key? key, required this.reply, required this.store})
+      : super(key: key);
+
+  final Reply reply;
+  final NotificationDetailStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
+      padding: const EdgeInsets.only(top: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -238,12 +274,27 @@ class Reply extends StatelessWidget {
             children: [
               Container(
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: Colors.white),
                   width: ScreenUtil().setSp(60),
-                  child: Image(
-                    image: AssetImage('assets/images/app_icon.png'),
-                  )),
+                  child: Observer(builder: (_) {
+                    if (store.isNotificationDetailReady) {
+                      return Image.network(
+                        store.notification!.companyLogo!,
+                        errorBuilder: (
+                          context,
+                          object,
+                          stacktrace,
+                        ) {
+                          return Image.asset(
+                            'assets/images/app_icon.png',
+                          );
+                        },
+                      );
+                    }
+                    return const LightShimmer(
+                        height: 48, width: double.infinity);
+                  })),
               SizedBox(
                 width: 8,
               ),
