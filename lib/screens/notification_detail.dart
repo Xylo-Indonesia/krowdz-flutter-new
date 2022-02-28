@@ -3,6 +3,7 @@ import 'package:event/model/notification_detail.dart';
 import 'package:event/services/consts.dart';
 import 'package:event/stores/notification_detail_store.dart';
 import 'package:event/widgets/black_theme.dart';
+import 'package:event/widgets/custom_dialog.dart';
 import 'package:event/widgets/custom_header.dart';
 import 'package:event/widgets/custom_input.dart';
 import 'package:event/widgets/styles.dart';
@@ -125,7 +126,15 @@ class _NotificationDetailState extends State<NotificationDetail> {
                     ),
                   ),
                 ),
-                ReplyField(type: widget.arguments.type)
+                Observer(builder: (_) {
+                  if (store.isNotificationDetailReady &&
+                      widget.arguments.type == 'general') {
+                    return ReplyField(
+                        store: store, notificationId: widget.arguments.id);
+                  }
+
+                  return Container();
+                })
               ],
             ),
           )),
@@ -163,88 +172,79 @@ class MessageItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.white),
-                  width: ScreenUtil().setSp(60),
-                  child: Observer(builder: (_) {
-                    if (store.isNotificationDetailReady) {
-                      return Image.network(
-                        store.notification!.companyLogo!,
-                        errorBuilder: (
-                          context,
-                          object,
-                          stacktrace,
-                        ) {
-                          return Image.asset(
-                            'assets/images/app_icon.png',
-                          );
-                        },
-                      );
-                    }
-                    return const LightShimmer(
-                        height: 48, width: double.infinity);
-                  })),
-              const SizedBox(
-                width: 8,
-              ),
-              Expanded(child: Observer(
-                builder: (_) {
-                  if (isReady) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          sender ?? '',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: darkBackground),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.white),
+                    width: ScreenUtil().setSp(60),
+                    child: isReady
+                        ? Image.network(
+                            store.notification!.companyLogo!,
+                            errorBuilder: (
+                              context,
+                              object,
+                              stacktrace,
+                            ) {
+                              return Image.asset(
+                                'assets/images/app_icon.png',
+                              );
+                            },
+                          )
+                        : const LightShimmer(
+                            height: 48, width: double.infinity)),
+                const SizedBox(
+                  width: 8,
+                ),
+                isReady
+                    ? Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              sender ?? '',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: darkBackground),
+                            ),
+                            Text(
+                              DateFormat('dd MMM yyyy | HH:mm')
+                                  .format(DateTime.parse(createdAt ?? '')),
+                              style: const TextStyle(color: darkBackground),
+                            ),
+                            if (isParent)
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: Text(
+                                          'to: ' +
+                                              recipients!
+                                                  .map((e) => e.name)
+                                                  .toList()
+                                                  .join(', '),
+                                          style: const TextStyle(
+                                              color: darkBackground)))
+                                ],
+                              ),
+                          ],
                         ),
-                        Text(
-                          DateFormat('dd MMM yyyy | HH:mm')
-                              .format(DateTime.parse(createdAt ?? '')),
-                          style: const TextStyle(color: darkBackground),
-                        ),
-                        if (isParent)
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                      'to: ' +
-                                          recipients!
-                                              .map((e) => e.name)
-                                              .toList()
-                                              .join(', '),
-                                      style: const TextStyle(
-                                          color: darkBackground)))
-                            ],
-                          ),
-                      ],
-                    );
-                  }
-
-                  return const LightShimmer(height: 48, width: double.infinity);
-                },
-              ))
-            ],
-          ),
+                      )
+                    : const Expanded(
+                        child: LightShimmer(height: 48, width: double.infinity))
+              ]),
           const SizedBox(
             height: 8,
           ),
-          Observer(builder: (_) {
-            if (isReady) {
-              return Text(
-                message ?? '',
-                style: TextStyle(
-                    fontSize: ScreenUtil().setSp(14), color: Colors.grey[700]),
-              );
-            }
-            return const LightShimmer(height: 100, width: double.infinity);
-          }),
+          isReady
+              ? Text(
+                  message ?? '',
+                  style: TextStyle(
+                      fontSize: ScreenUtil().setSp(14),
+                      color: Colors.grey[700]),
+                )
+              : const LightShimmer(height: 100, width: double.infinity),
           const SizedBox(
             height: 16,
           ),
@@ -254,117 +254,23 @@ class MessageItem extends StatelessWidget {
   }
 }
 
-class ReplyItem extends StatelessWidget {
-  const ReplyItem({Key? key, required this.reply, required this.store})
+class ReplyField extends StatefulWidget {
+  const ReplyField(
+      {Key? key, required this.store, required this.notificationId})
       : super(key: key);
 
-  final Reply reply;
   final NotificationDetailStore store;
+  final String notificationId;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
-      padding: const EdgeInsets.only(top: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.white),
-                  width: ScreenUtil().setSp(60),
-                  child: Observer(builder: (_) {
-                    if (store.isNotificationDetailReady) {
-                      return Image.network(
-                        store.notification!.companyLogo!,
-                        errorBuilder: (
-                          context,
-                          object,
-                          stacktrace,
-                        ) {
-                          return Image.asset(
-                            'assets/images/app_icon.png',
-                          );
-                        },
-                      );
-                    }
-                    return const LightShimmer(
-                        height: 48, width: double.infinity);
-                  })),
-              SizedBox(
-                width: 8,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Crew Wuling",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: darkBackground),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "31 Aug 2020",
-                          style: TextStyle(color: darkBackground),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Text(
-                          "|",
-                          style: TextStyle(color: darkBackground),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Text(
-                          "21:00",
-                          style: TextStyle(color: darkBackground),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            "ok mantap",
-            style: TextStyle(
-                fontSize: ScreenUtil().setSp(14), color: Colors.grey[700]),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-        ],
-      ),
-    );
-  }
+  State<ReplyField> createState() => _ReplyFieldState();
 }
 
-class ReplyField extends StatelessWidget {
-  const ReplyField({
-    Key? key,
-    required this.type,
-  }) : super(key: key);
-
-  final String type;
+class _ReplyFieldState extends State<ReplyField> {
+  String message = '';
 
   @override
   Widget build(BuildContext context) {
-    if (type == 'announcement') {
-      return Container();
-    }
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
       child: Row(
@@ -372,21 +278,60 @@ class ReplyField extends StatelessWidget {
           Expanded(
             child: CustomInput(
               child: TextFormField(
-                decoration: InputDecoration(hintText: "Reply.."),
+                decoration: const InputDecoration(hintText: "Reply.."),
+                onChanged: (value) {
+                  message = value;
+                },
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 12,
           ),
-          FlatButton(
-              child: Image(image: AssetImage('assets/images/send.png')),
-              shape: CircleBorder(),
-              color: redColor,
-              minWidth: 0,
-              padding: EdgeInsets.all(16),
-              onPressed: () {
-                print("asd");
+          TextButton(
+              child: const Image(image: AssetImage('assets/images/send.png')),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(redColor),
+                  shape: MaterialStateProperty.all(const CircleBorder()),
+                  padding: MaterialStateProperty.all(const EdgeInsets.all(16))),
+              onPressed: () async {
+                var replyStatus = await widget.store.replyGeneralNotification(
+                    widget.store.notification!.data!.id!, message);
+
+                if (replyStatus == false) {
+                  showDialog(
+                    context: context,
+                    barrierColor: Colors.transparent,
+                    builder: (BuildContext context) {
+                      return const CustomDialogBox(
+                        title: "An error occurred when replying to discussion.",
+                        text: "Back",
+                        buttonColor2: Colors.white,
+                        buttonColor1: redColor,
+                        textColor2: redColor,
+                        textColor1: Colors.white,
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    barrierColor: Colors.transparent,
+                    builder: (BuildContext context) {
+                      return CustomDialogBox(
+                          title: "Reply Sent!",
+                          text: "Back",
+                          buttonColor2: Colors.white,
+                          buttonColor1: redColor,
+                          textColor2: redColor,
+                          textColor1: Colors.white,
+                          function: () {
+                            widget.store.getGeneralNotificationDetail(
+                                widget.notificationId);
+                          });
+                    },
+                  );
+                }
               }),
         ],
       ),

@@ -39,4 +39,11 @@ abstract class _NotificationDetailStore with Store {
       isNotificationDetailReady = true;
     }
   }
+
+  replyGeneralNotification(int id, String message) async {
+    var response = await API.ReplyGeneralNotification(id, message);
+    var status = json.decode(response)['status'];
+
+    return status;
+  }
 }

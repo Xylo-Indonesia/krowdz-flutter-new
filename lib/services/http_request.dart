@@ -17,10 +17,9 @@ import 'package:validators/validators.dart';
 const baseUrl = 'https://www.festrec.com/api';
 
 // staging
-// const scheme = 'https';
 // const baseUrlPortal='https://tenant.krowdz-staging.xylo.co.id/api';
 
-// loca
+// local
 const baseUrlPortal = 'http://192.168.0.8:3000/api';
 // const baseUrlPortal = 'http://10.0.2.2:3000/api';
 
@@ -544,7 +543,7 @@ class API {
     String access_token = prefs.getString(pref_access_token)!;
     var client_url = await (getClientUrl() as Future<String>);
 
-    var url = Uri.parse(client_url + '/notifications/general/' + id.toString());
+    var url = Uri.parse(client_url + '/notifications/general/' + id);
     var headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -628,6 +627,32 @@ class API {
 
     try {
       response = await http.get(url, headers: headers);
+    } catch (_) {
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response.body;
+  }
+
+  static Future<String> ReplyGeneralNotification(int id, String message) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+
+    var url = Uri.parse(
+        client_url + '/notifications/general/' + id.toString() + '/reply');
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+    var body = '{ "message": "' + message + '"}';
+
+    http.Response response;
+
+    try {
+      response = await http.post(url, headers: headers, body: body);
     } catch (_) {
       return {"status": "error", "message": "Failed to connect to server"}
           .toString();

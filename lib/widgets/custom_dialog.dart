@@ -60,8 +60,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            gradient:
-                RadialGradient(radius: 2.5, colors: [darkerBackground, Color(0xFF101010)], center: Alignment.topCenter),
+            gradient: RadialGradient(
+                radius: 2.5,
+                colors: [darkerBackground, Color(0xFF101010)],
+                center: Alignment.topCenter),
             borderRadius: BorderRadius.circular(Constants.padding),
           ),
           child: Column(
@@ -69,7 +71,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             children: <Widget>[
               Text(
                 widget.title!,
-                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: Color(0xFFFAFAFA)),
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFFFAFAFA)),
               ),
               SizedBox(
                 height: 22,
@@ -84,27 +89,34 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                           if (widget.function != null) widget.function!();
                           //Navigator.of(context).pop();
                         },
-                        child:
-                            Text(widget.text!, style: TextStyle(fontWeight: FontWeight.bold, color: widget.textColor1)),
+                        child: Text(widget.text!,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: widget.textColor1)),
                         padding: EdgeInsets.all(18),
                         color: widget.buttonColor1,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
                       ))),
-              Padding(
-                  padding: EdgeInsets.only(bottom: Constants.padding),
-                  child: SizedBox(
-                      width: double.infinity,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          if (widget.function2 != null) widget.function2!();
-                        },
-                        child:
-                            Text(widget.text2!, style: TextStyle(fontWeight: FontWeight.bold, color: widget.textColor2)),
-                        padding: EdgeInsets.all(18),
-                        color: widget.buttonColor2,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      ))),
+              if (widget.text2 != null)
+                Padding(
+                    padding: EdgeInsets.only(bottom: Constants.padding),
+                    child: SizedBox(
+                        width: double.infinity,
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            if (widget.function2 != null) widget.function2!();
+                          },
+                          child: Text(widget.text2!,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: widget.textColor2)),
+                          padding: EdgeInsets.all(18),
+                          color: widget.buttonColor2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                        ))),
             ],
           ),
         ),

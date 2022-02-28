@@ -111,69 +111,7 @@ class VisitorListState extends State<VisitorList> {
                                   );
                                 }),
                               ),
-                              // Container(
-                              //   padding: EdgeInsets.symmetric(horizontal: 16),
-                              //   decoration:
-                              //       BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.circular(16)),
-                              //   child: DropdownButtonHideUnderline(
-                              //     child: Observer(builder: (_) {
-                              //       if (null != vStore.selectedKey) {
-                              //         if (vStore.selectedKey == null) vStore.selectedKey = vStore.items[0];
-                              //         return DropdownButton(
-                              //           value: vStore.selectedKey,
-                              //           isExpanded: true,
-                              //           items: vStore.items.map((KeyMap item) {
-                              //             return DropdownMenuItem<KeyMap>(
-                              //               child: Text(
-                              //                 item.value,
-                              //                 overflow: TextOverflow.ellipsis,
-                              //                 maxLines: 1,
-                              //               ),
-                              //               value: item,
-                              //             );
-                              //           }).toList(),
-                              //           onChanged: (value) {
-                              //             setState(() {
-                              //               vStore.selectedKey = value;
-                              //             });
-                              //           },
-                              //         );
-                              //       }
-
-                              //       return DropdownButton(
-                              //         value: selectedType2,
-                              //         isExpanded: true,
-                              //         items: items.map((String item) {
-                              //           return DropdownMenuItem<String>(
-                              //             child: LightShimmer(
-                              //               width: 200,
-                              //               height: 30,
-                              //             ),
-                              //             value: item,
-                              //           );
-                              //         }).toList(),
-                              //         onChanged: (value) {
-                              //           setState(() {});
-                              //         },
-                              //       );
-                              //     }),
-                              //   ),
-                              // ),
                               Observer(builder: (_) {
-                                // if(null==vStore.selectedKey){
-                                //   return CustomInput(
-                                //       label: "",
-                                //       child: Shimmer.fromColors(
-                                //         baseColor: Colors.grey[300],
-                                //         highlightColor: Colors.grey[100],
-                                //         child: Container(
-                                //           width: 200,
-                                //           height: 32,
-                                //           color: Colors.white,
-                                //         ),
-                                //       ),
-                                //   );
-                                // }
                                 return CustomInput(
                                   label: "",
                                   child: TextFormField(
