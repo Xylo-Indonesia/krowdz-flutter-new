@@ -1,6 +1,5 @@
 import 'package:event/model/arguments_notification.dart';
 import 'package:event/model/notification_detail.dart';
-import 'package:event/services/consts.dart';
 import 'package:event/stores/notification_detail_store.dart';
 import 'package:event/widgets/black_theme.dart';
 import 'package:event/widgets/custom_dialog.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class NotificationDetail extends StatefulWidget {
   final ArgumentsNotification arguments;
@@ -267,73 +265,92 @@ class ReplyField extends StatefulWidget {
 }
 
 class _ReplyFieldState extends State<ReplyField> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String message = '';
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-      child: Row(
-        children: [
-          Expanded(
-            child: CustomInput(
-              child: TextFormField(
-                decoration: const InputDecoration(hintText: "Reply.."),
-                onChanged: (value) {
-                  message = value;
-                },
+      child: Form(
+        key: _formKey,
+        child: Row(
+          children: [
+            Expanded(
+              child: CustomInput(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                      hintText: "Reply..",
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderSide: BorderSide(color: redColor, width: 1))),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a message.';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    message = value;
+                  },
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          TextButton(
-              child: const Image(image: AssetImage('assets/images/send.png')),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(redColor),
-                  shape: MaterialStateProperty.all(const CircleBorder()),
-                  padding: MaterialStateProperty.all(const EdgeInsets.all(16))),
-              onPressed: () async {
-                var replyStatus = await widget.store.replyGeneralNotification(
-                    widget.store.notification!.data!.id!, message);
+            const SizedBox(
+              width: 12,
+            ),
+            TextButton(
+                child: const Image(image: AssetImage('assets/images/send.png')),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(redColor),
+                    shape: MaterialStateProperty.all(const CircleBorder()),
+                    padding:
+                        MaterialStateProperty.all(const EdgeInsets.all(16))),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    var replyStatus = await widget.store
+                        .replyGeneralNotification(
+                            widget.store.notification!.data!.id!, message);
 
-                if (replyStatus == false) {
-                  showDialog(
-                    context: context,
-                    barrierColor: Colors.transparent,
-                    builder: (BuildContext context) {
-                      return const CustomDialogBox(
-                        title: "An error occurred when replying to discussion.",
-                        text: "Back",
-                        buttonColor2: Colors.white,
-                        buttonColor1: redColor,
-                        textColor2: redColor,
-                        textColor1: Colors.white,
+                    if (replyStatus == false) {
+                      showDialog(
+                        context: context,
+                        barrierColor: Colors.transparent,
+                        builder: (BuildContext context) {
+                          return const CustomDialogBox(
+                            title:
+                                "An error occurred when replying to discussion.",
+                            text: "Back",
+                            buttonColor2: Colors.white,
+                            buttonColor1: redColor,
+                            textColor2: redColor,
+                            textColor1: Colors.white,
+                          );
+                        },
                       );
-                    },
-                  );
-                } else {
-                  showDialog(
-                    context: context,
-                    barrierColor: Colors.transparent,
-                    builder: (BuildContext context) {
-                      return CustomDialogBox(
-                          title: "Reply Sent!",
-                          text: "Back",
-                          buttonColor2: Colors.white,
-                          buttonColor1: redColor,
-                          textColor2: redColor,
-                          textColor1: Colors.white,
-                          function: () {
-                            widget.store.getGeneralNotificationDetail(
-                                widget.notificationId);
-                          });
-                    },
-                  );
-                }
-              }),
-        ],
+                    } else {
+                      showDialog(
+                        context: context,
+                        barrierColor: Colors.transparent,
+                        builder: (BuildContext context) {
+                          return CustomDialogBox(
+                              title: "Reply Sent!",
+                              text: "Back",
+                              buttonColor2: Colors.white,
+                              buttonColor1: redColor,
+                              textColor2: redColor,
+                              textColor1: Colors.white,
+                              function: () {
+                                widget.store.getGeneralNotificationDetail(
+                                    widget.notificationId);
+                              });
+                        },
+                      );
+                    }
+                  }
+                }),
+          ],
+        ),
       ),
     );
   }
