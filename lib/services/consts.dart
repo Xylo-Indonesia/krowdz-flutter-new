@@ -7,7 +7,7 @@ const String visitorDetailPage = 'VisitorDetail';
 const String visitorNewPage = "VisitorNew";
 const String settingsPage = "Settings";
 
-const String newActivityPage="NewActivity";
+const String newActivityPage = "NewActivity";
 
 const String eventDetailPage = 'EventDetail';
 const String eventCreatePage = 'EventCreate';
@@ -20,8 +20,10 @@ const String selectScreenRoute = 'SelectScreen';
 const String prizePageRoute = "VistorList";
 const String notificationsPageRoute = "NotificationsPage";
 const String notificationDetailPage = "NotificationDetail";
+const String notificationCreateRoute = "NotificationCreate";
 
-const String imageBaseUrl = "https://www.festrec.com/assets/image_upload/event_images/";
+const String imageBaseUrl =
+    "https://www.festrec.com/assets/image_upload/event_images/";
 
 //sharepref
 const String pref_api_url = "pref_url_client";

@@ -660,4 +660,28 @@ class API {
 
     return response.body;
   }
+
+  static Future<String> GetUsersList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+
+    var url = Uri.parse(client_url + '/users');
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+
+    http.Response response;
+
+    try {
+      response = await http.post(url, headers: headers);
+    } catch (_) {
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response.body;
+  }
 }

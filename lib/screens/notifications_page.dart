@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:event/services/consts.dart';
 import 'package:event/stores/notification_list_store.dart';
 import 'package:event/widgets/black_theme.dart';
 import 'package:event/widgets/custom_header.dart';
@@ -39,7 +40,7 @@ class _NotificationsState extends State<Notifications> {
         backgroundColor: Colors.transparent,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            print("add");
+            Navigator.of(context).pushNamed(notificationCreateRoute);
           },
           icon: const Icon(Icons.add),
           label: const Text("New Discussion"),

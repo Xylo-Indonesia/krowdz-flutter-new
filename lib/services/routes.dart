@@ -3,6 +3,7 @@ import 'package:event/screens/home_page.dart';
 import 'package:event/screens/login_page.dart';
 import 'package:event/screens/new_activity.dart';
 import 'package:event/screens/new_visitor.dart';
+import 'package:event/screens/notification_create.dart';
 import 'package:event/screens/notification_detail.dart';
 import 'package:event/screens/notifications_page.dart';
 import 'package:event/screens/prize_list.dart';
@@ -77,6 +78,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => Notifications(),
           settings: RouteSettings(name: notificationsPageRoute));
+    case notificationCreateRoute:
+      return MaterialPageRoute(
+          builder: (context) => NotificationCreate(),
+          settings: RouteSettings(name: notificationCreateRoute));
     case notificationDetailPage:
       return MaterialPageRoute(
           builder: (context) => NotificationDetail(

@@ -31,13 +31,14 @@ class NotificationDetail {
       companyLogo = json['meta']['logo_path'];
     } catch (e) {
       print(json['meta']);
-      // companyLogo = null;
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    if (this.status != null) {
+      data['status'] = this.status;
+    }
 
     if (this.data != null) {
       data['data'] = this.data?.toJson();
