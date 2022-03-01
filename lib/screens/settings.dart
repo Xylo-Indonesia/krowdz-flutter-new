@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:event/model/keymap.dart';
 import 'package:event/services/consts.dart';
+import 'package:event/stores/dashboard_store.dart';
 import 'package:event/stores/settings_store.dart';
 import 'package:event/widgets/black_theme.dart';
 import 'package:event/widgets/circle_button.dart';
@@ -17,21 +18,21 @@ import 'package:event/widgets/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class SettingsPage extends StatefulWidget {
-  late SettingsStore store;
-
-  SettingsPage() {
-    store = SettingsStore();
-  }
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final DashboardStore dashboardStore = DashboardStore();
+  final SettingsStore settingsStore = SettingsStore();
+
   String selectedType = "";
   List imageList = [];
 
@@ -42,6 +43,14 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       imageList.add(File(pickedFile!.path));
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    dashboardStore.getUser();
+    dashboardStore.getClient();
   }
 
   @override
@@ -72,27 +81,65 @@ class _SettingsPageState extends State<SettingsPage> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.35,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                            clipBehavior: Clip.antiAlias,
-                            child: Image(
-                              image: AssetImage('assets/images/app_icon.png'),
-                            ),
-                            //  FadeInImage.memoryNetwork(
-                            //   placeholder: kTransparentImage,
-                            //   image: 'https://placehold.it/600',
-                            //   fit: BoxFit.contain,
-                            //   width: double.infinity,
-                            // ),
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.white),
+                              clipBehavior: Clip.antiAlias,
+                              child: Observer(builder: (_) {
+                                if (!dashboardStore.isClientReady) {
+                                  return const LightShimmer(
+                                      height: 150, width: double.infinity);
+                                }
+
+                                return FadeInImage.memoryNetwork(
+                                  placeholder: kTransparentImage,
+                                  image: dashboardStore.client!.logo!,
+                                  fit: BoxFit.contain,
+                                  width: double.infinity,
+                                );
+                              })),
+                          const SizedBox(
+                            height: 24,
                           ),
-                          CustomInput(
-                            label: "Name",
-                            darkMode: true,
-                            child: TextFormField(),
-                          ),
-                          SizedBox(
-                            height: 12,
+                          Observer(builder: (_) {
+                            if (!dashboardStore.isUserReady) {
+                              return const DarkShimmer(
+                                  height: 48, width: double.infinity);
+                            }
+
+                            return SizedBox(
+                              width: double.infinity,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Name',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: ScreenUtil().setSp(16),
+                                          color: Colors.white)),
+                                  const SizedBox(height: 12),
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1),
+                                    ),
+                                    child: Text(
+                                        dashboardStore.user!.data!.name!,
+                                        style: TextStyle(
+                                            fontSize: ScreenUtil().setSp(24),
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white)),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                          const SizedBox(
+                            height: 24,
                           ),
                           CustomInput(
                               label: "Language",
@@ -103,49 +150,49 @@ class _SettingsPageState extends State<SettingsPage> {
                                   KeyMap('value', 'Indonesia')
                                 ],
                                 onClick: (value) {
-                                  print('selected: ' + value);
+                                  print('selected: ' + value.value.toString());
                                 },
                               )),
-                          SizedBox(
+                          const SizedBox(
                             height: 12,
                           ),
-                          CustomInput(
-                            darkMode: true,
-                            label: "Add Photo",
-                            child: Row(
-                              children: [
-                                FloatingActionButton(
-                                  onPressed: pickImage,
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    color: darkBackground,
-                                    size: 24,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  shape: CircleBorder(
-                                      side: BorderSide(
-                                          color: darkerBackground, width: 1)),
-                                ),
-                                SizedBox(width: 16),
-                                Row(
-                                  children: imageList
-                                      .asMap()
-                                      .map((i, e) => MapEntry(
-                                          i,
-                                          PhotoList(
-                                            image: e,
-                                            onTap: () {
-                                              setState(() {
-                                                imageList.removeAt(i);
-                                              });
-                                            },
-                                          )))
-                                      .values
-                                      .toList(),
-                                )
-                              ],
-                            ),
-                          )
+                          // CustomInput(
+                          //   darkMode: true,
+                          //   label: "Add Photo",
+                          //   child: Row(
+                          //     children: [
+                          //       FloatingActionButton(
+                          //         onPressed: pickImage,
+                          //         child: Icon(
+                          //           Icons.camera_alt,
+                          //           color: darkBackground,
+                          //           size: 24,
+                          //         ),
+                          //         backgroundColor: Colors.white,
+                          //         shape: CircleBorder(
+                          //             side: BorderSide(
+                          //                 color: darkerBackground, width: 1)),
+                          //       ),
+                          //       SizedBox(width: 16),
+                          //       Row(
+                          //         children: imageList
+                          //             .asMap()
+                          //             .map((i, e) => MapEntry(
+                          //                 i,
+                          //                 PhotoList(
+                          //                   image: e,
+                          //                   onTap: () {
+                          //                     setState(() {
+                          //                       imageList.removeAt(i);
+                          //                     });
+                          //                   },
+                          //                 )))
+                          //             .values
+                          //             .toList(),
+                          //       )
+                          //     ],
+                          //   ),
+                          // )
                         ],
                       ),
                     ),
@@ -176,7 +223,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       textColor1: redColor,
                                       textColor2: Colors.white,
                                       function: () {
-                                        widget.store.doLogout().then((status) {
+                                        settingsStore.doLogout().then((status) {
                                           print('Logout:' + status);
                                           if ('true' == status)
                                             Navigator.pushReplacementNamed(

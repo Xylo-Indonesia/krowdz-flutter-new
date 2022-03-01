@@ -1,7 +1,6 @@
-import 'package:event/services/consts.dart';
 import 'package:event/stores/dashboard_store.dart';
-import 'package:event/stores/notification_create_store.dart';
 import 'package:event/model/notification_create.dart';
+import 'package:event/stores/notification_create_store.dart';
 import 'package:event/widgets/black_theme.dart';
 import 'package:event/widgets/custom_dialog.dart';
 import 'package:event/widgets/custom_header.dart';
@@ -21,7 +20,7 @@ class NotificationCreate extends StatefulWidget {
 
 class _NotificationCreateState extends State<NotificationCreate> {
   final DashboardStore dashboardStore = DashboardStore();
-  NotificationCreateStore store = NotificationCreateStore();
+  NotificationCreateStore notificationStore = NotificationCreateStore();
 
   String title = '';
   String message = '';
@@ -37,7 +36,7 @@ class _NotificationCreateState extends State<NotificationCreate> {
     super.initState();
 
     dashboardStore.getUser();
-    store.getUsersList();
+    notificationStore.getUsersList();
   }
 
   @override
@@ -71,7 +70,7 @@ class _NotificationCreateState extends State<NotificationCreate> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Observer(builder: (_) {
-                              if (!store.isUsersListReady) {
+                              if (!notificationStore.isUsersListReady) {
                                 return const LightShimmer(
                                     height: 48, width: double.infinity);
                               }
@@ -113,7 +112,7 @@ class _NotificationCreateState extends State<NotificationCreate> {
                               height: 24,
                             ),
                             Observer(builder: (_) {
-                              if (!store.isUsersListReady) {
+                              if (!notificationStore.isUsersListReady) {
                                 return const LightShimmer(
                                     height: 125, width: double.infinity);
                               }
@@ -131,7 +130,7 @@ class _NotificationCreateState extends State<NotificationCreate> {
                                   if (!isAllUsers)
                                     MultiSelectDialogField(
                                       title: const Text("Select Recipients"),
-                                      items: store.users.data
+                                      items: notificationStore.users.data
                                           .map(
                                               (e) => MultiSelectItem(e, e.name))
                                           .toList(),
@@ -188,7 +187,7 @@ class _NotificationCreateState extends State<NotificationCreate> {
                               height: 12,
                             ),
                             Observer(builder: (_) {
-                              if (!store.isUsersListReady) {
+                              if (!notificationStore.isUsersListReady) {
                                 return const LightShimmer(
                                     height: 400, width: double.infinity);
                               }
@@ -271,12 +270,9 @@ class _NotificationCreateState extends State<NotificationCreate> {
                                     recipients =
                                         recipients.map((e) => e.id).toList();
 
-                                    var createStatus =
-                                        await store.createGeneralNotification(
-                                            title,
-                                            message,
-                                            isAllUsers,
-                                            recipients);
+                                    var createStatus = await notificationStore
+                                        .createGeneralNotification(title,
+                                            message, isAllUsers, recipients);
 
                                     if (createStatus != 200) {
                                       String errorMessage = '';
