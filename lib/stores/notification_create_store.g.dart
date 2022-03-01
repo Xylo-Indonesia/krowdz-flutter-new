@@ -12,13 +12,13 @@ mixin _$NotificationCreateStore on _NotificationCreateStore, Store {
   final _$usersAtom = Atom(name: '_NotificationCreateStore.users');
 
   @override
-  Users? get users {
+  Users get users {
     _$usersAtom.reportRead();
     return super.users;
   }
 
   @override
-  set users(Users? value) {
+  set users(Users value) {
     _$usersAtom.reportWrite(value, super.users, () {
       super.users = value;
     });

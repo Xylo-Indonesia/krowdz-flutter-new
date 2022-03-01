@@ -67,6 +67,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
   validators: ^3.0.0
+  multi_select_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_test:

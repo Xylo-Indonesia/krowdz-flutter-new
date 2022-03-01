@@ -1,7 +1,7 @@
 class NotificationCreate {
   String title;
   String message;
-  List<int> recipients;
+  List recipients;
   bool isAllUsers;
 
   NotificationCreate(
@@ -24,27 +24,30 @@ class NotificationCreate {
 
 class Users {
   bool? status;
-  List? data;
+  List<User> data = [];
   String? message;
 
-  Users({this.status, this.data, this.message});
+  Users({this.status, required this.data, this.message});
 
   Users.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+
     if (json['data'] != null) {
-      json['data']['recipients'].forEach((v) {
-        data?.add(User.fromJson(v));
+      json['data'].forEach((v) {
+        data.add(User.fromJson(v));
       });
     }
   }
 }
 
 class User {
-  int? id;
-  String? name;
+  late int id;
+  late String name;
   String? email;
   String? role;
 
-  User({this.id, this.name, this.email, this.role});
+  User({required this.id, required this.name, this.email, this.role});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];

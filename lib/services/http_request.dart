@@ -676,12 +676,37 @@ class API {
     http.Response response;
 
     try {
-      response = await http.post(url, headers: headers);
+      response = await http.get(url, headers: headers);
     } catch (_) {
       return {"status": "error", "message": "Failed to connect to server"}
           .toString();
     }
 
     return response.body;
+  }
+
+  static Future CreateGeneralNotification(var body) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+
+    var url = Uri.parse(client_url + '/notifications');
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+
+    http.Response response;
+
+    try {
+      response = await http.post(url, headers: headers, body: jsonEncode(body));
+    } catch (e) {
+      print(e);
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response;
   }
 }

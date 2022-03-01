@@ -28,6 +28,10 @@ class _NotificationsState extends State<Notifications> {
   void initState() {
     super.initState();
 
+    refresh();
+  }
+
+  void refresh() {
     store.getGeneralNotifications();
     store.getAnnouncements();
   }
@@ -39,8 +43,10 @@ class _NotificationsState extends State<Notifications> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.of(context).pushNamed(notificationCreateRoute);
+          onPressed: () async {
+            await Navigator.of(context).pushNamed(notificationCreateRoute);
+
+            refresh();
           },
           icon: const Icon(Icons.add),
           label: const Text("New Discussion"),
@@ -145,7 +151,7 @@ class _NotificationsState extends State<Notifications> {
                                 type: 'general',
                                 createdAt: item.createdAt,
                                 onTap: () {
-                                  store.getGeneralNotifications();
+                                  refresh();
                                 },
                               ),
                             const SizedBox(height: 12),
@@ -165,7 +171,7 @@ class _NotificationsState extends State<Notifications> {
                                 type: 'announcement',
                                 createdAt: item.createdAt,
                                 onTap: () {
-                                  store.getAnnouncements();
+                                  refresh();
                                 },
                               ),
                             const SizedBox(height: 12),
