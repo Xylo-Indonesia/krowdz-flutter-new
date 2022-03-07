@@ -68,6 +68,8 @@ dependencies:
   cupertino_icons: ^1.0.4
   validators: ^3.0.0
   multi_select_flutter: ^4.0.0
+  firebase_messaging: ^11.2.8
+  flutter_local_notifications: ^9.3.3
 
 dev_dependencies:
   flutter_test:

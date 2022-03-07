@@ -39,8 +39,7 @@ abstract class _NotificationCreateStore with Store {
         .toJson();
 
     Response response = await API.CreateGeneralNotification(body);
-    var status = response.statusCode;
 
-    return status;
+    return response;
   }
 }

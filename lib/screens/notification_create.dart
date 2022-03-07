@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:event/stores/dashboard_store.dart';
 import 'package:event/model/notification_create.dart';
 import 'package:event/stores/notification_create_store.dart';
@@ -9,6 +11,7 @@ import 'package:event/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class NotificationCreate extends StatefulWidget {
@@ -270,14 +273,16 @@ class _NotificationCreateState extends State<NotificationCreate> {
                                     recipients =
                                         recipients.map((e) => e.id).toList();
 
-                                    var createStatus = await notificationStore
+                                    Response response = await notificationStore
                                         .createGeneralNotification(title,
                                             message, isAllUsers, recipients);
 
-                                    if (createStatus != 200) {
+                                    if (response.statusCode != 200 ||
+                                        jsonDecode(response.body)['status'] ==
+                                            false) {
                                       String errorMessage = '';
 
-                                      switch (createStatus) {
+                                      switch (response.statusCode) {
                                         case 403:
                                           errorMessage =
                                               'You do not have permission to send notifications.';
