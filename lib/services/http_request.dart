@@ -135,6 +135,31 @@ class API {
     return response.body;
   }
 
+  static Future resendCode(int id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+    //print(client_url);
+    var url = Uri.parse(client_url + '/visitors/$id/resend-qrcode');
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+
+    http.Response response;
+
+    try {
+      response = await http.get(url, headers: headers);
+    } catch (e) {
+      print(e.toString());
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response;
+  }
+
   static Future<String> forgotPassword(email) async {
     var url = Uri.parse(baseUrl + '/password/email');
     var headers = {

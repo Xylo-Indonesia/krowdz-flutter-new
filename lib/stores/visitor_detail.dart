@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:event/model/activity.dart';
 import 'package:event/services/http_request.dart';
+import 'package:http/http.dart';
 import 'package:mobx/mobx.dart';
 
 part 'visitor_detail.g.dart';
@@ -10,27 +11,34 @@ part 'visitor_detail.g.dart';
 class VisitorDetailStore = _VisitorDetailStore with _$VisitorDetailStore;
 
 abstract class _VisitorDetailStore with Store {
-  @observable var jsonResponse;
-  @observable bool isDataReady=false;
-  @observable Activity? ac;
-
+  @observable
+  var jsonResponse;
+  @observable
+  bool isDataReady = false;
+  @observable
+  Activity? ac;
 
   /* rest of the class*/
-  void getVisitor(String id) async{
-    var response= await API.VisitorDetail(id);
-    jsonResponse=json.decode(response);
-    jsonResponse["data"].forEach((k,v){
-      print(k.toString()+":"+v.toString());
+  void getVisitor(String id) async {
+    var response = await API.VisitorDetail(id);
+    jsonResponse = json.decode(response);
+    jsonResponse["data"].forEach((k, v) {
+      print(k.toString() + ":" + v.toString());
     });
-    isDataReady=true;
+    isDataReady = true;
   }
 
-  void getActivity() async{
+  void getActivity() async {
     print("get dashboard activity");
-    var response= await API.ActivityList();
-    ac=Activity.fromJson(json.decode(response));
+    var response = await API.ActivityList();
+    ac = Activity.fromJson(json.decode(response));
 
     print(response);
+  }
 
+  resendCode(int id) async {
+    Response response = await API.resendCode(id);
+
+    return response;
   }
 }
