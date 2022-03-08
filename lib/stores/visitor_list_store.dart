@@ -98,7 +98,9 @@ abstract class _VisitorListStore with Store {
       getVisitorList(
           keyword: keyword!,
           keyword_by: selectedKey!.key,
-          page: visitor!.links!.next!);
+          page: (visitor!.meta!.currentPage! + 1).toString());
+    } else {
+      print('no next page');
     }
   }
 
@@ -107,7 +109,9 @@ abstract class _VisitorListStore with Store {
       getVisitorList(
           keyword: keyword!,
           keyword_by: selectedKey!.key,
-          page: visitor!.links!.prev!);
+          page: (visitor!.meta!.currentPage! - 1).toString());
+    } else {
+      print('no prev page');
     }
   }
 }
