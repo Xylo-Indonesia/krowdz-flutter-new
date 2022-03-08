@@ -128,27 +128,9 @@ class Xylo extends StatefulWidget {
 }
 
 class _XyloState extends State<Xylo> {
-  String? _token;
-  late Stream<String> _tokenStream;
-
-  void setToken(String? token) {
-    print('FCM Token: $token');
-    setState(() {
-      _token = token;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-
-    FirebaseMessaging.instance
-        .getToken(
-            vapidKey:
-                'BD4fsz919LRGDrLt4oXKEYTX8062IRxDVVPnol7eIyrM8qyJ5OhlRTHN5jV19s7dTD_MT61ZNBcNqB7b-xzXVgw')
-        .then(setToken);
-    _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
-    _tokenStream.listen(setToken);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;

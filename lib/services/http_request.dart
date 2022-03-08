@@ -83,6 +83,32 @@ class API {
     return response.body;
   }
 
+  static Future<String> updateFcmToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String access_token = prefs.getString(pref_access_token)!;
+    var client_url = await (getClientUrl() as Future<String>);
+    //print(client_url);
+    var url = Uri.parse(client_url + '/profile/fcm-token');
+    var headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": 'Bearer ' + access_token,
+    };
+    var body = '{ "token": "' + token + '"}';
+
+    http.Response response;
+
+    try {
+      response = await http.patch(url, headers: headers, body: body);
+    } catch (e) {
+      print(e.toString());
+      return {"status": "error", "message": "Failed to connect to server"}
+          .toString();
+    }
+
+    return response.body;
+  }
+
   static Future<String> scanCode(code) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String access_token = prefs.getString(pref_access_token)!;

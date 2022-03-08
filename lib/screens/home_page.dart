@@ -17,6 +17,7 @@ import 'package:event/widgets/nav_button.dart';
 import 'package:event/widgets/profile.dart';
 import 'package:event/widgets/styles.dart';
 import 'package:event/widgets/total_visitors.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,6 +44,29 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DateTime currentDate = DateTime.now();
+
+  late Stream<String> _tokenStream;
+
+  void setToken(String? token) {
+    print('FCM Token: $token');
+
+    if (token != null || token != '') {
+      widget.store.updateFcmToken(token!);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseMessaging.instance
+        .getToken(
+            vapidKey:
+                'BD4fsz919LRGDrLt4oXKEYTX8062IRxDVVPnol7eIyrM8qyJ5OhlRTHN5jV19s7dTD_MT61ZNBcNqB7b-xzXVgw')
+        .then(setToken);
+    _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
+    _tokenStream.listen(setToken);
+  }
 
   @override
   Widget build(BuildContext context) {

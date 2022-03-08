@@ -124,4 +124,11 @@ abstract class _DashboardStore with Store {
       isUnreadNotificationsReady = true;
     }
   }
+
+  void updateFcmToken(String token) async {
+    print("update fcm token");
+    var response = await API.updateFcmToken(token);
+
+    print(response);
+  }
 }
