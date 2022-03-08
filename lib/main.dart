@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:event/model/arguments_notification.dart';
 import 'package:event/model/client.dart';
+import 'package:event/screens/notification_detail.dart';
 import 'package:event/services/analytics_services.dart';
 import 'package:event/services/consts.dart';
 import 'package:event/services/language.dart';
@@ -20,6 +22,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rxdart/subjects.dart';
 
 import 'model/user.dart';
 import 'firebase_options.dart';
@@ -43,6 +46,9 @@ late AndroidNotificationChannel channel;
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
+final BehaviorSubject<String?> selectNotificationSubject =
+    BehaviorSubject<String?>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -64,7 +70,20 @@ void main() async {
     importance: Importance.high,
   );
 
+  const initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_notification');
+
+  final InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  void selectNotification(String? payload) async {
+    selectNotificationSubject.add(payload);
+  }
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: selectNotification);
 
   /// Create an Android Notification Channel.
   ///
@@ -148,9 +167,34 @@ class _XyloState extends State<Xylo> {
             NotificationDetails(
               android: AndroidNotificationDetails(channel.id, channel.name,
                   channelDescription: channel.description),
-            ));
+            ),
+            payload: message.data['id'] + ',' + message.data['type']);
       }
     });
+
+    // TODO: fix callback when notification is clicked
+    // _configureSelectNotificationSubject();
+  }
+
+  void _configureSelectNotificationSubject() {
+    selectNotificationSubject.stream.listen((String? payload) async {
+      if (payload != null) {
+        print('notification payload: $payload');
+
+        List payloadList = payload.split(',');
+        String id = payloadList[0];
+        String type = payloadList[1];
+
+        await Navigator.of(context).pushNamed(notificationDetailPage,
+            arguments: ArgumentsNotification(id: id, type: type));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 
   @override
@@ -159,6 +203,7 @@ class _XyloState extends State<Xylo> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
     return MaterialApp(
       title: 'Xylo',
       theme: ThemeData(
