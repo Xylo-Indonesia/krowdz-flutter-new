@@ -268,6 +268,8 @@ class _ReplyFieldState extends State<ReplyField> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String message = '';
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -300,7 +302,16 @@ class _ReplyFieldState extends State<ReplyField> {
               width: 12,
             ),
             TextButton(
-                child: const Image(image: AssetImage('assets/images/send.png')),
+                child: isLoading
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          backgroundColor: redColor,
+                          color: Colors.red[300],
+                        ),
+                      )
+                    : const Image(image: AssetImage('assets/images/send.png')),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(redColor),
                     shape: MaterialStateProperty.all(const CircleBorder()),
@@ -308,9 +319,17 @@ class _ReplyFieldState extends State<ReplyField> {
                         MaterialStateProperty.all(const EdgeInsets.all(16))),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      isLoading = true;
+                    });
+
                     var replyStatus = await widget.store
                         .replyGeneralNotification(
                             widget.store.notification!.data!.id!, message);
+
+                    setState(() {
+                      isLoading = false;
+                    });
 
                     if (replyStatus == false) {
                       showDialog(
