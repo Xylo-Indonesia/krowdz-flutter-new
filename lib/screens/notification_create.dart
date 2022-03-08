@@ -30,6 +30,7 @@ class _NotificationCreateState extends State<NotificationCreate> {
   List recipients = [];
   bool isAllUsers = false;
 
+  bool isLoading = false;
   bool hasValidationErrors = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -250,11 +251,37 @@ class _NotificationCreateState extends State<NotificationCreate> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 32),
                             child: TextButton(
-                                child: Text('Send',
-                                    style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(16),
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold)),
+                                child: isLoading
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const SizedBox(
+                                            width: 16,
+                                            height: 16,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Colors.white),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text("Please Wait",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      ScreenUtil().setSp(14),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white))
+                                        ],
+                                      )
+                                    : Text('Send',
+                                        style: TextStyle(
+                                            fontSize: ScreenUtil().setSp(16),
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
                                 style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all(redColor),
@@ -266,6 +293,7 @@ class _NotificationCreateState extends State<NotificationCreate> {
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
                                     setState(() {
+                                      isLoading = true;
                                       hasValidationErrors = false;
                                     });
 
@@ -276,6 +304,10 @@ class _NotificationCreateState extends State<NotificationCreate> {
                                     Response response = await notificationStore
                                         .createGeneralNotification(title,
                                             message, isAllUsers, recipients);
+
+                                    setState(() {
+                                      isLoading = false;
+                                    });
 
                                     if (response.statusCode != 200 ||
                                         jsonDecode(response.body)['status'] ==
