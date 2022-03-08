@@ -353,111 +353,102 @@ class VisitorDetailState extends State<VisitorDetail> {
                             ],
                           ),
                         ),
-                        Container(
-                            height: ScreenUtil().setHeight(100),
-                            color: Colors.black,
-                            width: double.infinity,
-                            child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 32),
-                                child: TextButton(
-                                    child: isLoading
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const SizedBox(
-                                                width: 16,
-                                                height: 16,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                          Color>(Colors.white),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              Text("Please Wait",
-                                                  style: TextStyle(
-                                                      fontSize: ScreenUtil()
-                                                          .setSp(14),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white))
-                                            ],
-                                          )
-                                        : Text('Resend QR Code',
-                                            style: TextStyle(
-                                                fontSize:
-                                                    ScreenUtil().setSp(14),
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.black),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                                side: const BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        16.0)))),
-                                    onPressed: () async {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-
-                                      Response response = await store
-                                          .resendCode(visitor['id'] as int);
-
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-
-                                      if (response.statusCode != 200 ||
-                                          jsonDecode(response.body)['status'] !=
-                                              true) {
-                                        print(response.body);
-                                        showDialog(
-                                            context: context,
-                                            barrierColor: Colors.transparent,
-                                            builder: (BuildContext context) {
-                                              return const CustomDialogBox(
-                                                title:
-                                                    'An error occurred when sending QR Code.',
-                                                text: "Back",
-                                                buttonColor2: Colors.white,
-                                                buttonColor1: redColor,
-                                                textColor2: redColor,
-                                                textColor1: Colors.white,
-                                              );
-                                            });
-                                      } else {
-                                        showDialog(
-                                            context: context,
-                                            barrierColor: Colors.transparent,
-                                            builder: (BuildContext context) {
-                                              return const CustomDialogBox(
-                                                title: 'QR Code has been sent.',
-                                                text: "Back",
-                                                buttonColor2: Colors.white,
-                                                buttonColor1: redColor,
-                                                textColor2: redColor,
-                                                textColor1: Colors.white,
-                                              );
-                                            });
-                                      }
-                                    }))),
                       ],
                     ),
                   ),
                 ),
+                Container(
+                    height: ScreenUtil().setHeight(100),
+                    color: Colors.black,
+                    width: double.infinity,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 32),
+                        child: TextButton(
+                            child: isLoading
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  Colors.white),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text("Please Wait",
+                                          style: TextStyle(
+                                              fontSize: ScreenUtil().setSp(14),
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white))
+                                    ],
+                                  )
+                                : Text('Resend QR Code',
+                                    style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(14),
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.black),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            color: Colors.grey, width: 1),
+                                        borderRadius:
+                                            BorderRadius.circular(16.0)))),
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+
+                              Response response =
+                                  await store.resendCode(visitor['id'] as int);
+
+                              setState(() {
+                                isLoading = false;
+                              });
+
+                              if (response.statusCode != 200 ||
+                                  jsonDecode(response.body)['status'] != true) {
+                                print(response.body);
+                                showDialog(
+                                    context: context,
+                                    barrierColor: Colors.transparent,
+                                    builder: (BuildContext context) {
+                                      return const CustomDialogBox(
+                                        title:
+                                            'An error occurred when sending QR Code.',
+                                        text: "Back",
+                                        buttonColor2: Colors.white,
+                                        buttonColor1: redColor,
+                                        textColor2: redColor,
+                                        textColor1: Colors.white,
+                                      );
+                                    });
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    barrierColor: Colors.transparent,
+                                    builder: (BuildContext context) {
+                                      return const CustomDialogBox(
+                                        title: 'QR Code has been sent.',
+                                        text: "Back",
+                                        buttonColor2: Colors.white,
+                                        buttonColor1: redColor,
+                                        textColor2: redColor,
+                                        textColor1: Colors.white,
+                                      );
+                                    });
+                              }
+                            }))),
               ],
             ),
           )),
