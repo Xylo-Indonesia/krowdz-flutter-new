@@ -12,6 +12,7 @@ import 'package:event/widgets/card_activity.dart';
 import 'package:event/widgets/card_prize.dart';
 import 'package:event/widgets/card_visitors.dart';
 import 'package:event/widgets/circle_button.dart';
+import 'package:event/widgets/custom_dialog_prize.dart';
 import 'package:event/widgets/nav_button.dart';
 import 'package:event/widgets/profile.dart';
 import 'package:event/widgets/styles.dart';
@@ -332,7 +333,42 @@ class _HomePageState extends State<HomePage> {
                                             var cardPrize = CardPrize(
                                               image: pr.image,
                                               onTap: () {
-                                                print('prize ' + pr.name!);
+                                                showDialog(
+                                                    context: context,
+                                                    barrierColor:
+                                                        Colors.transparent,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      List listActivity = [];
+
+                                                      for (var ac
+                                                          in pr.activities!) {
+                                                        var acItem = {
+                                                          'name': ac.name,
+                                                          'image': Util
+                                                              .getActivityIconDark(
+                                                                  ac.icon)
+                                                        };
+                                                        listActivity
+                                                            .add(acItem);
+                                                      }
+
+                                                      return CustomDialogPrize(
+                                                        availableList:
+                                                            listActivity,
+                                                        prizeName:
+                                                            '' + pr.name!,
+                                                        imageUrl: pr.image !=
+                                                                null
+                                                            ? pr.image
+                                                            : 'https://dev.bounche.com/krowdz/app/gift.jpg',
+                                                        currentStock: '' +
+                                                            pr.remaining
+                                                                .toString(),
+                                                        maxStock: '' +
+                                                            pr.total.toString(),
+                                                      );
+                                                    });
                                               },
                                               name: "" + pr.name!,
                                               stock: pr.total,

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:event/model/arguments_notification.dart';
 import 'package:event/model/client.dart';
-import 'package:event/screens/notification_detail.dart';
 import 'package:event/services/analytics_services.dart';
 import 'package:event/services/consts.dart';
 import 'package:event/services/language.dart';
@@ -18,10 +17,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:event/services/routes.dart' as routes;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/subjects.dart';
 
 import 'model/user.dart';
